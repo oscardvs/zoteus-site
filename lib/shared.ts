@@ -23,5 +23,12 @@ export const hostedPeriod = '/year';
 
 /** Contact for privacy/data requests. Set up an email forward to a real inbox. */
 export const contactEmail = 'privacy@zoteus.com';
+/** General/support contact (Namecheap forward → your inbox). */
+export const supportEmail = 'support@zoteus.com';
 /** Operator legal entity / jurisdiction — confirm before relying on the Terms. */
 export const operator = 'Oscar Devos (“Zoteus”)';
+
+/** The live hosted connector URL subscribers add in claude.ai. */
+export const connectorUrl = 'https://mcp.zoteus.com/mcp';
+/** Master switch for hosted-tier sales. Flip to false to pause new subscriptions. */
+export const hostedLive = true;

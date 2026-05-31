@@ -3,7 +3,8 @@ import Link from 'next/link';
 import { CopyCommand } from '@/components/copy-command';
 import { Reveal } from '@/components/reveal';
 import { SiteFooter } from '@/components/site-footer';
-import { polarCheckout, hostedPrice, hostedPeriod } from '@/lib/shared';
+import { SubscribeButton } from '@/components/subscribe-button';
+import { hostedPrice, hostedPeriod, hostedLive, supportEmail, connectorUrl } from '@/lib/shared';
 
 export const metadata: Metadata = {
   title: 'Pricing',
@@ -128,13 +129,12 @@ export default function PricingPage() {
                   ))}
                 </ul>
                 <div className="mt-8">
-                  <a href={polarCheckout} className="z-cta w-full justify-center" aria-label="Subscribe to Zoteus Hosted">
-                    Subscribe
-                    <span className="z-cta-icon"><Arrow /></span>
-                  </a>
-                  <p className="z-label mt-3 text-center normal-case tracking-[0.03em]">
-                    {hostedPrice}{hostedPeriod} · secure checkout & EU VAT via Polar
-                  </p>
+                  <SubscribeButton full />
+                  {hostedLive && (
+                    <p className="z-label mt-3 text-center normal-case tracking-[0.03em]">
+                      {hostedPrice}{hostedPeriod} · secure checkout &amp; EU VAT via Polar
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -151,7 +151,7 @@ export default function PricingPage() {
           <div className="mt-10 grid gap-4 sm:grid-cols-3">
             {[
               ['01', 'Subscribe', 'Check out via Polar and get a license key by email.'],
-              ['02', 'Connect', 'Add the connector in claude.ai and sign in to your own Zotero.'],
+              ['02', 'Connect', 'Add mcp.zoteus.com/mcp as a connector in claude.ai and sign in to your own Zotero.'],
               ['03', 'Use', 'Paste your key once — your library is now available to your AI.'],
             ].map(([n, t, d], i) => (
               <Reveal key={n} delay={i * 70}>
@@ -165,6 +165,9 @@ export default function PricingPage() {
               </Reveal>
             ))}
           </div>
+          <p className="z-mono mt-8 text-center text-sm text-fd-muted-foreground">
+            Connector URL: <span className="text-fd-foreground">{connectorUrl}</span>
+          </p>
         </div>
       </section>
 
@@ -188,11 +191,8 @@ export default function PricingPage() {
         </div>
         <Reveal>
           <div className="mt-12 text-center">
-            <a href={polarCheckout} className="z-cta" aria-label="Subscribe to Zoteus Hosted">
-              Get the hosted tier
-              <span className="z-cta-icon"><Arrow /></span>
-            </a>
-            <p className="z-label mt-4 normal-case tracking-[0.03em]">Prefer to self-host? It’s free — <Link href="/docs" className="text-fd-primary hover:underline">start here</Link>.</p>
+            <SubscribeButton label="Get the hosted tier" />
+            <p className="z-label mt-4 normal-case tracking-[0.03em]">Prefer to self-host? It’s free — <Link href="/docs" className="text-fd-primary hover:underline">start here</Link>. Questions? <a href={`mailto:${supportEmail}`} className="text-fd-primary hover:underline">{supportEmail}</a></p>
           </div>
         </Reveal>
       </section>
