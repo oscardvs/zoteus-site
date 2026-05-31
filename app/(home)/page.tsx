@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import { CopyCommand } from '@/components/copy-command';
 import { Reveal } from '@/components/reveal';
+import { SiteFooter } from '@/components/site-footer';
 import { gitConfig } from '@/lib/shared';
 
 const repo = `https://github.com/${gitConfig.user}/${gitConfig.repo}`;
-const npm = 'https://www.npmjs.com/package/@oscardvs/zoteus';
 
 /* ── ultra-light line icons ──────────────────────────────────────────────── */
 function Icon({ path, className = '' }: { path: string; className?: string }) {
@@ -296,7 +296,7 @@ export default function Home() {
                   <li>· Per-user Zotero login, encrypted</li>
                   <li>· You keep your data &amp; keys</li>
                 </ul>
-                <Link href="/docs/remote-oauth" className="z-ghost mt-6 w-fit">Learn more <Icon path={I.arrow} className="h-4 w-4" /></Link>
+                <Link href="/pricing" className="z-ghost mt-6 w-fit">See hosted plan <Icon path={I.arrow} className="h-4 w-4" /></Link>
               </div>
             </div>
           </Reveal>
@@ -326,26 +326,7 @@ export default function Home() {
       </section>
 
       {/* ── FOOTER ───────────────────────────────────────────────────────── */}
-      <footer className="border-t border-fd-border">
-        <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-12 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <span className="z-wordmark">
-              <svg viewBox="0 0 24 24" width="15" height="15" className="z-bolt" aria-hidden><path d="M13 2 4.6 13.4H11l-1 8.6L19.4 10.2H13V2Z" fill="currentColor" /></svg>
-              <span>Zoteus</span>
-            </span>
-            <p className="z-label mt-3 max-w-sm normal-case tracking-[0.03em]">
-              Not affiliated with or endorsed by the Corporation for Digital Scholarship / Zotero.
-            </p>
-          </div>
-          <nav className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-fd-muted-foreground">
-            <Link href="/docs" className="hover:text-fd-foreground">Docs</Link>
-            <Link href={repo} target="_blank" rel="noreferrer" className="hover:text-fd-foreground">GitHub</Link>
-            <Link href={npm} target="_blank" rel="noreferrer" className="hover:text-fd-foreground">npm</Link>
-            <Link href="https://registry.modelcontextprotocol.io" target="_blank" rel="noreferrer" className="hover:text-fd-foreground">MCP Registry</Link>
-          </nav>
-        </div>
-        <p className="z-label pb-8 text-center normal-case tracking-[0.04em]">MIT © 2026 Oscar Devos</p>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }
