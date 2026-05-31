@@ -1,0 +1,377 @@
+@import 'tailwindcss';
+@import 'fumadocs-ui/css/neutral.css';
+@import 'fumadocs-ui/css/preset.css';
+
+/* ────────────────────────────────────────────────────────────────────────────
+   Zoteus — editorial / scholarly theme
+   Type:   Fraunces (display) · IBM Plex Sans (body) · JetBrains Mono (labels)
+   Color:  warm paper / deep ink, with a single ELECTRIC VIOLET accent
+           (~#5B4FE9) for the bolt, links, active state, and primary CTAs.
+   One accent, used with restraint. Everything else is paper and ink.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+@theme inline {
+  --font-sans: var(--font-plex), 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-jet), 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  --font-display: var(--font-fraunces), 'Fraunces', ui-serif, Georgia, serif;
+}
+
+:root {
+  /* paper-white surface, warm */
+  --color-fd-background: oklch(96.8% 0.012 82);
+  --color-fd-foreground: oklch(18% 0.018 60);
+
+  --color-fd-muted: oklch(94% 0.014 82);
+  --color-fd-muted-foreground: oklch(40% 0.018 60);
+
+  --color-fd-popover: oklch(98.5% 0.008 82);
+  --color-fd-popover-foreground: oklch(18% 0.018 60);
+
+  --color-fd-card: oklch(95.4% 0.014 82);
+  --color-fd-card-foreground: oklch(18% 0.018 60);
+
+  --color-fd-border: oklch(18% 0.02 60 / 14%);
+
+  /* VIOLET — the single brand + action accent */
+  --color-fd-primary: oklch(55% 0.205 280);
+  --color-fd-primary-foreground: oklch(99% 0.01 280);
+
+  --color-fd-secondary: oklch(92% 0.016 82);
+  --color-fd-secondary-foreground: oklch(18% 0.018 60);
+
+  --color-fd-accent: oklch(90% 0.018 82);
+  --color-fd-accent-foreground: oklch(18% 0.018 60);
+
+  --color-fd-ring: oklch(55% 0.205 280 / 55%);
+  --color-fd-overlay: oklch(18% 0.018 60 / 28%);
+
+  /* violet tints for CTAs / glows / soft fills */
+  --accent: oklch(55% 0.205 280);
+  --accent-fg: oklch(99% 0.01 280);
+  --accent-soft: oklch(55% 0.205 280 / 12%);
+  --accent-glow: oklch(60% 0.20 285 / 22%);
+
+  --selection-bg: oklch(55% 0.205 280 / 18%);
+  --selection-fg: oklch(18% 0.018 60);
+
+  /* hairline grids for backgrounds */
+  --grid-line: oklch(18% 0.018 60 / 7%);
+  --grid-line-strong: oklch(18% 0.018 60 / 14%);
+}
+
+.dark {
+  /* deep ink, faintly warm */
+  --color-fd-background: oklch(13% 0.01 70);
+  --color-fd-foreground: oklch(92% 0.012 82);
+
+  --color-fd-muted: oklch(16.5% 0.012 70);
+  --color-fd-muted-foreground: oklch(68% 0.014 82 / 88%);
+
+  --color-fd-popover: oklch(15% 0.012 70);
+  --color-fd-popover-foreground: oklch(92% 0.012 82);
+
+  --color-fd-card: oklch(15.4% 0.012 70);
+  --color-fd-card-foreground: oklch(92% 0.012 82);
+
+  --color-fd-border: oklch(92% 0.012 82 / 12%);
+
+  /* VIOLET lifted for the dark surface */
+  --color-fd-primary: oklch(74% 0.15 283);
+  --color-fd-primary-foreground: oklch(14% 0.02 285);
+
+  --color-fd-secondary: oklch(17.5% 0.012 70);
+  --color-fd-secondary-foreground: oklch(92% 0.012 82);
+
+  --color-fd-accent: oklch(20% 0.014 70);
+  --color-fd-accent-foreground: oklch(92% 0.012 82);
+
+  --color-fd-ring: oklch(74% 0.15 283 / 55%);
+  --color-fd-overlay: oklch(0% 0 0 / 40%);
+
+  --accent: oklch(74% 0.15 283);
+  --accent-fg: oklch(14% 0.02 285);
+  --accent-soft: oklch(74% 0.15 283 / 18%);
+  --accent-glow: oklch(70% 0.16 285 / 28%);
+
+  --selection-bg: oklch(74% 0.15 283 / 22%);
+  --selection-fg: oklch(96% 0.012 82);
+
+  --grid-line: oklch(92% 0.012 82 / 6%);
+  --grid-line-strong: oklch(92% 0.012 82 / 12%);
+}
+
+/* sidebar reads as a separate sheet of paper in dark mode */
+.dark #nd-sidebar {
+  --color-fd-muted: oklch(15.5% 0.012 70);
+  --color-fd-secondary: oklch(17% 0.012 70);
+  --color-fd-muted-foreground: oklch(72% 0.014 82);
+}
+
+/* ────────────────────────────────────────────────────────────────────────── */
+
+html {
+  scrollbar-gutter: stable;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'ss01', 'ss02', 'cv11';
+  scroll-behavior: smooth;
+}
+
+html > body[data-scroll-locked] {
+  margin-right: 0px !important;
+  --removed-body-scroll-bar-size: 0px !important;
+}
+
+body {
+  font-family: var(--font-sans);
+  letter-spacing: -0.005em;
+}
+
+::selection {
+  background: var(--selection-bg);
+  color: var(--selection-fg);
+}
+
+/* slim, warm scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-fd-border) transparent;
+}
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb {
+  background: var(--color-fd-border);
+  border-radius: 99px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--color-fd-muted-foreground);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+/* ── docs prose ──────────────────────────────────────────────────────────── */
+
+.prose :is(h1, h2, h3, h4) {
+  font-family: var(--font-display);
+  font-weight: 480;
+  letter-spacing: -0.02em;
+  font-variation-settings: 'opsz' 144, 'SOFT' 30;
+}
+.prose h1 { font-size: 2.6rem; line-height: 1.05; font-variation-settings: 'opsz' 144, 'SOFT' 50; }
+.prose h2 {
+  font-size: 1.7rem; line-height: 1.15; margin-top: 2.2em; padding-top: 0.4em;
+  border-top: 1px solid var(--color-fd-border);
+}
+.prose h3 { font-size: 1.25rem; line-height: 1.2; }
+.prose h2 a, .prose h3 a, .prose h4 a { font-weight: inherit; }
+.prose strong { font-weight: 600; }
+.prose em { font-style: italic; }
+.prose a { text-underline-offset: 3px; text-decoration-thickness: 1px; }
+
+.prose :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  font-weight: 500;
+  padding: 0.08em 0.38em;
+  border-radius: 4px;
+  background: var(--color-fd-muted);
+  color: var(--color-fd-foreground);
+  border: 1px solid var(--color-fd-border);
+  transition: color .15s ease, border-color .15s ease;
+}
+.prose :not(pre) > code:hover {
+  color: var(--color-fd-primary);
+  border-color: color-mix(in oklab, var(--color-fd-primary) 40%, var(--color-fd-border));
+}
+.prose a:hover :not(pre) > code,
+.prose a :not(pre) > code { color: inherit; }
+.prose pre { border: 1px solid var(--color-fd-border); border-radius: 6px; }
+
+.prose table { font-size: 0.92em; }
+.prose thead {
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.prose th { font-weight: 500; color: var(--color-fd-muted-foreground); }
+.prose tr { border-bottom: 1px solid var(--color-fd-border); }
+
+article > h1:first-of-type {
+  font-family: var(--font-display);
+  font-variation-settings: 'opsz' 144, 'SOFT' 50;
+  letter-spacing: -0.025em;
+}
+
+[data-card] {
+  border-radius: 8px;
+  border-color: var(--color-fd-border);
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--color-fd-card) 92%, transparent),
+    var(--color-fd-card)
+  );
+  transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+[data-card]:hover {
+  border-color: color-mix(in oklab, var(--color-fd-primary) 60%, var(--color-fd-border));
+  transform: translateY(-1px);
+}
+
+.mermaid-frame {
+  border: 1px solid var(--color-fd-border);
+  border-radius: 6px;
+  padding: 1.25rem;
+  background:
+    radial-gradient(circle at 1px 1px, var(--grid-line) 1px, transparent 0) 0 0 / 16px 16px,
+    var(--color-fd-card);
+}
+
+/* ── editorial utility layer (home page) ─────────────────────────────────── */
+
+.z-grid {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 34px 34px;
+  background-position: -1px -1px;
+}
+
+.z-mono {
+  font-family: var(--font-mono);
+  font-feature-settings: 'tnum', 'zero';
+  letter-spacing: 0.02em;
+}
+
+.z-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-fd-muted-foreground);
+}
+
+/* tiny pill eyebrow before big headings */
+.z-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5ch;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-fd-primary);
+  padding: 0.34rem 0.7rem;
+  border-radius: 99px;
+  border: 1px solid color-mix(in oklab, var(--color-fd-primary) 28%, var(--color-fd-border));
+  background: var(--accent-soft);
+}
+
+.z-display {
+  font-family: var(--font-display);
+  font-weight: 420;
+  letter-spacing: -0.035em;
+  font-variation-settings: 'opsz' 144, 'SOFT' 50;
+  line-height: 1.02;
+}
+
+.z-serif { font-family: var(--font-display); font-variation-settings: 'opsz' 80, 'SOFT' 30; }
+
+/* the double-bezel: a glass plate sitting in a machined tray */
+.z-bezel {
+  border-radius: 1.6rem;
+  padding: 0.5rem;
+  background: color-mix(in oklab, var(--color-fd-foreground) 4%, transparent);
+  border: 1px solid var(--color-fd-border);
+}
+.z-bezel-inner {
+  border-radius: calc(1.6rem - 0.5rem);
+  background: var(--color-fd-card);
+  border: 1px solid var(--color-fd-border);
+  box-shadow: inset 0 1px 1px color-mix(in oklab, white 30%, transparent);
+}
+.dark .z-bezel-inner { box-shadow: inset 0 1px 1px rgb(255 255 255 / 0.06); }
+
+/* primary CTA — violet pill with a nested icon island */
+.z-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 0.85rem 0.7rem 1.25rem;
+  border-radius: 99px;
+  font-weight: 500;
+  background: var(--accent);
+  color: var(--accent-fg);
+  box-shadow: 0 1px 0 color-mix(in oklab, white 25%, transparent) inset,
+    0 10px 30px -12px var(--accent-glow);
+  transition: transform .5s cubic-bezier(.32,.72,0,1), box-shadow .5s cubic-bezier(.32,.72,0,1);
+}
+.z-cta:hover { box-shadow: 0 1px 0 color-mix(in oklab, white 30%, transparent) inset, 0 16px 40px -12px var(--accent-glow); }
+.z-cta:active { transform: scale(.98); }
+.z-cta .z-cta-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem; height: 1.6rem;
+  border-radius: 99px;
+  background: color-mix(in oklab, white 18%, transparent);
+  transition: transform .5s cubic-bezier(.32,.72,0,1);
+}
+.z-cta:hover .z-cta-icon { transform: translate(2px, -1px); }
+
+/* secondary ghost button */
+.z-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.7rem 1.2rem;
+  border-radius: 99px;
+  font-weight: 500;
+  color: var(--color-fd-foreground);
+  border: 1px solid var(--color-fd-border);
+  background: color-mix(in oklab, var(--color-fd-card) 60%, transparent);
+  transition: border-color .3s ease, transform .4s cubic-bezier(.32,.72,0,1);
+}
+.z-ghost:hover { border-color: color-mix(in oklab, var(--color-fd-primary) 45%, var(--color-fd-border)); }
+.z-ghost:active { transform: scale(.98); }
+
+/* status dot */
+.z-dot {
+  position: relative; display: inline-block;
+  width: 6px; height: 6px; border-radius: 99px; background: var(--color-fd-primary);
+}
+.z-dot::after {
+  content: ''; position: absolute; inset: -3px; border-radius: 99px;
+  border: 1px solid var(--color-fd-primary); opacity: 0;
+  animation: z-pulse 2.4s ease-out infinite;
+}
+@keyframes z-pulse { 0% { transform: scale(.6); opacity: .9; } 100% { transform: scale(1.8); opacity: 0; } }
+
+/* hero one-shot entrance, staggered via inline delay */
+@keyframes z-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.z-rise { animation: z-rise 1s cubic-bezier(.2,.7,.2,1) both; }
+
+/* scroll reveal — gated on `.js` so content is fully visible without JS
+   (crawlers / no-JS / first paint), then enhanced into a fade-up with JS. */
+.js .z-reveal { opacity: 0; transform: translateY(18px); filter: blur(6px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1), filter .8s ease; }
+.js .z-reveal.is-visible { opacity: 1; transform: none; filter: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .z-rise, .z-dot::after { animation: none; }
+  .js .z-reveal { opacity: 1; transform: none; filter: none; transition: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* wordmark in the nav */
+.z-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45ch;
+  font-family: var(--font-display);
+  font-weight: 480;
+  letter-spacing: -0.02em;
+  font-size: 1.12rem;
+  font-variation-settings: 'opsz' 144, 'SOFT' 100;
+}
+.z-wordmark .z-bolt { color: var(--color-fd-primary); flex: none; }
