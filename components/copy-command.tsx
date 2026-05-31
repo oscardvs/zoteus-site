@@ -24,7 +24,7 @@ export function CopyCommand({
         );
       }}
       aria-label={`Copy: ${command}`}
-      className={`group z-mono inline-flex items-center gap-3 rounded-full border border-fd-border bg-fd-card/60 py-2 pl-4 pr-2 text-sm transition-colors hover:border-fd-primary/40 ${className}`}
+      className={`group z-copy z-mono inline-flex items-center gap-3 rounded-full border border-fd-border bg-fd-card/60 py-2 pl-4 pr-2 text-sm transition-colors hover:border-fd-primary/40 ${className}`}
     >
       <span aria-hidden className="select-none text-fd-primary">$</span>
       <span className="text-fd-foreground">{command}</span>

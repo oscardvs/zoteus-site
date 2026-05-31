@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { CopyCommand } from '@/components/copy-command';
 import { Reveal } from '@/components/reveal';
 import { SiteFooter } from '@/components/site-footer';
-import { gitConfig } from '@/lib/shared';
+import { gitConfig, hostedPrice, hostedPeriod } from '@/lib/shared';
 
 const repo = `https://github.com/${gitConfig.user}/${gitConfig.repo}`;
 
@@ -35,6 +35,14 @@ const I = {
   github:
     '<path d="M12 2.2A10 10 0 0 0 8.8 21.7c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.5-1.1-1.1-1.4-1.1-1.4-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.25-4.5-1.1-4.5-4.9 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.6 0 0 .8-.3 2.7 1a9.3 9.3 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.3.2 2.3.1 2.6.6.7 1 1.6 1 2.7 0 3.8-2.3 4.6-4.5 4.9.4.3.7.9.7 1.8v2.6c0 .3.2.6.7.5A10 10 0 0 0 12 2.2Z"/>',
 };
+
+/* comparison cell: glyphs get a screen-reader word so the table isn't gibberish */
+const GLYPH_LABEL: Record<string, string> = { '✓': 'Yes', '✗': 'No', '~': 'Partial', '—': 'Not applicable' };
+function CmpCell({ v }: { v: string }) {
+  const label = GLYPH_LABEL[v];
+  if (label) return (<><span aria-hidden>{v}</span><span className="sr-only">{label}</span></>);
+  return <>{v}</>;
+}
 
 /* ── faux demo card (stands in until demo.gif is recorded) ───────────────── */
 function DemoCard() {
@@ -150,7 +158,7 @@ export default function Home() {
               {[
                 { label: 'Claude Code', cmd: 'claude mcp add --transport stdio \\\n  zoteus -- npx -y @oscardvs/zoteus' },
                 { label: 'Any client (universal)', cmd: 'npx add-mcp @oscardvs/zoteus' },
-                { label: 'Claude Desktop', cmd: 'Download zoteus.mcpb\nfrom the latest release →' },
+                { label: 'Claude Desktop', cmd: 'Download zoteus.dxt\nfrom the latest release →' },
               ].map((s) => (
                 <div key={s.label} className="bg-fd-card p-5">
                   <p className="z-label mb-3">{s.label}</p>
@@ -208,7 +216,7 @@ export default function Home() {
                 </span>
                 <h3 className="z-serif text-lg text-fd-foreground">Scholarly-context graph</h3>
                 <p className="max-w-xl text-sm text-fd-muted-foreground">
-                  Follow citations across OpenAlex, Crossref, and Semantic Scholar — plus MCP
+                  Follow citations across OpenAlex and Crossref — plus MCP
                   Resources, Prompts, and the code-execution pattern, built for agents.
                 </p>
                 <Link href="/docs" className="z-ghost ml-auto text-sm">
@@ -230,12 +238,13 @@ export default function Home() {
             <div className="z-bezel mt-10">
               <div className="z-bezel-inner overflow-x-auto">
                 <table className="w-full border-collapse text-sm">
+                  <caption className="sr-only">How Zoteus compares to other Zotero MCP servers and web AI tools</caption>
                   <thead>
                     <tr className="z-mono text-[0.72rem] uppercase tracking-wider text-fd-muted-foreground">
-                      <th className="p-4 text-left font-medium"> </th>
-                      <th className="p-4 text-center font-medium text-fd-primary">Zoteus</th>
-                      <th className="p-4 text-center font-medium">Other Zotero MCP</th>
-                      <th className="p-4 text-center font-medium">Web AI tools</th>
+                      <th scope="col" className="p-4 text-left font-medium"><span className="sr-only">Capability</span></th>
+                      <th scope="col" className="p-4 text-center font-medium text-fd-primary">Zoteus</th>
+                      <th scope="col" className="p-4 text-center font-medium">Other Zotero MCP</th>
+                      <th scope="col" className="p-4 text-center font-medium">Web AI tools</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -249,10 +258,10 @@ export default function Home() {
                       ['Local-first · Open-source (MIT)', '✓', 'varies', '✗'],
                     ].map((row) => (
                       <tr key={row[0]} className="border-t border-fd-border">
-                        <td className="p-4 text-fd-foreground">{row[0]}</td>
-                        <td className="p-4 text-center text-fd-primary">{row[1]}</td>
-                        <td className="p-4 text-center text-fd-muted-foreground">{row[2]}</td>
-                        <td className="p-4 text-center text-fd-muted-foreground">{row[3]}</td>
+                        <th scope="row" className="p-4 text-left font-normal text-fd-foreground">{row[0]}</th>
+                        <td className="p-4 text-center text-fd-primary"><CmpCell v={row[1]} /></td>
+                        <td className="p-4 text-center text-fd-muted-foreground"><CmpCell v={row[2]} /></td>
+                        <td className="p-4 text-center text-fd-muted-foreground"><CmpCell v={row[3]} /></td>
                       </tr>
                     ))}
                   </tbody>
@@ -289,7 +298,7 @@ export default function Home() {
             <div className="z-bezel h-full">
               <div className="z-bezel-inner flex h-full flex-col p-7">
                 <h3 className="z-serif text-xl">Hosted</h3>
-                <p className="z-display mt-3 text-4xl">€30<span className="text-lg text-fd-muted-foreground">/yr</span></p>
+                <p className="z-display mt-3 text-4xl">{hostedPrice}<span className="text-lg text-fd-muted-foreground">{hostedPeriod}</span></p>
                 <p className="mt-2 text-sm text-fd-muted-foreground">Managed, always-on connector. Sustains the project.</p>
                 <ul className="mt-5 space-y-2 text-sm text-fd-muted-foreground">
                   <li>· Zero setup — connect in claude.ai</li>

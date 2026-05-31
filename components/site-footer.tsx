@@ -19,6 +19,8 @@ export function SiteFooter() {
         <nav className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-fd-muted-foreground">
           <Link href="/docs" className="hover:text-fd-foreground">Docs</Link>
           <Link href="/pricing" className="hover:text-fd-foreground">Pricing</Link>
+          <Link href="/privacy" className="hover:text-fd-foreground">Privacy</Link>
+          <Link href="/terms" className="hover:text-fd-foreground">Terms</Link>
           <Link href={repoUrl} target="_blank" rel="noreferrer" className="hover:text-fd-foreground">GitHub</Link>
           <Link href={npmUrl} target="_blank" rel="noreferrer" className="hover:text-fd-foreground">npm</Link>
           <Link href="https://registry.modelcontextprotocol.io" target="_blank" rel="noreferrer" className="hover:text-fd-foreground">MCP Registry</Link>

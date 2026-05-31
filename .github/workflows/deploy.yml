@@ -39,9 +39,7 @@ jobs:
         run: pnpm build
         env:
           NODE_ENV: production
-          # Project-page preview lives under /zoteus-site. DELETE this line
-          # once zoteus.com (apex) is attached, so basePath returns to ''.
-          PAGES_BASE_PATH: /zoteus-site
+          # basePath is '' for the apex custom domain zoteus.com (set via public/CNAME).
 
       - uses: actions/configure-pages@v5
 

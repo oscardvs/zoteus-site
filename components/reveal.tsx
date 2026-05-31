@@ -22,6 +22,13 @@ export function Reveal({
       setVisible(true);
       return;
     }
+    // Already in view on mount (above the fold): reveal now (it still fades in),
+    // so hero/first-screen content is never stuck hidden waiting on scroll.
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      setVisible(true);
+      return;
+    }
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {

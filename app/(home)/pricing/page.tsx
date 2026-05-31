@@ -115,7 +115,7 @@ export default function PricingPage() {
               <div className="z-bezel-inner flex h-full flex-col p-8">
                 <div className="flex items-center justify-between">
                   <p className="z-label">Hosted</p>
-                  <span className="z-label rounded-full border border-fd-primary/30 bg-[var(--accent-soft)] px-2.5 py-1 text-fd-primary">Most convenient</span>
+                  <span className="z-label rounded-full border border-fd-primary/30 bg-[var(--accent-soft)] px-2.5 py-1 text-[color:var(--accent-text)]">Most convenient</span>
                 </div>
                 <p className="z-display mt-4 text-5xl">
                   {hostedPrice}

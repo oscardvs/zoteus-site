@@ -50,6 +50,7 @@
   --accent-fg: oklch(99% 0.01 280);
   --accent-soft: oklch(55% 0.205 280 / 12%);
   --accent-glow: oklch(60% 0.20 285 / 22%);
+  --accent-text: oklch(48% 0.205 280); /* darker violet — passes AA on paper / accent-soft */
 
   --selection-bg: oklch(55% 0.205 280 / 18%);
   --selection-fg: oklch(18% 0.018 60);
@@ -92,6 +93,7 @@
   --accent-fg: oklch(14% 0.02 285);
   --accent-soft: oklch(74% 0.15 283 / 18%);
   --accent-glow: oklch(70% 0.16 285 / 28%);
+  --accent-text: oklch(80% 0.14 283);
 
   --selection-bg: oklch(74% 0.15 283 / 22%);
   --selection-fg: oklch(96% 0.012 82);
@@ -261,7 +263,7 @@ article > h1:first-of-type {
   font-size: 0.64rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--color-fd-primary);
+  color: var(--accent-text);
   padding: 0.34rem 0.7rem;
   border-radius: 99px;
   border: 1px solid color-mix(in oklab, var(--color-fd-primary) 28%, var(--color-fd-border));
@@ -335,6 +337,20 @@ article > h1:first-of-type {
 }
 .z-ghost:hover { border-color: color-mix(in oklab, var(--color-fd-primary) 45%, var(--color-fd-border)); }
 .z-ghost:active { transform: scale(.98); }
+
+/* visible keyboard focus for custom marketing controls (Fumadocs keeps its own) */
+.z-cta:focus-visible,
+.z-ghost:focus-visible,
+.z-copy:focus-visible,
+main a:focus-visible,
+footer a:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--color-fd-primary);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+.z-cta:focus-visible { outline-color: var(--accent-fg); outline-offset: 3px; }
+summary:focus-visible { outline-offset: 4px; }
 
 /* status dot */
 .z-dot {

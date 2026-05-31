@@ -20,3 +20,8 @@ export const polarCheckout =
   'https://buy.polar.sh/polar_cl_nt676bwneSGam2n0l0sscA7uxLFBeuCeOesJN4frNdV';
 export const hostedPrice = '€30';
 export const hostedPeriod = '/year';
+
+/** Contact for privacy/data requests. Set up an email forward to a real inbox. */
+export const contactEmail = 'privacy@zoteus.com';
+/** Operator legal entity / jurisdiction — confirm before relying on the Terms. */
+export const operator = 'Oscar Devos (“Zoteus”)';
