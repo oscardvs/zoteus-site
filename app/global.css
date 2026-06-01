@@ -188,7 +188,10 @@ body {
 }
 .prose a:hover :not(pre) > code,
 .prose a :not(pre) > code { color: inherit; }
-.prose pre { border: 1px solid var(--color-fd-border); border-radius: 6px; }
+/* Fumadocs already wraps each code block in a bordered `figure.fd-codeblock`
+   (rounded-xl + shadow + bg). Don't add a border/radius to the inner <pre> too —
+   a `.prose pre` descendant rule pierces the figure's `not-prose` and paints a
+   second, smaller box inside the first (box-in-a-box). Let the figure own it. */
 
 .prose table { font-size: 0.92em; }
 .prose thead {
