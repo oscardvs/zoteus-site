@@ -5,24 +5,26 @@ description: Internal layers and source map for Zoteus — transport, MCP server
 
 Zoteus is a single TypeScript (Node 20+, ESM) package with clean internal layers.
 
-```
-Transport          stdio (default) │ Streamable HTTP (--http)   (OAuth: future)
-      │
-MCP Server         McpServer — registers Tools · Resources · Prompts
-      │
-Tool Registry      single source of truth (name, zod schema, annotations, handler)
-      │              → MCP tool registration
-      │              → generated codex/zotero/*.ts wrappers (code execution)
-      │              → search_tools catalog (progressive disclosure)
-      │
-LibraryRouter      startup capability probe → per-operation routing
-      │              reads → local API when up, else cloud; writes → cloud
-      │
-Clients            WebApiClient · LocalApiClient (read-only)
-      │              RateLimitedFetcher: concurrency cap + Backoff/Retry-After
-      │
-Feature modules    SchemaService · citation (translation-server, CSL, citeproc)
-                   search (BM25 + vectors + embeddings) · scholar (OpenAlex/Crossref)
+```mermaid
+flowchart TD
+    T["Transport — stdio (default) · Streamable HTTP (--http)"]
+    S["MCP Server — Tools · Resources · Prompts"]
+    R["Tool Registry — single source of truth<br/>name · zod schema · annotations · handler"]
+    Router{"LibraryRouter — startup capability probe"}
+    Local["LocalApiClient<br/>read-only"]
+    Web["WebApiClient — Zotero cloud (Web API v3)<br/>RateLimitedFetcher: concurrency + Backoff/Retry-After"]
+    F["Feature modules<br/>SchemaService · citation · search · scholar"]
+
+    T --> S --> R --> Router
+    Router -->|"reads · local up"| Local
+    Router -->|"reads fallback · all writes"| Web
+
+    R -. registers .-> MCP["MCP tool registration"]
+    R -. generates .-> Codex["codex/*.ts wrappers (code execution)"]
+    R -. lists .-> Cat["search_tools catalog (progressive disclosure)"]
+
+    Local --> F
+    Web --> F
 ```
 
 ## Source map
@@ -44,6 +46,31 @@ Feature modules    SchemaService · citation (translation-server, CSL, citeproc)
 | `src/features/scholar` | OpenAlex + Crossref clients, scholar graph |
 | `src/codex/` | generates the code-execution wrapper tree from the registry |
 | `src/transports/` | `stdio.ts`, `http.ts` |
+
+## Request lifecycle
+
+How a single tool call flows through the layers — and where the local-vs-cloud routing decision is made:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant M as Model / Client
+    participant S as MCP Server
+    participant R as Registry handler
+    participant LR as LibraryRouter
+    participant Z as Zotero
+    M->>S: tool call (e.g. zotero_search_items)
+    S->>R: dispatch by name · zod-validated args
+    R->>LR: read or write?
+    alt read & local API up
+        LR->>Z: LocalApiClient → local API
+    else read fallback · or write
+        LR->>Z: WebApiClient → cloud (Web API v3)
+    end
+    Z-->>R: items / result
+    R-->>S: structured content
+    S-->>M: tool result
+```
 
 ## Key principles
 
