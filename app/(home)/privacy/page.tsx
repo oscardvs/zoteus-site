@@ -13,7 +13,7 @@ export default function Privacy() {
   return (
     <LegalPage
       title="Privacy Policy"
-      updated="31 May 2026"
+      updated="1 June 2026"
       intro={
         <>
           Zoteus, operated by {operator}, is an open-source connector between your Zotero library
@@ -37,12 +37,18 @@ export default function Privacy() {
         <ul>
           <li><strong>Your Zotero API key / login</strong>, used solely to access <em>your</em> library on your behalf. It is <strong>encrypted at rest (AES-256-GCM)</strong> and transmitted over TLS.</li>
           <li><strong>Your account email and subscription status</strong>, to provision and maintain access (managed via Polar — see Payments).</li>
-          <li><strong>Operational logs</strong> with secrets redacted, kept short-term for reliability and abuse prevention.</li>
+          <li><strong>Operational logs</strong> with secrets redacted, kept for reliability and abuse prevention and deleted within 30 days.</li>
         </ul>
         <p>
           We act as a <strong>data processor</strong> for your library data — you remain in control
           of it. We do not read, mine, sell, or use your library or PDFs to train anything. Reads stay
           scoped to your own library.
+        </p>
+        <p>
+          We process your account email, subscription status, and encrypted Zotero key because they are
+          necessary to provide the subscription you signed up for (<strong>Article 6(1)(b) GDPR</strong> —
+          performance of our contract with you). We keep short-term operational logs on the basis of our
+          legitimate interest in keeping the service reliable and preventing abuse (Article 6(1)(f) GDPR).
         </p>
       </Sec>
 
@@ -57,9 +63,21 @@ export default function Privacy() {
       <Sec h="Sub-processors">
         <ul>
           <li><strong>Polar</strong> — checkout, subscriptions, and licensing.</li>
-          <li><strong>Cloud hosting provider</strong> — runs the hosted connector instance.</li>
+          <li><strong>Google Cloud (Google LLC)</strong> — hosts the hosted connector instance; see <em>International transfers</em> below.</li>
           <li><strong>Your own Zotero account</strong> — the source of the library data you ask us to access.</li>
         </ul>
+      </Sec>
+
+      <Sec h="International transfers">
+        <p>
+          The hosted connector currently runs on Google Cloud infrastructure located in the <strong>United
+          States</strong> (region us-central1). This means that if you use the hosted tier, your encrypted
+          Zotero API key and account email are transferred to and stored in the US. We rely on Google Cloud’s
+          Standard Contractual Clauses (and, where applicable, the EU–US Data Privacy Framework) as the
+          safeguard for this transfer under Articles 44–46 GDPR. We are evaluating moving hosting to a Google
+          Cloud EU region to keep this data inside the EEA; if you <strong>self-host</strong>, no transfer
+          takes place at all.
+        </p>
       </Sec>
 
       <Sec h="Retention & deletion">
@@ -72,9 +90,13 @@ export default function Privacy() {
 
       <Sec h="Your rights">
         <p>
-          Where the GDPR applies, you can request access, correction, deletion, or a copy of your data,
-          and withdraw consent at any time. Contact <a href={`mailto:${contactEmail}`}>{contactEmail}</a> and
-          we’ll respond promptly.
+          Where the GDPR applies, you can request access, correction, deletion, portability, or restriction
+          of your data, and object to processing based on our legitimate interest. Contact{' '}
+          <a href={`mailto:${contactEmail}`}>{contactEmail}</a> and we’ll respond promptly. You also have the
+          right to lodge a complaint with your data protection authority — in Belgium, the{' '}
+          <a href="https://www.gegevensbeschermingsautoriteit.be" target="_blank" rel="noreferrer">
+            Gegevensbeschermingsautoriteit / Autorité de protection des données
+          </a>.
         </p>
       </Sec>
 
@@ -88,8 +110,10 @@ export default function Privacy() {
 
       <Sec h="Contact">
         <p>
-          Questions or requests: <a href={`mailto:${contactEmail}`}>{contactEmail}</a>. Not affiliated
-          with or endorsed by the Corporation for Digital Scholarship / Zotero.
+          The data controller for the hosted tier is <strong>Oscar Devos</strong>, operating Zoteus from
+          Belgium. You can reach the controller at <a href={`mailto:${contactEmail}`}>{contactEmail}</a> for
+          any privacy question or data request. Not affiliated with or endorsed by the Corporation for Digital
+          Scholarship / Zotero.
         </p>
       </Sec>
     </LegalPage>

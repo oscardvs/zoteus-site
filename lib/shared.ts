@@ -25,8 +25,10 @@ export const hostedPeriod = '/year';
 export const contactEmail = 'privacy@zoteus.com';
 /** General/support contact (Namecheap forward → your inbox). */
 export const supportEmail = 'support@zoteus.com';
-/** Operator legal entity / jurisdiction — confirm before relying on the Terms. */
+/** Operator legal entity. Governing-law jurisdiction = Belgium (wired into /terms + /privacy, 1 June 2026). */
 export const operator = 'Oscar Devos (“Zoteus”)';
+/** Governing-law jurisdiction for the Terms; EU consumer home-country mandatory rights are preserved. */
+export const jurisdiction = 'Belgium';
 
 /** The live hosted connector URL subscribers add in claude.ai. */
 export const connectorUrl = 'https://mcp.zoteus.com/mcp';

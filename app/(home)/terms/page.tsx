@@ -13,7 +13,7 @@ export default function Terms() {
   return (
     <LegalPage
       title="Terms of Service"
-      updated="31 May 2026"
+      updated="1 June 2026"
       intro={
         <>
           These terms cover the Zoteus website and the optional hosted subscription operated by{' '}
@@ -35,6 +35,8 @@ export default function Terms() {
           <li>You may <strong>cancel anytime</strong> from the Polar customer portal; access continues until the end of your paid period.</li>
           <li>Refunds follow Polar’s policy and your statutory rights; the annual fee is otherwise non-refundable after the period begins.</li>
           <li>The service is provided on a reasonable-effort basis with <strong>no uptime SLA</strong>. We may change, suspend, or discontinue it with reasonable notice.</li>
+          <li>As an EU consumer you have a <strong>14-day right of withdrawal</strong>. By starting to use the hosted connector immediately, you ask us to begin the service during this period and acknowledge that you lose the right of withdrawal once the service has been fully provided; otherwise you may withdraw within 14 days for a refund of any unused portion.</li>
+          <li>If you use Zoteus to process other people’s personal data and need a <strong>Data Processing Addendum</strong> (Article 28 GDPR), email us and we’ll provide one.</li>
         </ul>
       </Sec>
 
@@ -64,8 +66,11 @@ export default function Terms() {
 
       <Sec h="Changes & contact">
         <p>
-          We may update these terms; material changes will be reflected by the “last updated” date. The
-          terms are governed by the laws of the operator’s jurisdiction. Questions:{' '}
+          We may update these terms; material changes will be reflected by the “last updated” date. These
+          terms are governed by the laws of <strong>Belgium</strong>, where the operator is based, and any
+          disputes fall to the competent Belgian courts. If you are a consumer resident elsewhere in the EU,
+          this does not deprive you of the mandatory consumer protections of your country of residence, which
+          continue to apply. Questions:{' '}
           <a href={`mailto:${contactEmail}`}>{contactEmail}</a>. See also our{' '}
           <Link href="/privacy">Privacy Policy</Link>.
         </p>
