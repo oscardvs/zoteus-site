@@ -1,6 +1,6 @@
 ---
 title: Writing to Zotero
-description: Write, update, trash, and delete library items safely — with optimistic concurrency, patch-not-put semantics, and double-gated permanent deletion.
+description: Write, update, trash, and delete library items safely, with optimistic concurrency, patch-not-put semantics, and double-gated permanent deletion.
 ---
 
 Zoteus writes go through the cloud Web API v3 (the desktop local API is read-only), and require a `ZOTERO_API_KEY` with write access. The hard parts — optimistic concurrency, idempotency, batching, and partial-failure handling — are done for you inside the client.

@@ -9,8 +9,8 @@ export function GET() {
   return new ImageResponse(
     (
       <DefaultImage
-        title="Your Zotero library, inside every AI conversation"
-        description="The everything Zotero MCP server — real citations from your own library, not hallucinations. Local-first, open-source."
+        title="An MCP server for your Zotero library"
+        description="Open-source. Search, cite, add, and write back to your Zotero library from Claude and other MCP clients. Runs on your machine."
         site={appName}
       />
     ),

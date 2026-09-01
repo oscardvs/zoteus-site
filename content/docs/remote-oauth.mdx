@@ -1,6 +1,6 @@
 ---
 title: Remote OAuth
-description: Add Zoteus as a claude.ai custom connector — run your own OAuth 2.1 + PKCE authorization server in front of the Streamable HTTP /mcp endpoint.
+description: Add Zoteus as a claude.ai custom connector: run your own OAuth 2.1 + PKCE authorization server in front of the Streamable HTTP /mcp endpoint.
 ---
 
 claude.ai connects to remote MCP servers **from the cloud**, so a connector must be reachable at a **public HTTPS URL** and protected by **OAuth 2.1 + PKCE** (a static API key or `Authorization` header cannot be entered in the connector UI). Since v0.9.0, Zoteus can be that connector: it runs its own OAuth 2.1 authorization server in front of the Streamable HTTP `/mcp` endpoint.

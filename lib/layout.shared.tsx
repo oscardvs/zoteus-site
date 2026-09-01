@@ -21,7 +21,7 @@ export function baseOptions(): BaseLayoutProps {
     links: [
       { text: 'Docs', url: '/docs' },
       { text: 'Pricing', url: '/pricing' },
-      { text: 'Why Zoteus', url: '/#why' },
+      { text: 'What it does', url: '/#why' },
     ],
     githubUrl: `https://github.com/${gitConfig.user}/${gitConfig.repo}`,
   };

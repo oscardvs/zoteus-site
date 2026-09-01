@@ -9,7 +9,7 @@ import { hostedPrice, hostedPeriod, hostedLive, supportEmail, connectorUrl } fro
 export const metadata: Metadata = {
   title: 'Pricing',
   description:
-    'Zoteus is free and open-source to self-host, with every feature. The optional hosted tier is a managed, always-on connector for €30/year — zero setup, billed via Polar.',
+    'Zoteus is free and open-source to self-host, with every feature. The optional hosted tier is a managed, always-on connector for €30/year, billed via Polar.',
   alternates: { canonical: '/pricing' },
 };
 
@@ -29,13 +29,13 @@ function Arrow() {
 }
 
 const SELF = [
-  'Every feature — no paywall, ever',
+  'Every feature, no paywall',
   'Local-first; your machine, your keys',
   'Self-host the OAuth remote for a team',
   'Community support on GitHub',
 ];
 const HOSTED = [
-  'Connect in claude.ai in ~30 seconds',
+  'Connect in claude.ai with the connector URL',
   'Per-user Zotero login, encrypted at rest',
   'Always-on, maintained & auto-updated',
   'You keep your data & your keys',
@@ -45,11 +45,11 @@ const HOSTED = [
 const FAQ = [
   {
     q: 'Why pay if it’s open-source?',
-    a: 'You’re paying for hosting and maintenance, not features. Self-hosting gives you the exact same capabilities for free, forever — the hosted tier just means you don’t have to run or update anything.',
+    a: 'You’re paying for hosting and maintenance, not features. Self-hosting gives you the same capabilities for free; the hosted tier means you don’t have to run or update anything.',
   },
   {
     q: 'Is my data safe?',
-    a: 'Your Zotero key is encrypted at rest (AES-256-GCM) and only ever used to talk to your own Zotero library. Zoteus is a data processor, not a data owner — you can revoke access at any time, and reads stay scoped to your library.',
+    a: 'Your Zotero key is encrypted at rest (AES-256-GCM) and only ever used to talk to your own Zotero library. Zoteus is a data processor, not a data owner. You can revoke access at any time, and reads stay scoped to your library.',
   },
   {
     q: 'Can I cancel?',
@@ -57,7 +57,7 @@ const FAQ = [
   },
   {
     q: 'What’s different from self-hosting?',
-    a: 'Nothing in the features — it’s the same Zoteus. The hosted tier just runs the always-on, public HTTPS connector for you so it works in claude.ai (web) without you provisioning a server.',
+    a: 'Nothing in the features; it’s the same Zoteus. The hosted tier runs the always-on, public HTTPS connector for you so it works in claude.ai (web) without you provisioning a server.',
   },
   {
     q: 'How does billing work?',
@@ -78,10 +78,10 @@ export default function PricingPage() {
         <div className="relative mx-auto max-w-3xl px-6 py-24 text-center md:py-28">
           <span className="z-eyebrow z-rise">Pricing</span>
           <h1 className="z-display z-rise mt-6 text-[2.6rem] sm:text-5xl" style={{ animationDelay: '60ms' }}>
-            Free forever.<br />Hosted if you want it.
+            Free to self-host.<br />Hosted if you want it.
           </h1>
           <p className="z-rise mx-auto mt-6 max-w-xl text-lg leading-relaxed text-fd-muted-foreground" style={{ animationDelay: '140ms' }}>
-            Zoteus is open-source and free to self-host — with <span className="z-serif italic text-fd-foreground">every</span> feature.
+            Zoteus is open-source and free to self-host, with <span className="z-serif italic text-fd-foreground">every</span> feature.
             The hosted tier is for people who’d rather not run anything. It also sustains the project.
           </p>
         </div>
@@ -96,7 +96,7 @@ export default function PricingPage() {
               <div className="z-bezel-inner flex h-full flex-col p-8">
                 <p className="z-label">Self-hosted</p>
                 <p className="z-display mt-4 text-5xl">Free</p>
-                <p className="mt-2 text-sm text-fd-muted-foreground">MIT-licensed. Run it yourself, forever.</p>
+                <p className="mt-2 text-sm text-fd-muted-foreground">MIT-licensed. Run it yourself.</p>
                 <ul className="mt-7 flex-1 space-y-3 text-sm text-fd-foreground">
                   {SELF.map((f) => (
                     <li key={f} className="flex gap-2.5"><Check /><span>{f}</span></li>
@@ -110,7 +110,7 @@ export default function PricingPage() {
             </div>
           </Reveal>
 
-          {/* Hosted — highlighted */}
+          {/* Hosted (highlighted) */}
           <Reveal delay={90}>
             <div className="z-bezel h-full" style={{ background: 'var(--accent-soft)', borderColor: 'color-mix(in oklab, var(--accent) 35%, var(--color-fd-border))' }}>
               <div className="z-bezel-inner flex h-full flex-col p-8">
@@ -122,7 +122,7 @@ export default function PricingPage() {
                   {hostedPrice}
                   <span className="text-xl text-fd-muted-foreground">{hostedPeriod}</span>
                 </p>
-                <p className="mt-2 text-sm text-fd-muted-foreground">Managed, always-on connector. Zero setup.</p>
+                <p className="mt-2 text-sm text-fd-muted-foreground">Managed, always-on connector. Nothing to run.</p>
                 <ul className="mt-7 flex-1 space-y-3 text-sm text-fd-foreground">
                   {HOSTED.map((f) => (
                     <li key={f} className="flex gap-2.5"><Check /><span>{f}</span></li>
@@ -152,7 +152,7 @@ export default function PricingPage() {
             {[
               ['01', 'Subscribe', 'Check out via Polar and get a license key by email.'],
               ['02', 'Connect', 'Add mcp.zoteus.com/mcp as a connector in claude.ai and sign in to your own Zotero.'],
-              ['03', 'Use', 'Paste your key once — your library is now available to your AI.'],
+              ['03', 'Use', 'Paste your key once. Your library is then available to your AI.'],
             ].map(([n, t, d], i) => (
               <Reveal key={n} delay={i * 70}>
                 <div className="z-bezel h-full">
@@ -192,7 +192,7 @@ export default function PricingPage() {
         <Reveal>
           <div className="mt-12 text-center">
             <SubscribeButton label="Get the hosted tier" />
-            <p className="z-label mt-4 normal-case tracking-[0.03em]">Prefer to self-host? It’s free — <Link href="/docs" className="text-fd-primary hover:underline">start here</Link>. Questions? <a href={`mailto:${supportEmail}`} className="text-fd-primary hover:underline">{supportEmail}</a></p>
+            <p className="z-label mt-4 normal-case tracking-[0.03em]">Prefer to self-host? It’s free: <Link href="/docs" className="text-fd-primary hover:underline">start here</Link>. Questions? <a href={`mailto:${supportEmail}`} className="text-fd-primary hover:underline">{supportEmail}</a></p>
           </div>
         </Reveal>
       </section>

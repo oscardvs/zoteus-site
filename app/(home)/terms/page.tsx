@@ -52,7 +52,7 @@ export default function Terms() {
         <p>
           The service and software are provided “as is”. To the extent permitted by law, we disclaim all
           warranties and are not liable for indirect or consequential damages; our total liability is
-          limited to the fees you paid in the prior 12 months. Zoteus is a tool — you remain responsible
+          limited to the fees you paid in the prior 12 months. Zoteus is a tool; you remain responsible
           for verifying any output, including citations, before relying on it.
         </p>
       </Sec>

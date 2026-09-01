@@ -36,14 +36,6 @@ const I = {
     '<path d="M12 2.2A10 10 0 0 0 8.8 21.7c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.5-1.1-1.1-1.4-1.1-1.4-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.25-4.5-1.1-4.5-4.9 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.6 0 0 .8-.3 2.7 1a9.3 9.3 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.3.2 2.3.1 2.6.6.7 1 1.6 1 2.7 0 3.8-2.3 4.6-4.5 4.9.4.3.7.9.7 1.8v2.6c0 .3.2.6.7.5A10 10 0 0 0 12 2.2Z"/>',
 };
 
-/* comparison cell: glyphs get a screen-reader word so the table isn't gibberish */
-const GLYPH_LABEL: Record<string, string> = { '✓': 'Yes', '✗': 'No', '~': 'Partial', '—': 'Not applicable' };
-function CmpCell({ v }: { v: string }) {
-  const label = GLYPH_LABEL[v];
-  if (label) return (<><span aria-hidden>{v}</span><span className="sr-only">{label}</span></>);
-  return <>{v}</>;
-}
-
 /* ── faux demo card (stands in until demo.gif is recorded) ───────────────── */
 function DemoCard() {
   return (
@@ -86,11 +78,11 @@ function DemoCard() {
 }
 
 const FEATURES = [
-  { icon: I.search, title: 'Semantic search over your PDFs', body: 'Hybrid keyword + vector search across metadata, full text, and annotations — returned with page locators. Runs on local embeddings by default.', span: 'md:col-span-3' },
-  { icon: I.quote, title: 'Real citations, not hallucinations', body: 'It surfaces your verified Zotero references and formats them with citeproc-js in ~2,800 CSL styles. It never invents a DOI.', span: 'md:col-span-3' },
-  { icon: I.plus, title: 'Add by identifier', body: 'Drop a DOI, ISBN, PMID, or arXiv id — metadata fetched and filed.', span: 'md:col-span-2' },
+  { icon: I.search, title: 'Semantic search over your PDFs', body: 'Hybrid keyword and vector search across metadata, full text, and annotations, with page locators in the results. Runs on local embeddings by default.', span: 'md:col-span-3' },
+  { icon: I.quote, title: 'Citations from your own library', body: 'Zoteus reads the references in your Zotero library and formats them with citeproc-js in any CSL style.', span: 'md:col-span-3' },
+  { icon: I.plus, title: 'Add by identifier', body: 'Give it a DOI, ISBN, PMID, or arXiv id and it fetches the metadata and files the item.', span: 'md:col-span-2' },
   { icon: I.shield, title: 'Safe, reversible writes', body: 'Versioned, optimistic-locked, reversible trash by default, gated delete.', span: 'md:col-span-2' },
-  { icon: I.lock, title: 'Local-first & private', body: 'Reads use the desktop local API; nothing leaves your machine by default.', span: 'md:col-span-2' },
+  { icon: I.lock, title: 'Runs on your machine', body: 'Reads go to the Zotero desktop app when it is running. Semantic search uses an on-device embedding model by default.', span: 'md:col-span-2' },
 ];
 
 export default function Home() {
@@ -107,23 +99,23 @@ export default function Home() {
           <div>
             <span className="z-eyebrow z-rise">Open-source · Zotero MCP server</span>
             <h1 className="z-display z-rise mt-6 text-[2.7rem] sm:text-6xl" style={{ animationDelay: '60ms' }}>
-              Your Zotero library,<br />inside every AI<br />conversation.
+              An MCP server<br />for your Zotero<br />library.
             </h1>
             <p className="z-rise mt-6 max-w-xl text-lg leading-relaxed text-fd-muted-foreground" style={{ animationDelay: '140ms' }}>
-              Zoteus gives Claude, Cursor, and any MCP client safe access to your reference
-              library — search papers, add by DOI, format bibliographies, and run semantic
-              search over your own PDFs. With <span className="z-serif italic text-fd-foreground">real citations,
-              not hallucinations.</span>
+              Zoteus gives Claude, Cursor, and other MCP clients access to your reference
+              library: search papers, add by DOI, format bibliographies, and run semantic
+              search over your own PDFs. <span className="z-serif italic text-fd-foreground">Citations come from
+              what you have already saved.</span>
             </p>
             <div className="z-rise mt-8 flex flex-wrap items-center gap-3" style={{ animationDelay: '220ms' }}>
               <CopyCommand />
               <Link href={repo} className="z-ghost" target="_blank" rel="noreferrer">
                 <Icon path={I.github} className="text-fd-muted-foreground" />
-                Star on GitHub
+                View on GitHub
               </Link>
             </div>
             <p className="z-label z-rise mt-6 normal-case tracking-[0.04em]" style={{ animationDelay: '300ms' }}>
-              MIT-licensed · Local-first · No data leaves your machine
+              MIT-licensed · Runs on your machine · No telemetry
             </p>
           </div>
           <Reveal className="z-rise" delay={120}>
@@ -145,8 +137,8 @@ export default function Home() {
       {/* ── INSTALL ──────────────────────────────────────────────────────── */}
       <section id="install" className="mx-auto w-full max-w-6xl scroll-mt-20 px-6 py-24">
         <Reveal>
-          <span className="z-eyebrow">Install in 30 seconds</span>
-          <h2 className="z-display mt-5 text-3xl sm:text-4xl">One command. Any MCP client.</h2>
+          <span className="z-eyebrow">Install</span>
+          <h2 className="z-display mt-5 text-3xl sm:text-4xl">One command for any MCP client.</h2>
           <p className="mt-4 max-w-2xl text-fd-muted-foreground">
             Reads work key-free against the desktop app. Add a Zotero API key for writes, sync,
             and group libraries.
@@ -158,7 +150,7 @@ export default function Home() {
               {[
                 { label: 'Claude Code', cmd: 'claude mcp add --transport stdio \\\n  zoteus -- npx -y @oscardvs/zoteus' },
                 { label: 'Any client (universal)', cmd: 'npx add-mcp @oscardvs/zoteus' },
-                { label: 'Claude Desktop', cmd: 'Download zoteus.dxt\nfrom the latest release →' },
+                { label: 'Claude Desktop', cmd: 'Download zoteus.mcpb\nfrom the latest release →' },
               ].map((s) => (
                 <div key={s.label} className="bg-fd-card p-5">
                   <p className="z-label mb-3">{s.label}</p>
@@ -175,12 +167,12 @@ export default function Home() {
         <div className="mx-auto max-w-3xl px-6 py-24 text-center">
           <Reveal>
             <h2 className="z-display text-3xl sm:text-[2.6rem]">
-              Your research lives in Zotero.<br />Your AI can&rsquo;t see it.
+              Your references are in Zotero.<br />Your AI client can&rsquo;t see them.
             </h2>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-fd-muted-foreground">
-              Every new chat, you re-paste the same PDFs and re-explain your library from scratch —
-              and when you ask for references, you get plausible, beautifully formatted, <span className="text-fd-foreground">non-existent</span> citations.
-              Zoteus connects your actual library so your AI works from <span className="z-serif italic text-fd-foreground">what you&rsquo;ve already read and verified.</span>
+              Without a connection, every new chat starts from nothing: you paste the same PDFs again, describe
+              your library again, and a request for references can come back with <span className="text-fd-foreground">citations that do not exist</span>.
+              Zoteus connects the library itself, so your AI works from <span className="z-serif italic text-fd-foreground">what you&rsquo;ve already read and saved.</span>
             </p>
           </Reveal>
         </div>
@@ -189,9 +181,9 @@ export default function Home() {
       {/* ── FEATURES (bento) ─────────────────────────────────────────────── */}
       <section id="why" className="mx-auto w-full max-w-6xl scroll-mt-20 px-6 py-24">
         <Reveal>
-          <span className="z-eyebrow">Why Zoteus</span>
+          <span className="z-eyebrow">What it does</span>
           <h2 className="z-display mt-5 max-w-2xl text-3xl sm:text-4xl">
-            The everything server — your library as the source of truth.
+            Search, cite, add, and write back to your own library.
           </h2>
         </Reveal>
         <div className="mt-12 grid gap-4 md:grid-cols-6">
@@ -216,8 +208,8 @@ export default function Home() {
                 </span>
                 <h3 className="z-serif text-lg text-fd-foreground">Scholarly-context graph</h3>
                 <p className="max-w-xl text-sm text-fd-muted-foreground">
-                  Follow citations across OpenAlex and Crossref — plus MCP
-                  Resources, Prompts, and the code-execution pattern, built for agents.
+                  Follow references and citing works through OpenAlex and Crossref. Zoteus also
+                  ships MCP Resources, Prompts, and the code-execution pattern for agent use.
                 </p>
                 <Link href="/docs" className="z-ghost ml-auto text-sm">
                   Read the docs <Icon path={I.arrow} className="h-4 w-4" />
@@ -228,55 +220,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── COMPARISON ───────────────────────────────────────────────────── */}
-      <section className="border-y border-fd-border bg-fd-card/30">
-        <div className="mx-auto w-full max-w-5xl px-6 py-24">
-          <Reveal>
-            <h2 className="z-display text-3xl sm:text-4xl">Why Zoteus vs. the field</h2>
-          </Reveal>
-          <Reveal delay={80}>
-            <div className="z-bezel mt-10">
-              <div className="z-bezel-inner overflow-x-auto">
-                <table className="w-full border-collapse text-sm">
-                  <caption className="sr-only">How Zoteus compares to other Zotero MCP servers and web AI tools</caption>
-                  <thead>
-                    <tr className="z-mono text-[0.72rem] uppercase tracking-wider text-fd-muted-foreground">
-                      <th scope="col" className="p-4 text-left font-medium"><span className="sr-only">Capability</span></th>
-                      <th scope="col" className="p-4 text-center font-medium text-fd-primary">Zoteus</th>
-                      <th scope="col" className="p-4 text-center font-medium">Other Zotero MCP</th>
-                      <th scope="col" className="p-4 text-center font-medium">Web AI tools</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {[
-                      ['Operates on your own library', '✓', '~', '✗'],
-                      ['Web API v3 + desktop local API', '✓', 'partial', '—'],
-                      ['Safe, reversible writes', '✓', 'rare', '✗'],
-                      ['CSL bibliographies (~2,800 styles)', '✓', 'rare', '✗'],
-                      ['Local semantic search over PDFs', '✓', 'some', 'varies'],
-                      ['No Python — TypeScript, one npx', '✓', 'varies', '—'],
-                      ['Local-first · Open-source (MIT)', '✓', 'varies', '✗'],
-                    ].map((row) => (
-                      <tr key={row[0]} className="border-t border-fd-border">
-                        <th scope="row" className="p-4 text-left font-normal text-fd-foreground">{row[0]}</th>
-                        <td className="p-4 text-center text-fd-primary"><CmpCell v={row[1]} /></td>
-                        <td className="p-4 text-center text-fd-muted-foreground"><CmpCell v={row[2]} /></td>
-                        <td className="p-4 text-center text-fd-muted-foreground"><CmpCell v={row[3]} /></td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
       {/* ── PRICING ──────────────────────────────────────────────────────── */}
       <section className="mx-auto w-full max-w-4xl px-6 py-24">
         <Reveal>
           <span className="z-eyebrow">Pricing</span>
-          <h2 className="z-display mt-5 text-3xl sm:text-4xl">Free forever. Hosted if you want it.</h2>
+          <h2 className="z-display mt-5 text-3xl sm:text-4xl">Free to self-host. Hosted if you want it.</h2>
         </Reveal>
         <div className="mt-10 grid gap-4 sm:grid-cols-2">
           <Reveal>
@@ -284,7 +232,7 @@ export default function Home() {
               <div className="z-bezel-inner flex h-full flex-col p-7">
                 <h3 className="z-serif text-xl">Self-hosted</h3>
                 <p className="z-display mt-3 text-4xl">Free</p>
-                <p className="mt-2 text-sm text-fd-muted-foreground">MIT-licensed. Run it yourself, forever.</p>
+                <p className="mt-2 text-sm text-fd-muted-foreground">MIT-licensed. Run it yourself.</p>
                 <ul className="mt-5 space-y-2 text-sm text-fd-muted-foreground">
                   <li>· Every feature, no paywall</li>
                   <li>· Local-first, your own keys</li>
@@ -301,7 +249,7 @@ export default function Home() {
                 <p className="z-display mt-3 text-4xl">{hostedPrice}<span className="text-lg text-fd-muted-foreground">{hostedPeriod}</span></p>
                 <p className="mt-2 text-sm text-fd-muted-foreground">Managed, always-on connector. Sustains the project.</p>
                 <ul className="mt-5 space-y-2 text-sm text-fd-muted-foreground">
-                  <li>· Zero setup — connect in claude.ai</li>
+                  <li>· No server to run; connect in claude.ai</li>
                   <li>· Per-user Zotero login, encrypted</li>
                   <li>· You keep your data &amp; keys</li>
                 </ul>
@@ -320,9 +268,9 @@ export default function Home() {
         />
         <div className="relative mx-auto max-w-3xl px-6 py-28 text-center">
           <Reveal>
-            <h2 className="z-display text-4xl sm:text-5xl">Stop re-explaining your research.</h2>
+            <h2 className="z-display text-4xl sm:text-5xl">Connect your Zotero library.</h2>
             <p className="mx-auto mt-5 max-w-xl text-lg text-fd-muted-foreground">
-              Connect your Zotero library to your AI in under a minute. Open-source, local-first, free.
+              One command in your MCP client. Open-source and free to self-host.
             </p>
             <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
               <CopyCommand />

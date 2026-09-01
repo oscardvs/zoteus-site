@@ -19,7 +19,7 @@ export function SubscribeButton({ label = 'Subscribe', full = false }: { label?:
       <div className={full ? 'w-full' : ''}>
         <span className="z-ghost cursor-default opacity-70" aria-disabled="true">Available at launch</span>
         <p className="z-label mt-2 normal-case tracking-[0.03em]">
-          Get notified —{' '}
+          Get notified:{' '}
           <a href={`mailto:${supportEmail}`} className="text-[color:var(--accent-text)] hover:underline">{supportEmail}</a>
         </p>
       </div>

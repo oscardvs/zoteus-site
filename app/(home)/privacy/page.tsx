@@ -5,7 +5,7 @@ import { contactEmail, operator } from '@/lib/shared';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
-  description: 'What Zoteus stores, why, and your rights — for the open-source connector and the optional hosted tier.',
+  description: 'What Zoteus stores, why, and your rights, for the open-source connector and the optional hosted tier.',
   alternates: { canonical: '/privacy' },
 };
 
@@ -36,17 +36,17 @@ export default function Privacy() {
         <p>If you subscribe to the hosted connector, we store only what’s required to operate it:</p>
         <ul>
           <li><strong>Your Zotero API key / login</strong>, used solely to access <em>your</em> library on your behalf. It is <strong>encrypted at rest (AES-256-GCM)</strong> and transmitted over TLS.</li>
-          <li><strong>Your account email and subscription status</strong>, to provision and maintain access (managed via Polar — see Payments).</li>
+          <li><strong>Your account email and subscription status</strong>, to provision and maintain access (managed via Polar; see Payments).</li>
           <li><strong>Operational logs</strong> with secrets redacted, kept for reliability and abuse prevention and deleted within 30 days.</li>
         </ul>
         <p>
-          We act as a <strong>data processor</strong> for your library data — you remain in control
+          We act as a <strong>data processor</strong> for your library data; you remain in control
           of it. We do not read, mine, sell, or use your library or PDFs to train anything. Reads stay
           scoped to your own library.
         </p>
         <p>
           We process your account email, subscription status, and encrypted Zotero key because they are
-          necessary to provide the subscription you signed up for (<strong>Article 6(1)(b) GDPR</strong> —
+          necessary to provide the subscription you signed up for (<strong>Article 6(1)(b) GDPR</strong>,
           performance of our contract with you). We keep short-term operational logs on the basis of our
           legitimate interest in keeping the service reliable and preventing abuse (Article 6(1)(f) GDPR).
         </p>
@@ -62,9 +62,9 @@ export default function Privacy() {
 
       <Sec h="Sub-processors">
         <ul>
-          <li><strong>Polar</strong> — checkout, subscriptions, and licensing.</li>
-          <li><strong>Google Cloud (Google LLC)</strong> — hosts the hosted connector instance; see <em>International transfers</em> below.</li>
-          <li><strong>Your own Zotero account</strong> — the source of the library data you ask us to access.</li>
+          <li><strong>Polar</strong>: checkout, subscriptions, and licensing.</li>
+          <li><strong>Google Cloud (Google LLC)</strong>: hosts the hosted connector instance; see <em>International transfers</em> below.</li>
+          <li><strong>Your own Zotero account</strong>: the source of the library data you ask us to access.</li>
         </ul>
       </Sec>
 
@@ -93,7 +93,7 @@ export default function Privacy() {
           Where the GDPR applies, you can request access, correction, deletion, portability, or restriction
           of your data, and object to processing based on our legitimate interest. Contact{' '}
           <a href={`mailto:${contactEmail}`}>{contactEmail}</a> and we’ll respond promptly. You also have the
-          right to lodge a complaint with your data protection authority — in Belgium, the{' '}
+          right to lodge a complaint with your data protection authority; in Belgium, the{' '}
           <a href="https://www.gegevensbeschermingsautoriteit.be" target="_blank" rel="noreferrer">
             Gegevensbeschermingsautoriteit / Autorité de protection des données
           </a>.
