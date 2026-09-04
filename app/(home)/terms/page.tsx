@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { LegalPage, Sec } from '@/components/legal-page';
-import { contactEmail, operator, hostedPrice, hostedPeriod, repoUrl } from '@/lib/shared';
+import { contactEmail, operator, repoUrl } from '@/lib/shared';
 
 export const metadata: Metadata = {
   title: 'Terms of Service',
@@ -31,9 +31,10 @@ export default function Terms() {
 
       <Sec h="The hosted subscription">
         <ul>
-          <li>The hosted connector is a subscription at <strong>{hostedPrice}{hostedPeriod}</strong>, billed annually through Polar (the merchant of record).</li>
+          <li>The hosted connector is a subscription. Current plans are <strong>Individual</strong> (€69/year or €7/month), <strong>Lab</strong>, up to 10 seats (€99/month or €990/year) and <strong>Department</strong>, up to 50 seats (€299/month or €2,990/year). You choose monthly or annual billing at checkout, through Polar (the merchant of record).</li>
+          <li>Seat limits are a contractual term of the plan you buy, not a technical restriction: we ask you to buy the plan that matches your group rather than enforcing headcount in software.</li>
           <li>You may <strong>cancel anytime</strong> from the Polar customer portal; access continues until the end of your paid period.</li>
-          <li>Refunds follow Polar’s policy and your statutory rights; the annual fee is otherwise non-refundable after the period begins.</li>
+          <li>Refunds follow Polar’s policy and your statutory rights; a fee is otherwise non-refundable after the period it covers begins.</li>
           <li>The service is provided on a reasonable-effort basis with <strong>no uptime SLA</strong>. We may change, suspend, or discontinue it with reasonable notice.</li>
           <li>As an EU consumer you have a <strong>14-day right of withdrawal</strong>. By starting to use the hosted connector immediately, you ask us to begin the service during this period and acknowledge that you lose the right of withdrawal once the service has been fully provided; otherwise you may withdraw within 14 days for a refund of any unused portion.</li>
           <li>If you use Zoteus to process other people’s personal data and need a <strong>Data Processing Addendum</strong> (Article 28 GDPR), email us and we’ll provide one.</li>

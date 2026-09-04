@@ -1,4 +1,4 @@
-import { polarCheckout, supportEmail, hostedLive } from '@/lib/shared';
+import { bookingHref, hostedLive, supportEmail, type Plan } from '@/lib/shared';
 
 function Arrow() {
   return (
@@ -9,11 +9,19 @@ function Arrow() {
 }
 
 /**
- * Single source of truth for the hosted-tier CTA.
- * hostedLive=true  → live Polar checkout.
+ * The CTA for one paid plan.
  * hostedLive=false → "Available at launch" + notify contact (kill-switch).
+ * plan.cta==='contact' → talk to a human instead of a checkout (Department).
  */
-export function SubscribeButton({ label = 'Subscribe', full = false }: { label?: string; full?: boolean }) {
+export function SubscribeButton({
+  plan,
+  label,
+  full = false,
+}: {
+  plan: Plan;
+  label?: string;
+  full?: boolean;
+}) {
   if (!hostedLive) {
     return (
       <div className={full ? 'w-full' : ''}>
@@ -25,14 +33,45 @@ export function SubscribeButton({ label = 'Subscribe', full = false }: { label?:
       </div>
     );
   }
+
+  if (plan.cta === 'contact' || !plan.checkout) {
+    return (
+      <a
+        href={bookingHref}
+        className={`z-ghost ${full ? 'w-full justify-center' : ''}`}
+        aria-label={`Talk to us about the ${plan.name} plan`}
+      >
+        {label ?? 'Talk to us'}
+        <Arrow />
+      </a>
+    );
+  }
+
   return (
     <a
-      href={polarCheckout}
+      href={plan.checkout}
       className={`z-cta ${full ? 'w-full justify-center' : ''}`}
-      aria-label="Subscribe to Zoteus Hosted"
+      aria-label={`Subscribe to Zoteus ${plan.name}`}
+      data-umami-event="subscribe-click"
+      data-umami-event-plan={plan.id}
+    >
+      {label ?? 'Subscribe'}
+      <span className="z-cta-icon"><Arrow /></span>
+    </a>
+  );
+}
+
+/** Secondary CTA: book the free 15-minute setup call that every pilot starts with. */
+export function BookCallButton({ label = 'Book a 15-minute setup call', full = false }: { label?: string; full?: boolean }) {
+  return (
+    <a
+      href={bookingHref}
+      className={`z-ghost ${full ? 'w-full justify-center' : ''}`}
+      data-umami-event="book-call-click"
+      data-umami-event-source="pilot-section"
     >
       {label}
-      <span className="z-cta-icon"><Arrow /></span>
+      <Arrow />
     </a>
   );
 }

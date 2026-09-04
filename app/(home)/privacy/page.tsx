@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { LegalPage, Sec } from '@/components/legal-page';
-import { contactEmail, operator } from '@/lib/shared';
+import { analyticsEnabled, contactEmail, operator } from '@/lib/shared';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
@@ -31,6 +31,37 @@ export default function Privacy() {
           client you choose. We have no access to any of it, and the connector phones home to nobody.
         </p>
       </Sec>
+
+      {analyticsEnabled && (
+        <Sec h="Website analytics">
+          <p>
+            This website, and only this website, uses <a href="https://umami.is" target="_blank" rel="noreferrer">Umami</a>,
+            a cookieless analytics tool, hosted in Umami Cloud’s <strong>EU region (Germany)</strong>. It sets
+            <strong> no cookies</strong> and writes nothing to your device, stores <strong>no IP address</strong>
+            (your IP is hashed in memory to derive a country, and the hash is discarded daily), gives you
+            <strong> no persistent identifier</strong>, and cannot follow you to any other site.
+          </p>
+          <p>
+            What we see is aggregate: which pages were viewed, which site referred you, country, browser and
+            device type, and whether the <em>Subscribe</em> and <em>book a call</em> buttons were clicked. We use
+            it to find out which pages and which referrers are worth the effort, nothing more. There is no
+            advertising, no profiling, and no data sold or shared onward.
+          </p>
+          <p>
+            Because nothing is stored on or read from your device, no consent banner is required under Article
+            5(3) of the ePrivacy Directive (Article 129 of the Belgian Electronic Communications Act). We rely on
+            our legitimate interest in understanding how the site is used (<strong>Article 6(1)(f) GDPR</strong>).
+            If your browser sends a “Do Not Track” signal we record nothing at all, you can opt out entirely by
+            setting the <code>umami.disabled</code> key in your browser’s local storage to <code>1</code>, and you
+            can object at any time by writing to us.
+          </p>
+          <p>
+            <strong>The connector itself has no analytics.</strong> Neither the self-hosted connector nor the
+            hosted tier contains any telemetry, and neither reports anything about your library or your usage to
+            us or to anyone else. This section is about the website you are reading, and only the website.
+          </p>
+        </Sec>
+      )}
 
       <Sec h="The hosted tier: what we store">
         <p>If you subscribe to the hosted connector, we store only what’s required to operate it:</p>
@@ -64,6 +95,9 @@ export default function Privacy() {
         <ul>
           <li><strong>Polar</strong>: checkout, subscriptions, and licensing.</li>
           <li><strong>Google Cloud (Google LLC)</strong>: hosts the hosted connector instance; see <em>International transfers</em> below.</li>
+          {analyticsEnabled && (
+            <li><strong>Umami Software, Inc.</strong>: cookieless website analytics for zoteus.com, with analytics data stored in the EU (Germany) region.</li>
+          )}
           <li><strong>Your own Zotero account</strong>: the source of the library data you ask us to access.</li>
         </ul>
       </Sec>
@@ -78,6 +112,13 @@ export default function Privacy() {
           Cloud EU region to keep this data inside the EEA; if you <strong>self-host</strong>, no transfer
           takes place at all.
         </p>
+        {analyticsEnabled && (
+          <p>
+            Website analytics data is stored in Umami Cloud’s EU (Germany) region and is not transferred outside
+            the EEA. The tracker script itself is delivered over a global CDN, which means your browser requests
+            one small JavaScript file from a server near you.
+          </p>
+        )}
       </Sec>
 
       <Sec h="Retention & deletion">

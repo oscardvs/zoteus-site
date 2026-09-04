@@ -2,10 +2,11 @@ import { RootProvider } from 'fumadocs-ui/provider/next';
 import './global.css';
 import { Fraunces, IBM_Plex_Sans, JetBrains_Mono } from 'next/font/google';
 import StaticSearchDialog from '@/components/search-dialog';
+import { Analytics } from '@/components/analytics';
 import type { Metadata } from 'next';
 
 const description =
-  'Zoteus is an open-source MCP server that gives Claude and other MCP clients access to your Zotero library: search, add by DOI, CSL citations, and local semantic search over your PDFs. Runs on your machine, MIT licensed.';
+  'Zoteus is an open-source MCP server that connects Claude and other MCP clients to your Zotero library: semantic search over your PDFs, CSL citations, add by DOI, attachments, and PDF annotations written back and anchored to the text they quote. Runs on your machine, MIT licensed.';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://zoteus.com'),
@@ -83,6 +84,7 @@ export default function Layout({ children }: LayoutProps<'/'>) {
         <RootProvider search={{ SearchDialog: StaticSearchDialog }}>
           {children}
         </RootProvider>
+        <Analytics />
       </body>
     </html>
   );

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { CopyCommand } from '@/components/copy-command';
 import { Reveal } from '@/components/reveal';
 import { SiteFooter } from '@/components/site-footer';
-import { gitConfig, hostedPrice, hostedPeriod } from '@/lib/shared';
+import { gitConfig, plans } from '@/lib/shared';
 
 const repo = `https://github.com/${gitConfig.user}/${gitConfig.repo}`;
 
@@ -99,13 +99,13 @@ export default function Home() {
           <div>
             <span className="z-eyebrow z-rise">Open-source · Zotero MCP server</span>
             <h1 className="z-display z-rise mt-6 text-[2.7rem] sm:text-6xl" style={{ animationDelay: '60ms' }}>
-              An MCP server<br />for your Zotero<br />library.
+              The Zotero MCP<br />server that<br />writes back.
             </h1>
             <p className="z-rise mt-6 max-w-xl text-lg leading-relaxed text-fd-muted-foreground" style={{ animationDelay: '140ms' }}>
-              Zoteus gives Claude, Cursor, and other MCP clients access to your reference
-              library: search papers, add by DOI, format bibliographies, and run semantic
-              search over your own PDFs. <span className="z-serif italic text-fd-foreground">Citations come from
-              what you have already saved.</span>
+              Zoteus gives Claude, Cursor, and other MCP clients real access to your reference
+              library: semantic search over your own PDFs, citations in any CSL style, add by
+              DOI, attachments, and PDF annotations written back into the file, anchored to the
+              text they quote. <span className="z-serif italic text-fd-foreground">Search is the easy half.</span>
             </p>
             <div className="z-rise mt-8 flex flex-wrap items-center gap-3" style={{ animationDelay: '220ms' }}>
               <CopyCommand />
@@ -221,43 +221,47 @@ export default function Home() {
       </section>
 
       {/* ── PRICING ──────────────────────────────────────────────────────── */}
-      <section className="mx-auto w-full max-w-4xl px-6 py-24">
+      <section className="mx-auto w-full max-w-6xl px-6 py-24">
         <Reveal>
           <span className="z-eyebrow">Pricing</span>
-          <h2 className="z-display mt-5 text-3xl sm:text-4xl">Free to self-host. Hosted if you want it.</h2>
+          <h2 className="z-display mt-5 text-3xl sm:text-4xl">Free to self-host. Hosted for you or your lab.</h2>
+          <p className="mt-4 max-w-2xl text-fd-muted-foreground">
+            Self-hosting stays free, with every feature, permanently. The hosted plans sell
+            hosting, seats and support, never features.
+          </p>
         </Reveal>
-        <div className="mt-10 grid gap-4 sm:grid-cols-2">
-          <Reveal>
-            <div className="z-bezel h-full">
-              <div className="z-bezel-inner flex h-full flex-col p-7">
-                <h3 className="z-serif text-xl">Self-hosted</h3>
-                <p className="z-display mt-3 text-4xl">Free</p>
-                <p className="mt-2 text-sm text-fd-muted-foreground">MIT-licensed. Run it yourself.</p>
-                <ul className="mt-5 space-y-2 text-sm text-fd-muted-foreground">
-                  <li>· Every feature, no paywall</li>
-                  <li>· Local-first, your own keys</li>
-                  <li>· Self-host the remote for a team</li>
-                </ul>
-                <CopyCommand className="mt-6" />
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {plans.map((plan, i) => (
+            <Reveal key={plan.id} delay={i * 60}>
+              <div
+                className="z-bezel h-full"
+                style={
+                  plan.highlight
+                    ? { background: 'var(--accent-soft)', borderColor: 'color-mix(in oklab, var(--accent) 35%, var(--color-fd-border))' }
+                    : undefined
+                }
+              >
+                <div className="z-bezel-inner flex h-full flex-col p-6">
+                  <h3 className="z-serif text-lg">{plan.name}</h3>
+                  <p className="z-display mt-2 text-3xl">
+                    {plan.price}
+                    {plan.period && <span className="text-base text-fd-muted-foreground">{plan.period}</span>}
+                  </p>
+                  <p className="z-label mt-1 normal-case tracking-[0.03em] text-fd-muted-foreground">{plan.altPrice}</p>
+                  <p className="mt-3 flex-1 text-sm text-fd-muted-foreground">{plan.blurb}</p>
+                  <p className="z-mono mt-4 text-[0.7rem] uppercase tracking-[0.1em] text-fd-muted-foreground">{plan.seats}</p>
+                </div>
               </div>
-            </div>
-          </Reveal>
-          <Reveal delay={80}>
-            <div className="z-bezel h-full">
-              <div className="z-bezel-inner flex h-full flex-col p-7">
-                <h3 className="z-serif text-xl">Hosted</h3>
-                <p className="z-display mt-3 text-4xl">{hostedPrice}<span className="text-lg text-fd-muted-foreground">{hostedPeriod}</span></p>
-                <p className="mt-2 text-sm text-fd-muted-foreground">Managed, always-on connector. Sustains the project.</p>
-                <ul className="mt-5 space-y-2 text-sm text-fd-muted-foreground">
-                  <li>· No server to run; connect in claude.ai</li>
-                  <li>· Per-user Zotero login, encrypted</li>
-                  <li>· You keep your data &amp; keys</li>
-                </ul>
-                <Link href="/pricing" className="z-ghost mt-6 w-fit">See hosted plan <Icon path={I.arrow} className="h-4 w-4" /></Link>
-              </div>
-            </div>
-          </Reveal>
+            </Reveal>
+          ))}
         </div>
+        <Reveal>
+          <div className="mt-8">
+            <Link href="/pricing" className="z-ghost">
+              Compare the plans <Icon path={I.arrow} className="h-4 w-4" />
+            </Link>
+          </div>
+        </Reveal>
       </section>
 
       {/* ── FINAL CTA ────────────────────────────────────────────────────── */}
