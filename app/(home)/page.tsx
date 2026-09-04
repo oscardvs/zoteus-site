@@ -95,11 +95,11 @@ export default function Home() {
           className="pointer-events-none absolute -top-40 left-1/2 h-[34rem] w-[34rem] -translate-x-1/4 rounded-full blur-3xl"
           style={{ background: 'radial-gradient(circle, var(--accent-glow), transparent 65%)' }}
         />
-        <div className="relative mx-auto grid max-w-6xl gap-14 px-6 py-24 md:grid-cols-[1.05fr_0.95fr] md:items-center md:py-32">
+        <div className="relative mx-auto grid max-w-6xl gap-12 px-6 py-20 sm:py-24 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-14 lg:py-32">
           <div>
             <span className="z-eyebrow z-rise">Open-source · Zotero MCP server</span>
-            <h1 className="z-display z-rise mt-6 text-[2.7rem] sm:text-6xl" style={{ animationDelay: '60ms' }}>
-              The Zotero MCP<br />server that<br />writes back.
+            <h1 className="z-display z-rise mt-6 text-balance text-[2.4rem] sm:text-5xl xl:text-6xl" style={{ animationDelay: '60ms' }}>
+              The Zotero MCP server that writes back.
             </h1>
             <p className="z-rise mt-6 max-w-xl text-lg leading-relaxed text-fd-muted-foreground" style={{ animationDelay: '140ms' }}>
               Zoteus gives Claude, Cursor, and other MCP clients real access to your reference
@@ -166,8 +166,9 @@ export default function Home() {
       <section className="border-y border-fd-border bg-fd-card/30">
         <div className="mx-auto max-w-3xl px-6 py-24 text-center">
           <Reveal>
-            <h2 className="z-display text-3xl sm:text-[2.6rem]">
-              Your references are in Zotero.<br />Your AI client can&rsquo;t see them.
+            <h2 className="z-display text-balance text-[1.9rem] sm:text-3xl lg:text-[2.6rem]">
+              Your references are in Zotero.{' '}
+              <span className="block sm:inline">Your AI client can&rsquo;t see them.</span>
             </h2>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-fd-muted-foreground">
               Without a connection, every new chat starts from nothing: you paste the same PDFs again, describe
@@ -230,7 +231,7 @@ export default function Home() {
             hosting, seats and support, never features.
           </p>
         </Reveal>
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {plans.map((plan, i) => (
             <Reveal key={plan.id} delay={i * 60}>
               <div
@@ -247,7 +248,7 @@ export default function Home() {
                     {plan.price}
                     {plan.period && <span className="text-base text-fd-muted-foreground">{plan.period}</span>}
                   </p>
-                  <p className="z-label mt-1 normal-case tracking-[0.03em] text-fd-muted-foreground">{plan.altPrice}</p>
+                  <p className="mt-1.5 text-sm text-fd-muted-foreground">{plan.altPrice}</p>
                   <p className="mt-3 flex-1 text-sm text-fd-muted-foreground">{plan.blurb}</p>
                   <p className="z-mono mt-4 text-[0.7rem] uppercase tracking-[0.1em] text-fd-muted-foreground">{plan.seats}</p>
                 </div>
@@ -272,7 +273,7 @@ export default function Home() {
         />
         <div className="relative mx-auto max-w-3xl px-6 py-28 text-center">
           <Reveal>
-            <h2 className="z-display text-4xl sm:text-5xl">Connect your Zotero library.</h2>
+            <h2 className="z-display text-balance text-[2.2rem] sm:text-4xl lg:text-5xl">Connect your Zotero library.</h2>
             <p className="mx-auto mt-5 max-w-xl text-lg text-fd-muted-foreground">
               One command in your MCP client. Open-source and free to self-host.
             </p>

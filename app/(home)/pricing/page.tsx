@@ -4,7 +4,7 @@ import { CopyCommand } from '@/components/copy-command';
 import { Reveal } from '@/components/reveal';
 import { SiteFooter } from '@/components/site-footer';
 import { SubscribeButton, BookCallButton } from '@/components/subscribe-button';
-import { plans, hostedLive, supportEmail, connectorUrl, bookingHref } from '@/lib/shared';
+import { plans, hostedLive, supportEmail, connectorUrl, bookingHref, bookingLive } from '@/lib/shared';
 
 export const metadata: Metadata = {
   title: 'Pricing',
@@ -71,8 +71,8 @@ export default function PricingPage() {
         />
         <div className="relative mx-auto max-w-3xl px-6 py-24 text-center md:py-28">
           <span className="z-eyebrow z-rise">Pricing</span>
-          <h1 className="z-display z-rise mt-6 text-[2.6rem] sm:text-5xl" style={{ animationDelay: '60ms' }}>
-            Free to self-host.<br />Hosted for you or your lab.
+          <h1 className="z-display z-rise mt-6 text-balance text-[2.2rem] sm:text-4xl lg:text-5xl" style={{ animationDelay: '60ms' }}>
+            Free to self-host. Hosted for you or your lab.
           </h1>
           <p className="z-rise mx-auto mt-6 max-w-xl text-lg leading-relaxed text-fd-muted-foreground" style={{ animationDelay: '140ms' }}>
             Zoteus is open-source and free to self-host, with <span className="z-serif italic text-fd-foreground">every</span> feature.
@@ -82,8 +82,8 @@ export default function PricingPage() {
       </section>
 
       {/* ── TIERS ────────────────────────────────────────────────────────── */}
-      <section className="mx-auto w-full max-w-6xl px-6 py-20">
-        <div className="grid items-stretch gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <section className="mx-auto w-full max-w-6xl px-6 py-20 2xl:max-w-[96rem]">
+        <div className="grid items-stretch gap-4 sm:grid-cols-2 2xl:grid-cols-4">
           {plans.map((plan, i) => (
             <Reveal key={plan.id} delay={i * 70}>
               <div
@@ -107,7 +107,7 @@ export default function PricingPage() {
                     {plan.price}
                     {plan.period && <span className="text-lg text-fd-muted-foreground">{plan.period}</span>}
                   </p>
-                  <p className="z-label mt-1.5 normal-case tracking-[0.03em] text-fd-muted-foreground">{plan.altPrice}</p>
+                  <p className="mt-1.5 text-sm text-fd-muted-foreground">{plan.altPrice}</p>
                   <p className="mt-3 text-sm text-fd-muted-foreground">{plan.blurb}</p>
                   <p className="z-mono mt-3 text-[0.72rem] uppercase tracking-[0.1em] text-fd-muted-foreground">{plan.seats}</p>
                   <ul className="mt-6 flex-1 space-y-2.5 text-sm text-fd-foreground">
@@ -130,6 +130,7 @@ export default function PricingPage() {
                             className="z-label text-center normal-case tracking-[0.03em] text-[color:var(--accent-text)] hover:underline"
                             data-umami-event="book-call-click"
                             data-umami-event-source="pricing-lab"
+                            {...(bookingLive ? { target: '_blank', rel: 'noreferrer' } : {})}
                           >
                             or start a free 30-day pilot
                           </a>
@@ -154,7 +155,7 @@ export default function PricingPage() {
         <div className="mx-auto w-full max-w-3xl px-6 py-20 text-center">
           <Reveal>
             <span className="z-eyebrow">For research groups</span>
-            <h2 className="z-display mt-5 text-3xl sm:text-4xl">Try it with your group library for 30 days.</h2>
+            <h2 className="z-display mt-5 text-balance text-[1.8rem] sm:text-3xl lg:text-4xl">Try it with your group library for 30 days.</h2>
             <p className="mx-auto mt-5 max-w-2xl text-fd-muted-foreground">
               If your team screens references together in a Zotero group library, the setup is the part
               that costs you an afternoon. So I do it with you: a 15-minute call, your group library
@@ -172,7 +173,7 @@ export default function PricingPage() {
       {/* ── HOW IT WORKS ─────────────────────────────────────────────────── */}
       <section className="mx-auto w-full max-w-5xl px-6 py-20">
         <Reveal>
-          <h2 className="z-display text-3xl sm:text-4xl">How the hosted plans work</h2>
+          <h2 className="z-display text-balance text-[1.8rem] sm:text-3xl lg:text-4xl">How the hosted plans work</h2>
         </Reveal>
         <div className="mt-10 grid gap-4 sm:grid-cols-3">
           {[

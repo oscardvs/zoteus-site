@@ -35,8 +35,8 @@ export const hostedLive: boolean = true;
  * Booking link for the free 15-minute setup call that every pilot starts with.
  * bookingLive=false falls back to a mailto so the CTA is never a dead end.
  */
-export const bookingLive: boolean = false;
-export const bookingUrl = 'https://cal.com/oscardvs/zoteus-setup';
+export const bookingLive: boolean = true;
+export const bookingUrl = 'https://cal.com/oscardvs/15min';
 
 /** Where a "book a call" CTA should actually point today. */
 export const bookingHref = bookingLive
@@ -105,10 +105,10 @@ export const plans: Plan[] = [
     altPrice: 'or €7/month',
     blurb: 'One researcher, nothing to run.',
     features: [
-      'Connect in claude.ai with the connector URL',
+      'Connect in claude.ai with one URL',
       'Your personal Zotero library',
       'Per-user Zotero login, encrypted at rest',
-      'Always-on, maintained & auto-updated',
+      'Always on, maintained and updated',
       'Email support · cancel anytime',
     ],
     cta: 'checkout',
@@ -122,14 +122,14 @@ export const plans: Plan[] = [
     seats: 'Up to 10 seats',
     price: '€99',
     period: '/month',
-    altPrice: 'or €990/year (2 months free)',
+    altPrice: 'or €990/year, two months free',
     blurb: 'Your whole group, on your shared Zotero group library.',
     features: [
-      'Everything in Individual, for up to 10 people',
+      'Everything in Individual, for 10 people',
       'Zotero group libraries, shared across the team',
-      'A 15-minute setup call, run by the maintainer',
+      'A 15-minute setup call with the maintainer',
       'Priority email support',
-      'Invoice and purchase-order billing on request',
+      'Invoicing and purchase orders',
     ],
     cta: 'checkout',
     checkout: labCheckout,
@@ -147,8 +147,8 @@ export const plans: Plan[] = [
     features: [
       'Everything in Lab, for up to 50 people',
       'Onboarding session for your researchers',
-      'Data Processing Addendum (Article 28 GDPR)',
-      'Invoicing, POs and procurement paperwork',
+      'Data Processing Addendum (GDPR Art. 28)',
+      'Procurement paperwork handled',
       'Named contact for your institution',
     ],
     cta: 'contact',
@@ -175,7 +175,7 @@ export const anyCheckoutLive = plans.some((p) => p.cta === 'checkout' && p.check
  * ─────────────────────────────────────────────────────────────────────── */
 export const analyticsLive: boolean = true;
 /** From the Umami dashboard: Settings → Websites → your site → Edit. */
-export const umamiWebsiteId: string = 'PASTE-WEBSITE-ID-HERE';
+export const umamiWebsiteId: string = '194a92db-fe9a-464d-a6ba-8bce8e411949';
 export const umamiSrc = 'https://cloud.umami.is/script.js';
 /** Hostname allowlist; the tracker no-ops anywhere else (localhost, forks). */
 export const analyticsDomains = 'zoteus.com';

@@ -1,4 +1,4 @@
-import { bookingHref, hostedLive, supportEmail, type Plan } from '@/lib/shared';
+import { bookingHref, bookingLive, hostedLive, supportEmail, type Plan } from '@/lib/shared';
 
 function Arrow() {
   return (
@@ -69,6 +69,7 @@ export function BookCallButton({ label = 'Book a 15-minute setup call', full = f
       className={`z-ghost ${full ? 'w-full justify-center' : ''}`}
       data-umami-event="book-call-click"
       data-umami-event-source="pilot-section"
+      {...(bookingLive ? { target: '_blank', rel: 'noreferrer' } : {})}
     >
       {label}
       <Arrow />
