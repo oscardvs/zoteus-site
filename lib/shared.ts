@@ -36,7 +36,7 @@ export const hostedLive: boolean = true;
  * bookingLive=false falls back to a mailto so the CTA is never a dead end.
  */
 export const bookingLive: boolean = true;
-export const bookingUrl = 'https://cal.com/oscardvs/15min';
+export const bookingUrl = 'https://cal.com/oscardvs/zoteus-setup';
 
 /** Where a "book a call" CTA should actually point today. */
 export const bookingHref = bookingLive
