@@ -99,13 +99,13 @@ export default function Home() {
           <div>
             <span className="z-eyebrow z-rise">Open-source · Zotero MCP server</span>
             <h1 className="z-display z-rise mt-6 text-balance text-[2.4rem] sm:text-5xl xl:text-6xl" style={{ animationDelay: '60ms' }}>
-              The Zotero MCP server that writes back.
+              Your whole Zotero library, inside Claude.
             </h1>
             <p className="z-rise mt-6 max-w-xl text-lg leading-relaxed text-fd-muted-foreground" style={{ animationDelay: '140ms' }}>
               Zoteus gives Claude, Cursor, and other MCP clients real access to your reference
               library: semantic search over your own PDFs, citations in any CSL style, add by
-              DOI, attachments, and PDF annotations written back into the file, anchored to the
-              text they quote. <span className="z-serif italic text-fd-foreground">Search is the easy half.</span>
+              DOI, attachments, and PDF highlights anchored to the text they quote.{' '}
+              <span className="z-serif italic text-fd-foreground">Installs with one command or a double-click. No Python.</span>
             </p>
             <div className="z-rise mt-8 flex flex-wrap items-center gap-3" style={{ animationDelay: '220ms' }}>
               <CopyCommand />
