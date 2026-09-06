@@ -43,7 +43,7 @@ const FEATURES = [
   },
   {
     title: 'Add by identifier',
-    body: 'Give it a DOI, ISBN, PMID, or arXiv id and it fetches the metadata and files the item.',
+    body: 'Give it a DOI or arXiv id and it fetches the metadata and files the item. ISBN, PMID and URLs too, through a Zotero translation-server.',
     tools: ['zotero_import'],
   },
   {
@@ -138,8 +138,13 @@ export default function Home() {
               <h2 className="z-h2 mt-3">One command for any MCP client.</h2>
             </div>
             <p className="z-lead">
-              Reads work key-free against the desktop app. Add a Zotero API key for writes, sync,
-              and group libraries.
+              Reads work key-free against the running desktop app, and so do the personal-library
+              writes that go through it. Add a Zotero API key for sync, group libraries, and writes
+              when the app is closed.{' '}
+              <Link href="/docs/connect-claude-to-zotero" className="text-[color:var(--accent-text)] underline underline-offset-[3px]">
+                Step-by-step for Claude Desktop, claude.ai, Claude Code and Cursor
+              </Link>
+              .
             </p>
           </div>
           <div className="z-panel mt-10 divide-y divide-fd-border">

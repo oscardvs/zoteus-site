@@ -49,7 +49,7 @@ const FAQ = [
   },
   {
     q: 'Is my data safe?',
-    a: 'Your Zotero key is encrypted at rest (AES-256-GCM) and only ever used to talk to your own Zotero library. Zoteus is a data processor, not a data owner. You can revoke access at any time, and reads stay scoped to your library. There is no telemetry in the server.',
+    a: 'Your Zotero key is encrypted at rest (AES-256-GCM) and only ever used to talk to your own Zotero library. Zoteus is a data processor, not a data owner. You can revoke access at any time, and reads stay scoped to your library. The server software has no telemetry; the hosted service keeps operational logs, with secrets redacted, for up to 30 days, as set out in the privacy policy.',
   },
   {
     q: 'Can I cancel?',
@@ -156,7 +156,11 @@ export default function PricingPage() {
               If your team screens references together in a Zotero group library, the setup is the part
               that costs you an afternoon. So I do it with you: a 15-minute call, your group library
               connected, and 30 days to decide whether it earns its place. No card, and no obligation
-              at the end of it.
+              at the end of it.{' '}
+              <Link href="/docs/group-libraries-for-review-teams" className="text-[color:var(--accent-text)] underline underline-offset-[3px]">
+                How a review team sets up a shared library
+              </Link>
+              .
             </p>
           </div>
           <div className="flex flex-wrap gap-3 lg:justify-end">
