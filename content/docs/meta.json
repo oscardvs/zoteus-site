@@ -1,1 +1,22 @@
-{ "title": "Documentation", "pages": ["index", "architecture", "configuration", "citations", "semantic-search", "writing", "files-and-sync", "scholar", "grounding", "prompts", "code-execution", "remote-oauth"] }
+{
+  "title": "Documentation",
+  "pages": [
+    "index",
+    "---Guides---",
+    "connect-claude-to-zotero",
+    "group-libraries-for-review-teams",
+    "zoteus-and-zotero-mcp",
+    "---Reference---",
+    "architecture",
+    "configuration",
+    "citations",
+    "semantic-search",
+    "writing",
+    "files-and-sync",
+    "scholar",
+    "grounding",
+    "prompts",
+    "code-execution",
+    "remote-oauth"
+  ]
+}

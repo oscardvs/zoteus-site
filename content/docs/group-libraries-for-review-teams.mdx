@@ -1,0 +1,81 @@
+---
+title: Zotero group libraries with Claude for systematic review teams
+description: "Connect a shared Zotero group library to Claude so a screening or evidence-synthesis team can search, quote and tag the same references. What works without a key, what needs one, and the free 30-day lab pilot."
+---
+
+A systematic review team keeps its references in one place: a Zotero group library, often with five to ten thousand records, shared between a PI, postdocs, students and a librarian. This page shows how to put that library inside Claude so the whole team can search it by meaning, pull quoted passages with page numbers, tag screening decisions, and build the bibliography, while Zotero stays the system of record.
+
+## What Claude can do with a shared library
+
+With Zoteus connected to the group, every member can ask Claude to:
+
+- **Search the group by keyword or by meaning.** "Which of our included studies measured adherence at twelve months?" runs against titles, abstracts, creators, tags, your notes and your PDF annotations, and optionally the full text of every PDF.
+- **Quote the evidence with a locator.** `zotero_get_fulltext` returns the passage with its page number and the nearest heading, so an extraction table can cite the page a number came from.
+- **Tag and file decisions.** Add or remove tags (`include`, `exclude-wrong-population`, `full-text-pending`) and move items between collections, so the screening state lives in Zotero where everyone sees it.
+- **Audit the tagging.** `zotero_tag_audit` checks the library against a controlled vocabulary you supply and reports off-taxonomy tags and items missing a required tag, per collection if you want.
+- **Add what is missing.** Add a paper to the group by DOI or arXiv id, and attach the PDF from a URL.
+- **Chase citations.** `zotero_scholar` looks up a paper's references and citing works through OpenAlex (Crossref as fallback) and flags which of them the library already holds, which is backward and forward snowballing in one call.
+- **Build the bibliography** in any CSL style with citeproc-js, or export RIS, CSV, BibTeX or CSL JSON for another tool.
+
+What it does not do: it does not replace dual independent screening, and it does not decide anything on its own. A person asks, reads the answer, and acts. Writes go to Zotero with version checks, "remove" means the trash (reversible), and permanent deletion is switched off unless the operator turns it on and Claude confirms on every call.
+
+## Two ways to run it
+
+| | Self-hosted, free | Hosted Lab plan |
+|---|---|---|
+| Who runs what | Each member installs Zoteus in their own Claude (Desktop, Code or Cursor) | Each member adds one connector in claude.ai; nothing to install or update |
+| Where it works | On the computer where it is installed | Browser, Claude desktop and mobile apps, any device |
+| How the group is reached | Through each member's own Zotero API key with group permissions; on Zotero 10+, a group the desktop app holds is readable without a key | Each member signs in with their own Zotero account; Zoteus asks Zotero for access to the groups that account belongs to |
+| Permissions | Whatever the key allows | Whatever Zotero's own group role allows for that member |
+| Semantic index | Built on each member's machine | Built on the server, one index per user |
+| Cost | €0 | €99 a month or €990 a year for up to ten people, with a free 30-day pilot |
+
+The self-hosted route is the right one if your institution requires that library data never leave its machines. The hosted route is the right one if the team works in claude.ai and nobody wants to maintain an install. Details on both are on the [pricing page](/pricing).
+
+## Setting it up
+
+### 1. Have a group library in Zotero
+
+If you do not have one yet, create it at [zotero.org/groups](https://www.zotero.org/groups/), choose the membership setting that fits (private is usual for a review), and invite the team. Members have to accept the invitation and sync at least once. Zotero's own [group documentation](https://www.zotero.org/support/groups) covers roles: admins can change settings and membership, members can edit items, and a library can be set so that only admins edit.
+
+### 2. Give each member access
+
+**Self-hosted.** Each member creates an API key at [zotero.org/settings/keys](https://www.zotero.org/settings/keys): tick **Allow library access**, and under the group permissions give the review group **Read/Write** (or set the default group permission to Read/Write). They then paste that key into their Zoteus install; the [Connect Claude to Zotero](/docs/connect-claude-to-zotero) page has the exact steps for each client. On Zotero 10 and newer, a group that the desktop app already holds can be read without any key while the app is running; writes to a group always need the key.
+
+**Hosted.** Each member subscribes with the lab's licence key, adds `https://mcp.zoteus.com/mcp` as a custom connector in claude.ai, and approves Zoteus on zotero.org. No API key is created by hand.
+
+### 3. Point Claude at the group
+
+Ask *Which Zotero group libraries can you see?* Claude calls `zotero_groups`, which lists each group with its id, item count and your edit permission. From then on, name the group in your request ("in the Cochrane update library, ...") and Claude passes its `library_id` to the tools.
+
+### 4. Build the search index once
+
+Ask *Build the semantic search index for the group library.* Claude runs `zotero_index` with the group's id; on a large library the first build takes a while and later updates are incremental. Keyword search works before the index exists. If you want the body of every PDF searchable too, ask for the build with full text, which costs more time and disk. See [Semantic Search](/docs/semantic-search).
+
+### 5. Work
+
+A few prompts that review teams start with:
+
+- *List everything in the "screening" collection tagged `full-text-pending` and, for each, quote the sentence that states the primary outcome, with the page.*
+- *Tag every item in this collection whose abstract mentions a paediatric population with `population-children`. Show me the list first.*
+- *Audit the tags in the group against this vocabulary: [paste the vocabulary]. Which items are missing a required tag?*
+- *Look up the references of 10.1136/bmj.n71 and tell me which ones are not yet in the group library.*
+- *Format the included studies as a bibliography in Vancouver style.*
+
+Zoteus also ships MCP Prompts for common workflows, including a citation audit that checks a draft's citations against the library; see [Prompts](/docs/prompts).
+
+## Data handling, for the ethics form
+
+- **Self-hosted:** nothing leaves the member's machine except calls to Zotero's own API under the member's own key, and to any embedding provider the member chooses (on-device by default). The server has no telemetry.
+- **Hosted:** Zoteus stores each member's Zotero token encrypted at rest (AES-256-GCM) and uses it only for that member's requests; operational logs, with secrets redacted, are kept for up to 30 days. The hosted instance currently runs on Google Cloud in the United States. A Data Processing Addendum (GDPR Article 28) is available on request. The full [privacy policy](/privacy) has the sub-processor list.
+- **Seats** on the Lab plan are a contractual term, not a technical lock: nobody is cut off in the middle of a screening round because an eleventh person joined for a week. Buy the plan that matches the group.
+
+## The pilot
+
+For a review team the setup, not the software, is the part that costs an afternoon, so it is done with you. A pilot is:
+
+1. A [15-minute call](https://cal.com/oscardvs/zoteus-setup) with the maintainer, on which your group library is connected and the first index is started.
+2. Thirty days of the Lab plan at no charge, for the whole team. No card.
+3. At the end, either the Lab plan (€99 a month, or €990 a year, which suits grant budgets and stays under most procurement thresholds; invoices and purchase orders are fine) or nothing happens.
+
+[Book the setup call](https://cal.com/oscardvs/zoteus-setup) or email [support@zoteus.com](mailto:support@zoteus.com). If your group is larger than ten, the Department plan covers up to fifty people and comes with an onboarding session; write first.
