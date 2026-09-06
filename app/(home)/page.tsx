@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { CopyCommand } from '@/components/copy-command';
-import { DemoCard } from '@/components/demo-card';
+import { DemoVideo } from '@/components/demo-video';
 import { JsonLd } from '@/components/json-ld';
 import { SiteFooter } from '@/components/site-footer';
 import { SystemDiagram } from '@/components/system-diagram';
@@ -103,7 +103,7 @@ export default function Home() {
             </p>
           </div>
           <div className="mt-12 sm:mt-16">
-            <DemoCard />
+            <DemoVideo />
           </div>
         </div>
       </section>

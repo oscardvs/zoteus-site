@@ -437,6 +437,9 @@ body {
 .z-chat [data-reveal] { animation: z-reveal 0.5s ease-out both; animation-delay: calc(var(--i, 0) * 0.45s); }
 @media (prefers-reduced-motion: reduce) { .z-chat [data-reveal] { animation-delay: 0s; } }
 
+.z-video { width: 100%; max-width: 56rem; margin-inline: auto; overflow: hidden; }
+.z-video-el { display: block; width: 100%; height: auto; background: var(--color-fd-card); }
+
 /* -- system diagram ------------------------------------------------------------ */
 
 .z-diagram { display: grid; gap: 0.75rem; grid-template-columns: 1fr; }
