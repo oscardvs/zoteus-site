@@ -10,8 +10,8 @@ function Arrow() {
 
 /**
  * The CTA for one paid plan.
- * hostedLive=false → "Available at launch" + notify contact (kill-switch).
- * plan.cta==='contact' → talk to a human instead of a checkout (Department).
+ * hostedLive=false: "Available at launch" plus a notify contact (kill-switch).
+ * plan.cta==='contact': talk to a human instead of a checkout (Department).
  */
 export function SubscribeButton({
   plan,
@@ -22,11 +22,15 @@ export function SubscribeButton({
   label?: string;
   full?: boolean;
 }) {
+  const block = full ? 'z-btn-block' : '';
+
   if (!hostedLive) {
     return (
       <div className={full ? 'w-full' : ''}>
-        <span className="z-ghost cursor-default opacity-70" aria-disabled="true">Available at launch</span>
-        <p className="z-label mt-2 normal-case tracking-[0.03em]">
+        <span className={`z-btn z-btn-secondary cursor-default opacity-70 ${block}`} aria-disabled="true">
+          Available at launch
+        </span>
+        <p className="z-small mt-2">
           Get notified:{' '}
           <a href={`mailto:${supportEmail}`} className="text-[color:var(--accent-text)] hover:underline">{supportEmail}</a>
         </p>
@@ -38,7 +42,7 @@ export function SubscribeButton({
     return (
       <a
         href={bookingHref}
-        className={`z-ghost ${full ? 'w-full justify-center' : ''}`}
+        className={`z-btn z-btn-secondary ${block}`}
         aria-label={`Talk to us about the ${plan.name} plan`}
       >
         {label ?? 'Talk to us'}
@@ -50,13 +54,13 @@ export function SubscribeButton({
   return (
     <a
       href={plan.checkout}
-      className={`z-cta ${full ? 'w-full justify-center' : ''}`}
+      className={`z-btn z-btn-primary ${block}`}
       aria-label={`Subscribe to Zoteus ${plan.name}`}
       data-umami-event="subscribe-click"
       data-umami-event-plan={plan.id}
     >
       {label ?? 'Subscribe'}
-      <span className="z-cta-icon"><Arrow /></span>
+      <Arrow />
     </a>
   );
 }
@@ -66,7 +70,7 @@ export function BookCallButton({ label = 'Book a 15-minute setup call', full = f
   return (
     <a
       href={bookingHref}
-      className={`z-ghost ${full ? 'w-full justify-center' : ''}`}
+      className={`z-btn z-btn-primary ${full ? 'z-btn-block' : ''}`}
       data-umami-event="book-call-click"
       data-umami-event-source="pilot-section"
       {...(bookingLive ? { target: '_blank', rel: 'noreferrer' } : {})}
