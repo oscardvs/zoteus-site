@@ -1,25 +1,38 @@
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
 import { gitConfig } from './shared';
 
-function Wordmark() {
-  return (
-    <span className="z-wordmark">
-      <svg viewBox="0 0 24 24" width="15" height="15" className="z-bolt" aria-hidden="true">
-        <path d="M13 2 4.6 13.4H11l-1 8.6L19.4 10.2H13V2Z" fill="currentColor" />
-      </svg>
-      <span>Zoteus</span>
-    </span>
-  );
-}
+/** The long-form guides under /docs, linked from the nav menu and the footer. */
+export const guides: { text: string; description: string; url: string }[] = [
+  {
+    text: 'Connect Claude to Zotero',
+    description: 'Step by step, for Claude Desktop, Claude Code and claude.ai.',
+    url: '/docs/connect-claude-to-zotero',
+  },
+  {
+    text: 'Group libraries for review teams',
+    description: 'Screening references together in one shared Zotero library.',
+    url: '/docs/group-libraries-for-review-teams',
+  },
+  {
+    text: 'Zoteus and zotero-mcp',
+    description: 'How the two Zotero MCP servers compare.',
+    url: '/docs/zoteus-and-zotero-mcp',
+  },
+];
 
 export function baseOptions(): BaseLayoutProps {
   return {
     nav: {
-      title: <Wordmark />,
+      title: <span className="z-wordmark">Zoteus</span>,
       transparentMode: 'top',
     },
     links: [
-      { text: 'Docs', url: '/docs' },
+      { text: 'Docs', url: '/docs', active: 'nested-url' },
+      {
+        type: 'menu',
+        text: 'Guides',
+        items: guides.map((g) => ({ text: g.text, description: g.description, url: g.url })),
+      },
       { text: 'Pricing', url: '/pricing' },
       { text: 'What it does', url: '/#why' },
     ],
