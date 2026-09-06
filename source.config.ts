@@ -20,5 +20,10 @@ export const docs = defineDocs({
 export default defineConfig({
   mdxOptions: {
     remarkPlugins: [remarkMdxMermaid],
+    rehypeCodeOptions: {
+      /* The GitHub "default" pair keeps every token above 4.5:1 on our paper
+         and ink surfaces; plain github-light's red operators sit at 4.4:1. */
+      themes: { light: 'github-light-default', dark: 'github-dark-default' },
+    },
   },
 });
