@@ -1,8 +1,16 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { CopyCommand } from '@/components/copy-command';
+import { JsonLd } from '@/components/json-ld';
 import { Reveal } from '@/components/reveal';
 import { SiteFooter } from '@/components/site-footer';
+import { siteDescription, softwareApplicationLd } from '@/lib/seo';
 import { gitConfig, plans } from '@/lib/shared';
+
+/* Title and description are inherited from the root layout; the home page only pins its canonical. */
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+};
 
 const repo = `https://github.com/${gitConfig.user}/${gitConfig.repo}`;
 
@@ -80,7 +88,7 @@ function DemoCard() {
 const FEATURES = [
   { icon: I.search, title: 'Semantic search over your PDFs', body: 'Hybrid keyword and vector search across metadata, full text, and annotations, with page locators in the results. Runs on local embeddings by default.', span: 'md:col-span-3' },
   { icon: I.quote, title: 'Citations from your own library', body: 'Zoteus reads the references in your Zotero library and formats them with citeproc-js in any CSL style.', span: 'md:col-span-3' },
-  { icon: I.plus, title: 'Add by identifier', body: 'Give it a DOI, ISBN, PMID, or arXiv id and it fetches the metadata and files the item.', span: 'md:col-span-2' },
+  { icon: I.plus, title: 'Add by identifier', body: 'Give it a DOI or arXiv id and it fetches the metadata and files the item. ISBN, PMID and URLs too, through a Zotero translation-server.', span: 'md:col-span-2' },
   { icon: I.shield, title: 'Safe, reversible writes', body: 'Versioned, optimistic-locked, reversible trash by default, gated delete.', span: 'md:col-span-2' },
   { icon: I.lock, title: 'Runs on your machine', body: 'Reads go to the Zotero desktop app when it is running. Semantic search uses an on-device embedding model by default.', span: 'md:col-span-2' },
 ];
@@ -88,6 +96,7 @@ const FEATURES = [
 export default function Home() {
   return (
     <main className="relative flex flex-col">
+      <JsonLd data={softwareApplicationLd(siteDescription)} />
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden border-b border-fd-border">
         <div className="z-grid pointer-events-none absolute inset-0 opacity-60" />
@@ -140,8 +149,13 @@ export default function Home() {
           <span className="z-eyebrow">Install</span>
           <h2 className="z-display mt-5 text-3xl sm:text-4xl">One command for any MCP client.</h2>
           <p className="mt-4 max-w-2xl text-fd-muted-foreground">
-            Reads work key-free against the desktop app. Add a Zotero API key for writes, sync,
-            and group libraries.
+            Reads work key-free against the running desktop app, and so do the personal-library
+            writes that go through it. Add a Zotero API key for sync, group libraries, and writes
+            when the app is closed.{' '}
+            <Link href="/docs/connect-claude-to-zotero" className="text-fd-primary hover:underline">
+              Step-by-step for Claude Desktop, claude.ai, Claude Code and Cursor
+            </Link>
+            .
           </p>
         </Reveal>
         <Reveal delay={80}>
