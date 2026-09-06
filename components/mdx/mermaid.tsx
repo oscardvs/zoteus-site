@@ -18,24 +18,24 @@ function loadMermaid() {
    `app/global.css` if the theme changes. */
 const PALETTE = {
   light: {
-    bg:        '#f5f1e8',
-    fg:        '#1c1812',
-    muted:     '#ede7d9',
-    mutedFg:   '#5e544a',
-    card:      '#f0eadc',
-    border:    '#d0c8b8',
-    primary:   '#1c6845', /* Bambu PLA dark green — brand colour */
-    primaryFg: '#fbf7ed',
+    bg:        '#f6f3ed',
+    fg:        '#1d1713',
+    muted:     '#ede9e1',
+    mutedFg:   '#564e48',
+    card:      '#fcf9f5',
+    border:    '#d3cec5',
+    primary:   '#2552aa', /* ink blue, the one accent */
+    primaryFg: '#fcf9f5',
   },
   dark: {
-    bg:        '#161311',
-    fg:        '#e7e1d4',
-    muted:     '#1f1c18',
-    mutedFg:   '#a99e88',
-    card:      '#1c1815',
-    border:    '#3a3127',
-    primary:   '#3fb472', /* Bambu green lifted for dark surface */
-    primaryFg: '#101810',
+    bg:        '#0e0c09',
+    fg:        '#e4e1da',
+    muted:     '#17130f',
+    mutedFg:   '#a5a199',
+    card:      '#15110d',
+    border:    '#36322c',
+    primary:   '#94b8f8', /* ink blue lifted for the dark surface */
+    primaryFg: '#0e0c09',
   },
 } as const;
 
