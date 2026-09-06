@@ -6,7 +6,7 @@ import { analyticsEnabled, contactEmail, operator } from '@/lib/shared';
 export const metadata: Metadata = {
   title: 'Privacy Policy',
   description: 'What Zoteus stores, why, and your rights, for the open-source connector and the optional hosted tier.',
-  alternates: { canonical: '/privacy' },
+  alternates: { canonical: '/privacy/' },
 };
 
 export default function Privacy() {

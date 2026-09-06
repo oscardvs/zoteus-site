@@ -1,0 +1,72 @@
+---
+title: Zoteus and zotero-mcp
+description: "An honest side-by-side of the two open-source Zotero MCP servers: install path (Node or Python), what each writes, search, group libraries, hosting, and licence."
+---
+
+There are two actively maintained open-source MCP servers for Zotero: [zotero-mcp](https://github.com/54yyyu/zotero-mcp), written in Python, and Zoteus, written in TypeScript. This page is written by the Zoteus maintainer, so read it with that in mind. Every statement about zotero-mcp comes from its README as read on 6 September 2026, and if anything here is out of date, [open an issue](https://github.com/oscardvs/zoteus/issues) and it will be corrected.
+
+The short version: both servers read and write a Zotero library, both do semantic search, both are MIT licensed, and both work with Claude Desktop, Claude Code and Cursor. They differ in how they install, in what surrounds the core, and in how they handle group libraries and hosting.
+
+## What zotero-mcp does well
+
+zotero-mcp is the older and much larger project (about 4,900 GitHub stars and 390 forks on 6 September 2026, a Discord, and a docs site). Things it has that Zoteus does not:
+
+- **More ways to add items.** By DOI with an open-access PDF cascade (Unpaywall, arXiv, Semantic Scholar, PMC), by URL, by ISBN, from BibTeX, from CSL JSON, and by importing a local PDF or EPUB with automatic DOI extraction. Adds can be idempotent, so re-running a command does not duplicate an item.
+- **Duplicate finding and merging**, with a dry-run preview.
+- **Scite citation intelligence** as an optional extra: supporting, contrasting and mentioning citation tallies, and retraction alerts.
+- **A standalone CLI (`zotero-cli`) and an agent skill.** For agents with shell access the skill costs about 98 tokens of context until it fires, against roughly 13,000 for a full MCP tool list, which matters on long sessions.
+- **Ollama** as an embedding provider, alongside local models, OpenAI and Gemini.
+- **A guided installer** (`zotero-mcp setup`) that writes the Claude Desktop configuration for you, a community-built GUI installer, and setup docs for ChatGPT, Cherry Studio and Chorus.
+- **Tool groups** (`ZOTERO_MCP_TOOLSETS`) to keep optional tools out of the context window.
+- **Image annotations and page-layout detection** for placing area annotations on figures and tables.
+
+If you are already on Python, want the widest set of import paths, or want the CLI, zotero-mcp is the mature choice.
+
+## What Zoteus is for
+
+Zoteus is a second implementation in another language, with different install ergonomics and a different set of surrounding features. Things it has that zotero-mcp does not, as far as its README shows:
+
+- **No Python.** It runs on Node.js through `npx -y @oscardvs/zoteus`, or from a single `zoteus.mcpb` file that you double-click into Claude Desktop. On a managed laptop without admin rights that is often the whole decision.
+- **Bibliographies in any CSL style**, rendered with citeproc-js from the CSL styles repository. zotero-mcp exports BibTeX and looks items up by Better BibTeX citation key.
+- **Desktop writes without a cloud key.** On Zotero 10 and newer, adding items by identifier, attaching files, annotating PDFs, and trashing or restoring items go to the running app behind a key that Zotero grants once. zotero-mcp's local API path is read-only by design, with writes going through the Web API and an API key. In Zoteus, metadata edits, tags, collections and all group-library writes need a key too.
+- **Passages with locators.** `zotero_get_fulltext` returns the relevant passage with character offsets, the nearest heading and a page locator, and extracts text on the fly from PDFs and EPUBs Zotero has not indexed yet.
+- **Your own notes and PDF annotations are indexed as passages** under the item they belong to, so "where did I object to this?" is a question search can answer.
+- **Group libraries in one server.** `zotero_groups` lists the groups your key can reach, and most tools take a `library_id`, so one connection covers your personal library and every group. The semantic index is built per library.
+- **An OAuth 2.1 remote built in**, single-tenant or per-user, which is what claude.ai needs; and a [hosted connector](/pricing) at `mcp.zoteus.com` for people who do not want to run anything.
+- **MCP Prompts and Resources**, plus generated TypeScript wrappers for the code-execution pattern.
+- **A tag audit** against a controlled vocabulary, and a scholarly-graph tool (OpenAlex, Crossref fallback) that can flag which references and citing works are already in your library.
+
+## Side by side
+
+| | zotero-mcp | Zoteus |
+|---|---|---|
+| Language, runtime | Python 3.10+ | TypeScript, Node.js 20.19+ |
+| Install | `uv tool install zotero-mcp-server` (or pip, pipx), then `zotero-mcp setup` | `npx -y @oscardvs/zoteus`, or double-click `zoteus.mcpb` in Claude Desktop |
+| Zotero requirements | Zotero 7+ for the local API | Zotero 7+ for local reads; Zotero 10+ for desktop writes (Zotero 9 creates items through the connector protocol) |
+| Local and web | Local reads; writes through the Web API with a key ("hybrid mode") | Local reads and personal-library desktop writes; Web API with a key for edits, tags, collections, groups, and when the app is closed |
+| Keyword search | Search, advanced search, tag search; optional SQLite backend for fast local search across all libraries | Hybrid BM25 and vector search fused with Reciprocal Rank Fusion, on SQLite FTS5 |
+| Semantic search | ChromaDB and sentence-transformers (`[semantic]` extra); local, OpenAI, Gemini or Ollama embeddings; auto-updating database | Local embeddings via transformers.js (one extra package outside the desktop bundle), OpenAI or Gemini; PDF full text opt-in; incremental updates |
+| Reading PDFs | Full text, PDF outline, annotation extraction straight from the file, page layout detection | Passages with offsets, nearest heading and page locator; outline; page ranges; on-the-fly extraction for unindexed PDFs and EPUBs |
+| Citations | BibTeX, markdown and JSON metadata; Better BibTeX key lookup | citeproc-js in any CSL style; export in 14 formats (BibTeX, RIS, CSL JSON, and more) |
+| Adding items | DOI, URL, ISBN, BibTeX, CSL JSON, local file | DOI and arXiv built in; ISBN, PMID and URLs through a Zotero translation-server |
+| Writes | Collections, metadata, batch tags, notes, annotations (highlight by text or area by rectangle), attach file, set parent, related items, merge duplicates | Create and patch items with optimistic locking, tags, collections, saved searches, trash and restore, annotations (highlight, underline, note) anchored to a quoted passage, attach file or URL |
+| Deleting | Notes can be deleted; merging consolidates items | Trash is the default and reversible; permanent deletion is off unless enabled and confirmed on every call |
+| Group libraries | One library per server via `ZOTERO_LIBRARY_ID` and `ZOTERO_LIBRARY_TYPE=group`; search across all libraries with the SQLite backend | Any library per call via `library_id`; a semantic index per library; desktop-held groups readable without a key on Zotero 10+ |
+| Transports | stdio, Streamable HTTP, SSE; Docker images | stdio, Streamable HTTP with a built-in OAuth 2.1 and PKCE server; Docker image |
+| claude.ai | Not covered in the README | Self-host the OAuth remote, or subscribe to the hosted connector |
+| Clients named | Claude Desktop, Claude Code, ChatGPT, Cursor, Cherry Studio, Chorus, Autohand; CLI and skill for shell agents | Claude Desktop, claude.ai, Claude Code, Cursor, VS Code, Zed, Codex |
+| Extras | Scite tallies and retraction alerts, CLI, agent skill, tool groups | Scholar graph (OpenAlex, Crossref), tag audit, sync deltas, seven MCP Prompts, code-execution wrappers |
+| Licence | MIT | MIT |
+| Funding | GitHub Sponsors, with expensable lab tiers | Hosted subscriptions; self-hosting is free with every feature |
+| Telemetry | Not stated in the README | None in the software |
+
+## Annotations, and one claim not being made
+
+Both servers create highlights from text: zotero-mcp's `zotero_create_annotation` takes `text=`, and Zoteus's `zotero_annotate` takes the quoted passage. Zoteus locates that passage in the PDF and anchors the highlight to the lines it occupies, wrapping and hyphenation included, so no page coordinates are needed. That placement was checked against 465 hand-drawn highlights in a real library, with a median offset of about one point. zotero-mcp's placement has not been measured here, so no comparison is claimed; this is a statement about Zoteus's own accuracy, not about anyone else's.
+
+## Running both
+
+They can coexist in one client. Give them different server names (`zotero` and `zoteus` is the usual pair) so their tool lists stay distinguishable, and expect both to want the same Zotero setting turned on: **Settings, Advanced, "Allow other applications on this computer to communicate with Zotero"**.
+
+- [Connect Claude to Zotero](/docs/connect-claude-to-zotero) has the Zoteus commands for each client.
+- [zotero-mcp's README](https://github.com/54yyyu/zotero-mcp#readme) has the Python setup.

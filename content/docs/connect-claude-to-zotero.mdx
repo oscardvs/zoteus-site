@@ -1,0 +1,169 @@
+---
+title: Connect Claude to Zotero
+description: "Step-by-step setup for Claude Desktop, claude.ai, Claude Code and Cursor, with the exact commands. Free to self-host; a hosted connector for claude.ai."
+---
+
+Zoteus is an open-source MCP server that gives Claude access to your Zotero library. Once it is connected you can ask Claude to find the paper you saved three years ago, quote the passage from its PDF with the page number, build a bibliography in the style your journal wants, or file a new reference by its DOI. The citations are real because Claude works from the references you actually have.
+
+There are four ways to connect. Pick the one that matches where you use Claude; plenty of people run two.
+
+| Where you use Claude | What to do | Cost |
+|---|---|---|
+| The Claude Desktop app | [Double-click the extension file](#claude-desktop) | Free |
+| claude.ai in a browser, or the Claude mobile apps | [Add the hosted connector](#claude-ai) | Subscription |
+| Claude Code in a terminal | [One `claude mcp add` command](#claude-code) | Free |
+| Cursor, VS Code, Zed, Codex | [One `npx add-mcp` command, or a JSON snippet](#cursor) | Free |
+
+## Before you start
+
+You need a Zotero library. If you already use the [Zotero desktop app](https://www.zotero.org/download/), you are ready.
+
+For the three free routes, let Zoteus talk to the Zotero app on your computer. This takes fifteen seconds and removes the need for an API key in most cases:
+
+1. Open Zotero.
+2. Go to **Settings**, then **Advanced**.
+3. Tick **"Allow other applications on this computer to communicate with Zotero"**.
+4. Leave Zotero running while you chat with Claude.
+
+With that switched on, Zoteus reads your library, your notes and the text of your PDFs straight from the app, and writes the things that have a desktop path (adding items by identifier, attaching files, highlighting PDFs, moving items to the trash and restoring them) without any cloud key. On Zotero 10 and newer the app asks once whether to allow writes; choose **Always Allow**. Metadata edits, tags, collections, group libraries, sync, and anything you do while Zotero is closed go through the Zotero Web API and need a key. See [Do you need a Zotero API key?](#do-you-need-a-zotero-api-key) below.
+
+## Claude Desktop [#claude-desktop]
+
+The Claude Desktop app installs Zoteus from one file, with nothing else to download and no terminal. The bundle carries its own copy of Zoteus and runs on the Node.js built into the Claude app, so you do not need Node.js or Python installed.
+
+1. **Download the extension.** Go to the [latest release](https://github.com/oscardvs/zoteus/releases/latest) and click **`zoteus.mcpb`** in the **Assets** list. The file is about 35 MB. Your browser may warn that the file type is unusual; it comes from the project's own release page.
+2. **Install it.** Double-click the downloaded file. The Claude app opens, shows what Zoteus can do, and you click **Add**. If double-clicking does nothing (on Linux, or where the file type is not registered), open the Claude app, go to **Settings**, then **Extensions** under **Desktop app**, and drag `zoteus.mcpb` onto the panel that says *Drag .MCPB or .DXT files here to install*.
+3. **Restart Claude properly.** Closing the window is not enough. Quit the whole app (**Cmd-Q** on macOS, **File, Exit** on Windows) and open it again.
+4. **Check it worked.** Start a new chat and ask: *Am I connected to my Zotero library?* Claude answers with a line that starts *Signed in as ...* or *No cloud API key configured, running in local-only read mode*, and says whether it can see the Zotero app on your computer. Either answer means Zoteus is installed.
+
+To add an API key later, open **Settings**, then **Extensions**, click **Configure** next to Zoteus, and paste it into the **Zotero API Key** field. Every other field on that screen is optional.
+
+<Callout title="Updates are not automatic">
+An extension installed by hand does not update itself. Turn on **Check for updates** in the Zoteus settings (it is off by default) and Zoteus asks GitHub once a day, then tells you in chat when a newer version exists. Updating is the same two steps: download the new `zoteus.mcpb`, install it over the old one. Your settings stay where they are.
+</Callout>
+
+If you would rather run Zoteus through `npx` in Claude Desktop (for example to pin a version), install [Node.js](https://nodejs.org) 20.19 or newer, open **Settings**, **Developer**, **Edit Config**, and add this to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "zoteus": {
+      "command": "npx",
+      "args": ["-y", "@oscardvs/zoteus"],
+      "env": { "ZOTERO_API_KEY": "PASTE_YOUR_KEY_HERE" }
+    }
+  }
+}
+```
+
+Delete the `"env"` line if you have no key and Zotero is running on the same computer. Then quit and reopen the app.
+
+## claude.ai [#claude-ai]
+
+claude.ai connects to MCP servers from Anthropic's cloud, not from your device, so it cannot reach the Zotero app on your computer. What it can reach is a server on the public internet. Zoteus runs one at `https://mcp.zoteus.com/mcp`: you sign in with your own Zotero account, and Claude sees your library through Zotero's online API. The same connector then works in the Claude desktop and mobile apps, on any device where you are signed in.
+
+The hosted connector is a subscription, because a maintained server costs money to keep online: €69 a year or €7 a month for one person, €99 a month for a lab of up to ten on a shared group library. Everything on this page that runs on your own machine stays free, with every feature. Details on the [pricing page](/pricing).
+
+1. **Subscribe** at [zoteus.com/pricing](/pricing). Checkout is handled by Polar and you receive a licence key by email.
+2. In claude.ai, open **Settings** (called **Customize** on some plans), then **Connectors**, then **Add custom connector**. On a Team or Enterprise plan an organisation owner adds it under **Organization settings**, **Connectors**.
+3. For the URL, enter exactly:
+
+   ```
+   https://mcp.zoteus.com/mcp
+   ```
+
+4. Click **Add**, then **Connect**. Your browser goes to Zoteus's sign-in page, where you paste the licence key once, and then to zotero.org, which asks whether to give Zoteus access to your library. Approve it and you land back in Claude.
+5. Start a chat and ask *Am I connected to my Zotero library?*
+
+Custom connectors are available on every claude.ai plan; Free plans are limited to one custom connector.
+
+**Before you decide.** The hosted connector reaches your library through your Zotero account online, so anything you have not synced to Zotero's servers is invisible to it, and PDFs that live only on your own disk stay out of reach. If most of your reading is annotated PDFs on one computer, the free Claude Desktop extension is the better tool. Many people run both: the extension at their desk, the hosted connector everywhere else. If you would rather host the connector yourself, the same OAuth remote is in the open-source package: see [Remote OAuth](/docs/remote-oauth).
+
+## Claude Code [#claude-code]
+
+Claude Code needs [Node.js](https://nodejs.org) 20.19 or newer, which it uses to fetch and run Zoteus through `npx`. One command registers the server:
+
+```bash
+claude mcp add --transport stdio zoteus -- npx -y @oscardvs/zoteus
+```
+
+With a Zotero API key:
+
+```bash
+claude mcp add --transport stdio zoteus -e ZOTERO_API_KEY=xxxxx -- npx -y @oscardvs/zoteus
+```
+
+Add `-s user` to make Zoteus available in every project rather than only the current directory. Inside Claude Code, run `/mcp` to confirm that **zoteus** is connected, then ask something like *search my Zotero library for papers about urban heat islands*. Manage it with `claude mcp list`, `claude mcp get zoteus` and `claude mcp remove zoteus`. An `npx` install always runs the latest published version.
+
+Subscribers can also use the hosted connector from the terminal. Claude Code runs the OAuth flow itself:
+
+```bash
+claude mcp add --transport http zoteus https://mcp.zoteus.com/mcp
+```
+
+Then run `/mcp`, select **zoteus**, choose **Authenticate**, and complete the sign-in in the browser that opens.
+
+## Cursor [#cursor]
+
+Cursor, VS Code, Zed, Codex and the other editors that speak MCP have no one-click installer, so you point them at Zoteus in their settings. You need [Node.js](https://nodejs.org) 20.19 or newer. The quickest route is the universal installer, which writes the entry into whichever of these clients it finds:
+
+```bash
+npx add-mcp @oscardvs/zoteus
+```
+
+For Cursor specifically, you can instead add the server by hand. Create `.cursor/mcp.json` in your project for a project-specific server, or `~/.cursor/mcp.json` in your home directory for one available everywhere:
+
+```json
+{
+  "mcpServers": {
+    "zoteus": {
+      "command": "npx",
+      "args": ["-y", "@oscardvs/zoteus"],
+      "env": { "ZOTERO_API_KEY": "PASTE_YOUR_KEY_HERE" }
+    }
+  }
+}
+```
+
+Delete the `"env"` line if you have no key and Zotero is running on the same computer. Cursor also accepts an install link that carries the same configuration: [Add Zoteus to Cursor](cursor://anysphere.cursor-deeplink/mcp/install?name=zoteus&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIkBvc2NhcmR2cy96b3RldXMiXX0%3D). Either way, Zoteus then appears in Cursor's MCP settings, where you can switch it on and off.
+
+## What to ask first
+
+1. *Search my library for papers about urban heat islands.*
+2. *Which papers in my library argue against open-plan offices? Quote the passage and give me the page.*
+3. *Format a bibliography of the five most relevant papers in APA style.*
+4. *Add this paper to my Zotero library by DOI: 10.1038/s41586-021-03819-2.*
+
+The second one uses search by meaning. The first time you ask for it, Zoteus reads through your library and builds an index; on a large library that takes a while, once. Keyword search works immediately. On-device vector search needs one extra package outside the Claude Desktop bundle; see [Semantic Search](/docs/semantic-search).
+
+## Do you need a Zotero API key?
+
+Usually not. A key lets Zoteus reach your library through Zotero's servers instead of through the app on your computer.
+
+| What you want to do | Key needed? |
+|---|---|
+| Search, read, and quote your own library, with Zotero running | No |
+| Add items by DOI, attach files, highlight PDFs, trash and restore, with Zotero running | No |
+| Read a group library the app already holds (Zotero 10 and newer) | No |
+| Edit metadata, tags or collections | Yes |
+| Sync, or change a group library | Yes |
+| Anything at all while Zotero is closed | Yes |
+| Use the hosted connector | Not a key you create: you sign in to Zotero instead |
+
+To create one: go to [zotero.org/settings/keys](https://www.zotero.org/settings/keys), click **Create new private key**, name it, tick **Allow library access**, tick the write boxes only if you want Claude to change items through the key, and copy the key when it is shown (Zotero shows it once). Treat it like a password; you can delete it from the same page at any time.
+
+## When something goes wrong
+
+| What you see | What to do |
+|---|---|
+| Claude does not seem to know about Zotero | Quit the app completely and reopen it. Closing the window does not reload extensions or MCP servers. |
+| `npx: command not found` | Node.js is missing or not on the path. Install the LTS version from [nodejs.org](https://nodejs.org) and fully restart the app. |
+| Claude cannot read your library and you have no API key | Check that Zotero is open and that **Settings, Advanced, "Allow other applications on this computer to communicate with Zotero"** is ticked. |
+| The first search by meaning takes a long time | Expected on a big library. The index is built once and kept. |
+| Something else | [Open an issue](https://github.com/oscardvs/zoteus/issues) with what you tried and what you saw. Claude Desktop logs live in `~/Library/Logs/Claude` (macOS), `%APPDATA%\Claude\logs` (Windows) or `~/.config/Claude/logs` (Linux); read `main.log`. Remove your API key from anything you paste. |
+
+## Next
+
+- [Group libraries for systematic review teams](/docs/group-libraries-for-review-teams), for a shared library.
+- [Zoteus and zotero-mcp](/docs/zoteus-and-zotero-mcp), if you are choosing between the two open-source servers.
+- [Configuration](/docs/configuration), every setting in full.

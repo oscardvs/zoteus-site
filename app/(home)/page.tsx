@@ -1,9 +1,17 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { CopyCommand } from '@/components/copy-command';
 import { DemoCard } from '@/components/demo-card';
+import { JsonLd } from '@/components/json-ld';
 import { SiteFooter } from '@/components/site-footer';
 import { SystemDiagram } from '@/components/system-diagram';
+import { siteDescription, softwareApplicationLd } from '@/lib/seo';
 import { plans, repoUrl } from '@/lib/shared';
+
+/* Title and description are inherited from the root layout; the home page only pins its canonical. */
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+};
 
 function GitHubIcon() {
   return (
@@ -66,6 +74,7 @@ const FEATURES = [
 export default function Home() {
   return (
     <main className="flex flex-col">
+      <JsonLd data={softwareApplicationLd(siteDescription)} />
       {/* Hero */}
       <section className="border-b border-fd-border">
         <div className="z-container grid gap-12 py-14 sm:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16 lg:py-28">

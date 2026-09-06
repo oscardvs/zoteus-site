@@ -4,45 +4,48 @@ import { Fraunces, IBM_Plex_Sans, JetBrains_Mono } from 'next/font/google';
 import StaticSearchDialog from '@/components/search-dialog';
 import { Analytics } from '@/components/analytics';
 import type { Metadata } from 'next';
+import { siteDescription, siteUrl } from '@/lib/seo';
 
-const description =
-  'Zoteus is an open-source MCP server that connects Claude and other MCP clients to your Zotero library: semantic search over your PDFs, CSL citations, add by DOI, attachments, and PDF annotations written back and anchored to the text they quote. Runs on your machine, MIT licensed.';
+const siteTitle = 'Zoteus: an open-source Zotero MCP server for Claude';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://zoteus.com'),
+  metadataBase: new URL(siteUrl),
   title: {
-    default: 'Zoteus: an MCP server for your Zotero library',
+    default: siteTitle,
     template: '%s · Zoteus',
   },
-  description,
+  description: siteDescription,
   applicationName: 'Zoteus',
   keywords: [
     'Zotero MCP server',
+    'connect Claude to Zotero',
+    'Zotero Claude Desktop',
+    'Zotero Claude Code',
+    'Zotero Cursor MCP',
     'Zotero Model Context Protocol',
-    'Zotero for Claude',
+    'Zotero group library AI',
     'reference manager MCP',
     'citations MCP',
     'semantic search',
-    'bibliography',
-    'academic research',
   ],
-  authors: [{ name: 'Oscar Devos' }],
+  authors: [{ name: 'Oscar Devos', url: 'https://github.com/oscardvs' }],
+  creator: 'Oscar Devos',
   openGraph: {
     type: 'website',
-    url: 'https://zoteus.com',
+    url: `${siteUrl}/`,
     siteName: 'Zoteus',
-    title: 'Zoteus: an MCP server for your Zotero library',
-    description:
-      'Open-source Zotero MCP server for Claude and other MCP clients: search, citations, safe writes, semantic search, and PDF passages.',
-    images: [{ url: '/og/home/image.png', width: 1200, height: 630, alt: 'Zoteus' }],
+    title: siteTitle,
+    description: siteDescription,
+    locale: 'en_US',
+    images: [{ url: '/og/home/image.png', width: 1200, height: 630, alt: 'Zoteus: an MCP server for your Zotero library' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Zoteus: an MCP server for your Zotero library',
-    description:
-      'Open-source Zotero MCP server for Claude and other MCP clients: search, citations, safe writes, semantic search, and PDF passages.',
+    title: siteTitle,
+    description: siteDescription,
     images: ['/og/home/image.png'],
   },
+  robots: { index: true, follow: true },
 };
 
 const fraunces = Fraunces({

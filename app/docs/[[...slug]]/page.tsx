@@ -11,6 +11,8 @@ import { notFound } from 'next/navigation';
 import { getMDXComponents } from '@/components/mdx';
 import type { Metadata } from 'next';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
+import { JsonLd } from '@/components/json-ld';
+import { canonicalPath, techArticleLd } from '@/lib/seo';
 import { gitConfig } from '@/lib/shared';
 
 export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
@@ -28,6 +30,9 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
 
   return (
     <DocsPage toc={page.data.toc} full={page.data.full}>
+      <JsonLd
+        data={techArticleLd({ title: page.data.title, description: page.data.description, path: page.url })}
+      />
       {sectionLabel && (
         <div className="mb-3 flex items-center gap-2">
           <span className="h-mono text-[10.5px] tracking-[0.18em] uppercase text-fd-primary">
@@ -81,11 +86,25 @@ export async function generateMetadata(props: PageProps<'/docs/[[...slug]]'>): P
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
+  const image = getPageImage(page).url;
+  const canonical = canonicalPath(page.url);
+
   return {
     title: page.data.title,
     description: page.data.description,
+    alternates: { canonical },
     openGraph: {
-      images: getPageImage(page).url,
+      type: 'article',
+      url: canonical,
+      title: page.data.title,
+      description: page.data.description,
+      images: [{ url: image, width: 1200, height: 630, alt: page.data.title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: page.data.title,
+      description: page.data.description,
+      images: [image],
     },
   };
 }

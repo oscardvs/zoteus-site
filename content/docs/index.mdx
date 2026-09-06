@@ -1,40 +1,52 @@
 ---
 title: Zoteus Documentation
-description: "Zoteus is an open-source MCP server that connects your Zotero library to AI assistants: search, cite, write, sync, and explore the scholarly graph."
+description: "Zoteus is an open-source MCP server that connects your Zotero library to Claude and other AI assistants: search, cite, write back, sync, and explore the scholarly graph."
 ---
 
-Zoteus is an open-source [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server for [Zotero](https://www.zotero.org). It exposes your Zotero library to AI assistants as a suite of typed, safe tools — search by meaning, format citations in any style, write back to your library, ground answers in PDF text, and explore the wider literature around any paper.
+Zoteus is an open-source [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server for [Zotero](https://www.zotero.org). It exposes your Zotero library to Claude, Claude Code, Cursor and any other MCP client as a set of typed, safe tools: search by keyword or by meaning, quote passages from your PDFs with page locators, format citations in any CSL style, add items by DOI, write back to your library, and explore the wider literature around any paper.
 
-## Get started
+## Guides
 
-Install and add to Claude Code in one step:
+- [**Connect Claude to Zotero**](/docs/connect-claude-to-zotero): step-by-step for Claude Desktop (the double-click extension), claude.ai (the hosted connector), Claude Code and Cursor, with the exact commands.
+- [**Group libraries for systematic review teams**](/docs/group-libraries-for-review-teams): a shared Zotero group library in Claude for a screening or evidence-synthesis team, and the free 30-day lab pilot.
+- [**Zoteus and zotero-mcp**](/docs/zoteus-and-zotero-mcp): an honest side-by-side of the two open-source Zotero MCP servers.
+
+## Quick start
+
+Add Zoteus to Claude Code in one step:
 
 ```bash
-claude mcp add zoteus -e ZOTERO_API_KEY=your_key -- npx -y @oscardvs/zoteus
+claude mcp add --transport stdio zoteus -- npx -y @oscardvs/zoteus
 ```
 
 Or run it directly:
 
 ```bash
-ZOTERO_API_KEY=your_key npx -y @oscardvs/zoteus
+npx -y @oscardvs/zoteus
 ```
 
-Get a Zotero API key at [zotero.org/settings/keys](https://www.zotero.org/settings/keys). For local-only reads from the Zotero desktop app no key is required — see [Configuration](/docs/configuration).
+With the Zotero desktop app running and **Settings, Advanced, "Allow other applications on this computer to communicate with Zotero"** ticked, reads and personal-library writes need no API key. Add a key from [zotero.org/settings/keys](https://www.zotero.org/settings/keys) for sync, group libraries, and writes when the app is closed:
 
-## What's in the docs
+```bash
+claude mcp add --transport stdio zoteus -e ZOTERO_API_KEY=your_key -- npx -y @oscardvs/zoteus
+```
 
-- [**Architecture**](/docs/architecture) — internal layers, source map, and key design principles.
-- [**Configuration**](/docs/configuration) — all environment variables: core, OAuth, CIMD, ops, optional dependencies, and library backends.
-- [**Citations**](/docs/citations) — import by DOI/ISBN/arXiv, resolve CSL styles, render bibliographies with citeproc.
-- [**Semantic Search**](/docs/semantic-search) — hybrid BM25 + vector search with privacy-first local embeddings.
-- [**Writing to Zotero**](/docs/writing) — create, patch, trash, delete items safely; manage collections, tags, and saved searches.
-- [**Files, Full-text, Sync & Export**](/docs/files-and-sync) — attachment upload/download, full-text read/write, sync deltas, group libraries, and machine-readable exports.
-- [**Scholar Graph**](/docs/scholar) — explore references, citations, and related works via OpenAlex/Crossref; spot citation gaps.
-- [**Grounding, Tag Audit & BBT Export**](/docs/grounding) — PDF passage retrieval with page locators, tag vocabulary audit, Better BibTeX export.
-- [**Prompts**](/docs/prompts) — seven MCP Prompt workflows (literature review, cite, organize, find-related, citation audit, and more).
-- [**Code Execution**](/docs/code-execution) — progressive tool discovery and generated TypeScript wrappers for sandbox-based agent scripts.
-- [**Remote OAuth**](/docs/remote-oauth) — deploy Zoteus as a claude.ai custom connector with OAuth 2.1 + PKCE; single-tenant and multi-tenant modes.
+Claude Desktop users can skip the terminal entirely: download `zoteus.mcpb` from the [latest release](https://github.com/oscardvs/zoteus/releases/latest) and double-click it. See [Connect Claude to Zotero](/docs/connect-claude-to-zotero).
 
-## Source & license
+## Reference
 
-[github.com/oscardvs/zoteus](https://github.com/oscardvs/zoteus) — MIT licensed.
+- [**Architecture**](/docs/architecture): internal layers, source map, and key design principles.
+- [**Configuration**](/docs/configuration): all environment variables: core, OAuth, CIMD, ops, optional dependencies, and library backends.
+- [**Citations**](/docs/citations): import by DOI, ISBN, arXiv or URL, resolve CSL styles, render bibliographies with citeproc-js.
+- [**Semantic Search**](/docs/semantic-search): hybrid BM25 and vector search with privacy-first local embeddings.
+- [**Writing to Zotero**](/docs/writing): create, patch, trash and delete items safely; manage collections, tags, and saved searches.
+- [**Files, Full-text, Sync and Export**](/docs/files-and-sync): attachment upload and download, full-text read and write, sync deltas, group libraries, and machine-readable exports.
+- [**Scholar Graph**](/docs/scholar): explore references, citations, and related works via OpenAlex and Crossref; spot citation gaps.
+- [**Grounding, Tag Audit and BBT Export**](/docs/grounding): PDF passage retrieval with page locators, tag vocabulary audit, Better BibTeX export.
+- [**Prompts**](/docs/prompts): seven MCP Prompt workflows (literature review, cite, organize, find related, citation audit, and more).
+- [**Code Execution**](/docs/code-execution): progressive tool discovery and generated TypeScript wrappers for sandbox-based agent scripts.
+- [**Remote OAuth**](/docs/remote-oauth): deploy Zoteus as a claude.ai custom connector with OAuth 2.1 and PKCE; single-tenant and multi-tenant modes.
+
+## Source and license
+
+[github.com/oscardvs/zoteus](https://github.com/oscardvs/zoteus), MIT licensed. Hosted plans, for people who would rather not run anything, are on the [pricing page](/pricing).

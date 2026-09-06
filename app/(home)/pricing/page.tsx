@@ -3,13 +3,21 @@ import Link from 'next/link';
 import { CopyCommand } from '@/components/copy-command';
 import { SiteFooter } from '@/components/site-footer';
 import { SubscribeButton, BookCallButton } from '@/components/subscribe-button';
+import { JsonLd } from '@/components/json-ld';
+import { faqPageLd } from '@/lib/seo';
 import { plans, hostedLive, supportEmail, connectorUrl, bookingHref, bookingLive } from '@/lib/shared';
 
 export const metadata: Metadata = {
   title: 'Pricing',
   description:
     'Zoteus is free and open-source to self-host, with every feature. Hosted plans start at €69/year for one researcher and €99/month for a lab of up to 10, billed via Polar.',
-  alternates: { canonical: '/pricing' },
+  alternates: { canonical: '/pricing/' },
+  openGraph: {
+    title: 'Zoteus pricing: free to self-host, hosted for you or your lab',
+    description:
+      'Self-hosted is free with every feature. Individual €69/year or €7/month. Lab €99/month or €990/year for up to 10 seats, with a free 30-day pilot.',
+    url: '/pricing/',
+  },
 };
 
 function Check() {
@@ -74,6 +82,7 @@ const STEPS = [
 export default function PricingPage() {
   return (
     <main className="flex flex-col">
+      <JsonLd data={faqPageLd(FAQ)} />
       {/* Intro */}
       <section className="border-b border-fd-border">
         <div className="z-container py-14 sm:py-20">

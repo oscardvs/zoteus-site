@@ -6,7 +6,7 @@ import { contactEmail, operator, repoUrl } from '@/lib/shared';
 export const metadata: Metadata = {
   title: 'Terms of Service',
   description: 'Terms for the open-source Zoteus connector (MIT) and the optional hosted subscription.',
-  alternates: { canonical: '/terms' },
+  alternates: { canonical: '/terms/' },
 };
 
 export default function Terms() {
