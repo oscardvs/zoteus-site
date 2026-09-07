@@ -77,11 +77,11 @@ export default function Home() {
       <JsonLd data={softwareApplicationLd(siteDescription)} />
       {/* Hero */}
       <section className="border-b border-fd-border">
-        <div className="z-container py-14 sm:py-20 lg:py-24">
-          <div className="max-w-3xl">
+        <div className="z-container grid items-center gap-10 py-14 sm:py-20 lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] lg:gap-14 lg:py-24">
+          <div className="max-w-2xl">
             <p className="z-label">Open-source · Zotero MCP server</p>
             <h1 className="z-display z-h1 mt-5 max-w-[15ch]">Your whole Zotero library, inside Claude.</h1>
-            <p className="z-lead mt-6 max-w-2xl">
+            <p className="z-lead mt-6 max-w-xl">
               Zoteus gives Claude, Cursor, and other MCP clients real access to your reference
               library: semantic search over your own PDFs, citations in any CSL style, add by
               DOI, attachments, and PDF highlights anchored to the text they quote.{' '}
@@ -102,9 +102,7 @@ export default function Home() {
               <span>No telemetry</span>
             </p>
           </div>
-          <div className="mt-12 sm:mt-16">
-            <DemoVideo />
-          </div>
+          <DemoVideo />
         </div>
       </section>
 

@@ -361,84 +361,43 @@ body {
 .z-faq summary svg { flex: none; color: var(--color-fd-muted-foreground); transition: rotate 0.2s ease; }
 .z-faq details[open] summary svg { rotate: 45deg; }
 
-/* -- the demo transcript ------------------------------------------------------- */
+/* -- the frame around the recording ------------------------------------------ */
 
-.z-transcript { font-size: 0.9rem; line-height: 1.55; }
-.z-transcript .z-turn { display: grid; grid-template-columns: 4.25rem minmax(0, 1fr); gap: 0.75rem; }
-.z-transcript .z-who { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-fd-muted-foreground); padding-top: 0.2rem; }
-.z-transcript .z-call {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.25rem 0.6rem;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  line-height: 1.5;
-  color: var(--color-fd-muted-foreground);
-}
-.z-transcript .z-call b { font-weight: 500; color: var(--accent-text); }
-.z-transcript .z-call span { overflow-wrap: anywhere; }
-.z-transcript cite {
-  display: block;
-  font-style: normal;
-  font-size: 0.8rem;
-  line-height: 1.5;
-  padding-left: 0.75rem;
-  border-left: 2px solid var(--color-fd-border);
-  color: var(--color-fd-muted-foreground);
-}
-@media (max-width: 26rem) {
-  .z-transcript .z-turn { grid-template-columns: 1fr; gap: 0.25rem; }
-}
-
-/* -- the hero exchange, framed as the chat it was ------------------------------ */
-
-.z-chat { width: 100%; overflow: hidden; }
 .z-chat-bar {
   display: flex; justify-content: space-between; gap: 1rem;
   padding: 0.6rem 1rem; border-bottom: 1px solid var(--color-fd-border);
 }
-.z-chat-body { display: flex; flex-direction: column; gap: 1rem; padding: 1.25rem 1rem; }
-@media (min-width: 40rem) { .z-chat-body { padding: 1.5rem; gap: 1.15rem; } }
-.z-msg { display: flex; flex-direction: column; gap: 0.35rem; max-width: 44rem; font-size: 0.95rem; line-height: 1.55; }
-.z-msg p { margin: 0; }
-.z-msg-who {
-  font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.06em;
-  text-transform: uppercase; color: var(--color-fd-muted-foreground);
-}
-.z-msg-user { align-self: flex-end; align-items: flex-end; max-width: 38rem; text-align: left; }
-.z-msg-user p {
-  background: var(--accent-soft); color: var(--color-fd-foreground);
-  border-radius: 14px 14px 3px 14px; padding: 0.7rem 0.95rem;
-}
-.z-msg-claude { align-self: flex-start; }
-.z-msg-claude > div { display: flex; flex-direction: column; gap: 0.6rem; color: var(--color-fd-muted-foreground); }
-.z-msg-claude blockquote {
-  margin: 0; padding-left: 0.85rem; border-left: 2px solid var(--accent-text);
-  color: var(--color-fd-foreground); font-style: italic;
-}
-.z-msg-src { font-size: 0.85rem; }
-.z-msg-claude cite { display: block; font-style: normal; font-size: 0.8rem; line-height: 1.5; color: var(--color-fd-muted-foreground); }
-.z-tools { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.z-tools li {
-  display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 0.45rem;
-  padding: 0.32rem 0.75rem; border: 1px solid var(--color-fd-border); border-radius: 999px;
-  background: var(--color-fd-background);
-  font-family: var(--font-mono); font-size: 0.74rem; line-height: 1.4; color: var(--color-fd-muted-foreground);
-}
-.z-tools b { font-weight: 500; color: var(--accent-text); }
-.z-tools .z-tool-out { color: var(--color-fd-foreground); }
-.z-tools .z-tool-out::before { content: '\2192  '; color: var(--color-fd-muted-foreground); }
 .z-chat-cap {
   padding: 0.6rem 1rem; border-top: 1px solid var(--color-fd-border);
   font-size: 0.78rem; line-height: 1.45; color: var(--color-fd-muted-foreground);
 }
-@keyframes z-reveal { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-.z-chat [data-reveal] { animation: z-reveal 0.5s ease-out both; animation-delay: calc(var(--i, 0) * 0.45s); }
-@media (prefers-reduced-motion: reduce) { .z-chat [data-reveal] { animation-delay: 0s; } }
 
-.z-video { width: 100%; max-width: 56rem; margin-inline: auto; overflow: hidden; }
+.z-video { width: 100%; max-width: 34rem; margin-inline: auto; overflow: hidden; }
+@media (min-width: 64rem) { .z-video { max-width: none; } }
 .z-video-el { display: block; width: 100%; height: auto; background: var(--color-fd-card); }
+.z-video-cap { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+.z-video-expand {
+  display: inline-flex; align-items: center; gap: 0.4rem; flex: none;
+  font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.04em;
+  color: var(--color-fd-muted-foreground); cursor: pointer;
+  transition: color 0.15s ease;
+}
+.z-video-expand:hover { color: var(--accent-text); }
+
+/* -- the recording at native size --------------------------------------------- */
+
+.z-lightbox {
+  margin: auto; padding: 1rem; max-width: min(100vw, 60rem); max-height: 100dvh;
+  background: transparent; border: 0; color: var(--color-fd-foreground);
+}
+.z-lightbox::backdrop { background: rgb(0 0 0 / 0.55); }
+.z-lightbox-inner { overflow: hidden; }
+.z-lightbox-inner .z-video-el { max-height: calc(100dvh - 6rem); width: auto; max-width: 100%; margin-inline: auto; }
+.z-lightbox-close {
+  font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.04em;
+  color: var(--color-fd-muted-foreground); cursor: pointer; transition: color 0.15s ease;
+}
+.z-lightbox-close:hover { color: var(--accent-text); }
 
 /* -- system diagram ------------------------------------------------------------ */
 
