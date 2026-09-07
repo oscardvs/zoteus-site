@@ -31,15 +31,15 @@ With that switched on, Zoteus reads your library, your notes and the text of you
 
 The Claude Desktop app installs Zoteus from one file, with nothing else to download and no terminal. The bundle carries its own copy of Zoteus and runs on the Node.js built into the Claude app, so you do not need Node.js or Python installed.
 
-1. **Download the extension.** Go to the [latest release](https://github.com/oscardvs/zoteus/releases/latest) and click **`zoteus.mcpb`** in the **Assets** list. The file is about 35 MB. Your browser may warn that the file type is unusual; it comes from the project's own release page.
-2. **Install it.** Double-click the downloaded file. The Claude app opens, shows what Zoteus can do, and you click **Add**. If double-clicking does nothing (on Linux, or where the file type is not registered), open the Claude app, go to **Settings**, then **Extensions** under **Desktop app**, and drag `zoteus.mcpb` onto the panel that says *Drag .MCPB or .DXT files here to install*.
+1. **Download the extension.** Go to the [latest release](https://github.com/oscardvs/zoteus/releases/latest) and click the bundle for your system in the **Assets** list: **`zoteus-macos.mcpb`**, **`zoteus-windows.mcpb`** or **`zoteus-linux.mcpb`**. The file is 32 to 57 MB. Your browser may warn that the file type is unusual; it comes from the project's own release page.
+2. **Install it.** Double-click the downloaded file. The Claude app opens, shows what Zoteus can do, and you click **Add**. If double-clicking does nothing (on Linux, or where the file type is not registered), open the Claude app, go to **Settings**, then **Extensions** under **Desktop app**, and drag the downloaded file onto the panel that says *Drag .MCPB or .DXT files here to install*.
 3. **Restart Claude properly.** Closing the window is not enough. Quit the whole app (**Cmd-Q** on macOS, **File, Exit** on Windows) and open it again.
 4. **Check it worked.** Start a new chat and ask: *Am I connected to my Zotero library?* Claude answers with a line that starts *Signed in as ...* or *No cloud API key configured, running in local-only read mode*, and says whether it can see the Zotero app on your computer. Either answer means Zoteus is installed.
 
 To add an API key later, open **Settings**, then **Extensions**, click **Configure** next to Zoteus, and paste it into the **Zotero API Key** field. Every other field on that screen is optional.
 
 <Callout title="Updates are not automatic">
-An extension installed by hand does not update itself. Turn on **Check for updates** in the Zoteus settings (it is off by default) and Zoteus asks GitHub once a day, then tells you in chat when a newer version exists. Updating is the same two steps: download the new `zoteus.mcpb`, install it over the old one. Your settings stay where they are.
+An extension installed by hand does not update itself. Turn on **Check for updates** in the Zoteus settings (it is off by default) and Zoteus asks GitHub once a day, then tells you in chat when a newer version exists. Updating is the same two steps: download the new bundle for your system, install it over the old one. Your settings stay where they are.
 </Callout>
 
 If you would rather run Zoteus through `npx` in Claude Desktop (for example to pin a version), install [Node.js](https://nodejs.org) 20.19 or newer, open **Settings**, **Developer**, **Edit Config**, and add this to `claude_desktop_config.json`:

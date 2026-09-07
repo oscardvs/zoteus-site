@@ -166,7 +166,7 @@ export default function Home() {
             <div className="grid gap-3 p-4 sm:grid-cols-[11rem_minmax(0,1fr)] sm:items-center sm:gap-6 sm:px-6 sm:py-5">
               <p className="z-h3">Claude Desktop</p>
               <p className="z-body text-[0.9375rem]">
-                Download <code className="z-mono text-[0.875em] text-fd-foreground">zoteus.mcpb</code> from
+                Download the <code className="z-mono text-[0.875em] text-fd-foreground">.mcpb</code> for your system from
                 the{' '}
                 <a
                   href={`${repoUrl}/releases/latest`}

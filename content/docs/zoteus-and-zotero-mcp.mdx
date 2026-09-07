@@ -26,7 +26,7 @@ If you are already on Python, want the widest set of import paths, or want the C
 
 Zoteus is a second implementation in another language, with different install ergonomics and a different set of surrounding features. Things it has that zotero-mcp does not, as far as its README shows:
 
-- **No Python.** It runs on Node.js through `npx -y @oscardvs/zoteus`, or from a single `zoteus.mcpb` file that you double-click into Claude Desktop. On a managed laptop without admin rights that is often the whole decision.
+- **No Python.** It runs on Node.js through `npx -y @oscardvs/zoteus`, or from a single `.mcpb` file for your system that you double-click into Claude Desktop. On a managed laptop without admin rights that is often the whole decision.
 - **Bibliographies in any CSL style**, rendered with citeproc-js from the CSL styles repository. zotero-mcp exports BibTeX and looks items up by Better BibTeX citation key.
 - **Desktop writes without a cloud key.** On Zotero 10 and newer, adding items by identifier, attaching files, annotating PDFs, and trashing or restoring items go to the running app behind a key that Zotero grants once. zotero-mcp's local API path is read-only by design, with writes going through the Web API and an API key. In Zoteus, metadata edits, tags, collections and all group-library writes need a key too.
 - **Passages with locators.** `zotero_get_fulltext` returns the relevant passage with character offsets, the nearest heading and a page locator, and extracts text on the fly from PDFs and EPUBs Zotero has not indexed yet.
@@ -41,7 +41,7 @@ Zoteus is a second implementation in another language, with different install er
 | | zotero-mcp | Zoteus |
 |---|---|---|
 | Language, runtime | Python 3.10+ | TypeScript, Node.js 20.19+ |
-| Install | `uv tool install zotero-mcp-server` (or pip, pipx), then `zotero-mcp setup` | `npx -y @oscardvs/zoteus`, or double-click `zoteus.mcpb` in Claude Desktop |
+| Install | `uv tool install zotero-mcp-server` (or pip, pipx), then `zotero-mcp setup` | `npx -y @oscardvs/zoteus`, or double-click the `.mcpb` bundle in Claude Desktop |
 | Zotero requirements | Zotero 7+ for the local API | Zotero 7+ for local reads; Zotero 10+ for desktop writes (Zotero 9 creates items through the connector protocol) |
 | Local and web | Local reads; writes through the Web API with a key ("hybrid mode") | Local reads and personal-library desktop writes; Web API with a key for edits, tags, collections, groups, and when the app is closed |
 | Keyword search | Search, advanced search, tag search; optional SQLite backend for fast local search across all libraries | Hybrid BM25 and vector search fused with Reciprocal Rank Fusion, on SQLite FTS5 |
