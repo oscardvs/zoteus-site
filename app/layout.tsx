@@ -30,6 +30,9 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'Oscar Devos', url: 'https://github.com/oscardvs' }],
   creator: 'Oscar Devos',
+  verification: {
+    google: 'n3uN6M388ud5SIQrIYM5YZYezN9_LHSjymWDSnUvI5E',
+  },
   openGraph: {
     type: 'website',
     url: `${siteUrl}/`,
@@ -77,13 +80,6 @@ export default function Layout({ children }: LayoutProps<'/'>) {
       suppressHydrationWarning
     >
       <body className="flex flex-col min-h-screen">
-        {/* Mark JS as available before paint so .z-reveal content is visible
-            without JS (crawlers/no-JS) and only hidden-then-revealed with it. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: "document.documentElement.classList.add('js')",
-          }}
-        />
         <RootProvider search={{ SearchDialog: StaticSearchDialog }}>
           {children}
         </RootProvider>
