@@ -77,11 +77,11 @@ export function SystemDiagram() {
       <div className="z-stack">
         <Node
           title="Zotero desktop app"
-          sub="Reads and personal-library writes, with no cloud key, while the app is running."
+          sub="Reads, plus adds by identifier, attachments, annotations and trash, with no cloud key, while the app is running."
         />
         <Node
           title="zotero.org Web API"
-          sub="Sync, group libraries, and the fallback when the app is closed."
+          sub="Sync, group libraries, metadata edits, tags and collections, and the fallback when the app is closed."
         />
         <Node
           title="OpenAlex and Crossref"

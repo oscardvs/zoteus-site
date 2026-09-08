@@ -25,7 +25,7 @@ Or run it directly:
 npx -y @oscardvs/zoteus
 ```
 
-With the Zotero desktop app running and **Settings, Advanced, "Allow other applications on this computer to communicate with Zotero"** ticked, reads and personal-library writes need no API key. Add a key from [zotero.org/settings/keys](https://www.zotero.org/settings/keys) for sync, group libraries, and writes when the app is closed:
+With the Zotero desktop app running and **Settings, Advanced, "Allow other applications on this computer to communicate with Zotero"** ticked, reads need no API key, and neither do the writes that go through the app: adding items by identifier, attachments, annotations, and trash and restore. Add a key from [zotero.org/settings/keys](https://www.zotero.org/settings/keys) for sync, group libraries, metadata edits, tags and collections, and writes when the app is closed:
 
 ```bash
 claude mcp add --transport stdio zoteus -e ZOTERO_API_KEY=your_key -- npx -y @oscardvs/zoteus
