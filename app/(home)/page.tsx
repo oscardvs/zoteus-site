@@ -118,6 +118,24 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Testimonial */}
+      <section className="border-b border-fd-border" aria-label="What researchers say">
+        <div className="z-container py-8 sm:py-10">
+          <figure className="mx-auto max-w-3xl text-center">
+            <blockquote className="z-body text-[1.0625rem] leading-relaxed sm:text-[1.125rem]">
+              <p>
+                &ldquo;I am able to talk to my Zotero library and notes and query things that I would
+                have otherwise been unable to do. It&rsquo;s made years of research trickling in in
+                bits and pieces become part of a larger whole.&rdquo;
+              </p>
+            </blockquote>
+            <figcaption className="z-small mt-3">
+              Ishaan Jajodia, PhD Candidate, Department of Political Science, Yale University
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
       {/* The problem, and where Zoteus sits */}
       <section className="z-section">
         <div className="z-container">

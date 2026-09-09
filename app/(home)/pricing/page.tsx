@@ -155,6 +155,26 @@ export default function PricingPage() {
         </div>
       </section>
 
+      {/* Testimonial */}
+      <section className="z-section">
+        <div className="z-container">
+          <figure className="z-panel mx-auto max-w-3xl p-6 sm:p-8">
+            <blockquote className="z-body text-[1.0625rem] leading-relaxed">
+              <p>
+                &ldquo;I&rsquo;ve enjoyed using Zoteus immensely, largely because I am able to talk to
+                my Zotero library and notes and query things that I would have otherwise been unable
+                to do. It&rsquo;s made years of research trickling in in bits and pieces become part
+                of a larger whole and I&rsquo;m extremely grateful to Oscar and the Zoteus team for
+                enabling that.&rdquo;
+              </p>
+            </blockquote>
+            <figcaption className="z-small mt-4">
+              Ishaan Jajodia, PhD Candidate, Department of Political Science, Yale University
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
       {/* Lab pilot */}
       <section className="border-y border-fd-border bg-fd-card/50">
         <div className="z-container z-section grid gap-8 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-center">
