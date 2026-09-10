@@ -52,9 +52,25 @@ export const bookingHref = bookingLive
 /**
  * Polar checkout links. Each offers BOTH billing periods for its tier: the customer
  * switches between monthly and annual inside the Polar checkout itself.
+ *
+ * The `utm_*` parameters are not for a campaign tool. Polar opens a new Checkout session on
+ * every plain GET of one of these links, so crawlers, link-preview bots and mail scanners
+ * manufacture sessions that look exactly like abandoned carts. Tagging the links makes a
+ * checkout that came from this page self-identifying, and leaves everything untagged as
+ * something that never was a person.
+ *
+ * `product_id` on the Lab link pins the monthly price. Polar preselects whichever product is
+ * listed first on the link, which was the EUR 990/year one, while the pricing page headlines
+ * Lab at EUR 99/month: a lab clicking a EUR 99 button was being asked for EUR 990. Naming the
+ * product here makes the default explicit rather than a consequence of list order.
  */
-export const individualCheckout = 'https://buy.polar.sh/polar_cl_8aWnHqVFlhuJLZxmPWnMXugrOFLdEv7hreOn114kR0O';
-export const labCheckout = 'https://buy.polar.sh/polar_cl_VVi2Q157BpM3riRNxmvgLg4kv8V7V9TaojZh71Eebim';
+const CHECKOUT_UTM = 'utm_source=zoteus.com&utm_medium=pricing&utm_campaign=subscribe';
+
+/** Zoteus Lab (Monthly), EUR 99/mo, the price the pricing page headlines. */
+const LAB_MONTHLY_PRODUCT_ID = '5ab2b011-ba36-450a-b780-cd3b84fa9517';
+
+export const individualCheckout = `https://buy.polar.sh/polar_cl_8aWnHqVFlhuJLZxmPWnMXugrOFLdEv7hreOn114kR0O?${CHECKOUT_UTM}`;
+export const labCheckout = `https://buy.polar.sh/polar_cl_VVi2Q157BpM3riRNxmvgLg4kv8V7V9TaojZh71Eebim?product_id=${LAB_MONTHLY_PRODUCT_ID}&${CHECKOUT_UTM}`;
 
 export type PlanCta = 'checkout' | 'install' | 'contact';
 
