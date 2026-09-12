@@ -75,7 +75,7 @@ export function softwareApplicationLd(description: string) {
       'Create, edit, tag and organise items; reversible trash by default',
       'PDF highlights, underlines and notes anchored to a quoted passage',
       'Zotero group libraries',
-      'Hosted connector for claude.ai, or self-host the OAuth remote',
+      'Hosted connector for claude.ai and ChatGPT, or self-host the OAuth remote',
     ],
   };
 }
@@ -110,4 +110,4 @@ export function techArticleLd(page: { title: string; description?: string; path:
 
 /** The one meta description for the home page and the SoftwareApplication node. Under 160 characters. */
 export const siteDescription =
-  'Open-source MCP server connecting Claude, Claude Code and Cursor to your Zotero library: search, PDF passages with page numbers, CSL citations, writes back.';
+  'Open-source MCP server for Claude, ChatGPT, Claude Code and Cursor: search your Zotero library, PDF passages with page numbers, CSL citations, writes back.';

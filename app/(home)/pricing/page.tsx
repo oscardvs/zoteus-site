@@ -42,10 +42,16 @@ function Plus() {
   );
 }
 
-const FAQ = [
+/* `link` is rendered after the answer on the page only; the FAQPage JSON-LD carries q and a. */
+const FAQ: { q: string; a: string; link?: { label: string; href: string } }[] = [
   {
     q: 'Why pay if it’s open-source?',
     a: 'You’re paying for hosting and maintenance, not features. Self-hosting gives you the same capabilities for free, forever; the hosted plans mean you don’t have to run or update anything.',
+  },
+  {
+    q: 'Does it work with ChatGPT?',
+    a: 'Yes, on the hosted plans or with your own self-hosted remote. ChatGPT only connects to remote MCP servers, so the free local install does not apply to it. You need Developer mode, which OpenAI offers on the paid ChatGPT plans in the web app (Settings, then Security and login); a free ChatGPT account cannot add custom servers. Then add mcp.zoteus.com/mcp as a plugin and sign in with your Zotero account.',
+    link: { label: 'Step by step: Connect ChatGPT to Zotero', href: '/docs/connect-chatgpt-to-zotero' },
   },
   {
     q: 'What counts as a lab?',
@@ -75,7 +81,7 @@ const FAQ = [
 
 const STEPS = [
   ['01', 'Subscribe', 'Check out via Polar and get a license key by email.'],
-  ['02', 'Connect', 'Add mcp.zoteus.com/mcp as a connector in claude.ai and sign in to your own Zotero.'],
+  ['02', 'Connect', 'Add mcp.zoteus.com/mcp as a connector in claude.ai or as a plugin in ChatGPT, and sign in to your own Zotero.'],
   ['03', 'Use', 'Paste your key once. Your library is then available to your AI.'],
 ];
 
@@ -229,7 +235,18 @@ export default function PricingPage() {
                   {item.q}
                   <Plus />
                 </summary>
-                <p className="z-body max-w-2xl pb-5 text-[0.9375rem]">{item.a}</p>
+                <p className="z-body max-w-2xl pb-5 text-[0.9375rem]">
+                  {item.a}
+                  {item.link && (
+                    <>
+                      {' '}
+                      <Link href={item.link.href} className="text-[color:var(--accent-text)] underline underline-offset-[3px]">
+                        {item.link.label}
+                      </Link>
+                      .
+                    </>
+                  )}
+                </p>
               </details>
             ))}
           </div>

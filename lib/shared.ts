@@ -26,7 +26,7 @@ export const operator = 'Oscar Devos (“Zoteus”)';
 /** Governing-law jurisdiction for the Terms; EU consumer home-country mandatory rights are preserved. */
 export const jurisdiction = 'Belgium';
 
-/** The live hosted connector URL subscribers add in claude.ai. */
+/** The live hosted connector URL subscribers add in claude.ai or ChatGPT. */
 export const connectorUrl = 'https://mcp.zoteus.com/mcp';
 /** Master switch for hosted-tier sales. Flip to false to pause new subscriptions. */
 export const hostedLive: boolean = true;
@@ -121,7 +121,7 @@ export const plans: Plan[] = [
     altPrice: 'or €7/month',
     blurb: 'One researcher, nothing to run.',
     features: [
-      'Connect in claude.ai with one URL',
+      'Connect in claude.ai or ChatGPT with one URL',
       'Your personal Zotero library',
       'Per-user Zotero login, encrypted at rest',
       'Always on, maintained and updated',

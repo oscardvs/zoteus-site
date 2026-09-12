@@ -45,7 +45,7 @@ export function SystemDiagram() {
           title="Your MCP client"
           sub="Claude Desktop, Claude Code, Cursor, VS Code, Zed, Codex, Gemini CLI"
         />
-        <Node title="claude.ai" sub="Custom connector, on the hosted plans" />
+        <Node title="claude.ai and ChatGPT" sub="Remote connector, on the hosted plans or self-hosted" />
       </div>
 
       <Edge>

@@ -10,7 +10,7 @@ export function GET() {
     (
       <DefaultImage
         title="An MCP server for your Zotero library"
-        description="Open-source. Search, cite, add, and write back to your Zotero library from Claude and other MCP clients. Runs on your machine."
+        description="Open-source. Search, cite, add, and write back to your Zotero library from Claude, ChatGPT and other MCP clients. Runs on your machine."
         site={appName}
       />
     ),

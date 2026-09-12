@@ -29,7 +29,7 @@ function ArrowIcon() {
   );
 }
 
-const CLIENTS = ['Claude Desktop', 'Claude Code', 'Cursor', 'VS Code', 'Zed', 'Codex', 'Gemini CLI'];
+const CLIENTS = ['Claude Desktop', 'Claude Code', 'ChatGPT', 'Cursor', 'VS Code', 'Zed', 'Codex', 'Gemini CLI'];
 
 const INSTALL = [
   { label: 'Claude Code', cmd: 'claude mcp add --transport stdio zoteus -- npx -y @oscardvs/zoteus' },
@@ -80,9 +80,9 @@ export default function Home() {
         <div className="z-container grid items-center gap-10 py-14 sm:py-20 lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] lg:gap-14 lg:py-24">
           <div className="max-w-2xl">
             <p className="z-label">Open-source · Zotero MCP server</p>
-            <h1 className="z-display z-h1 mt-5 max-w-[15ch]">Your whole Zotero library, inside Claude.</h1>
+            <h1 className="z-display z-h1 mt-5 max-w-[17ch]">Your whole Zotero library, inside Claude&nbsp;and&nbsp;ChatGPT.</h1>
             <p className="z-lead mt-6 max-w-xl">
-              Zoteus gives Claude, Cursor, and other MCP clients real access to your reference
+              Zoteus gives Claude, ChatGPT, Cursor, and other MCP clients real access to your reference
               library: semantic search over your own PDFs, citations in any CSL style, add by
               DOI, attachments, and PDF highlights anchored to the text they quote.{' '}
               <strong>Installs with one command or a double-click. No Python.</strong>
@@ -169,7 +169,7 @@ export default function Home() {
               writes that go through it. Add a Zotero API key for sync, group libraries, and writes
               when the app is closed.{' '}
               <Link href="/docs/connect-claude-to-zotero" className="text-[color:var(--accent-text)] underline underline-offset-[3px]">
-                Step-by-step for Claude Desktop, claude.ai, Claude Code and Cursor
+                Step-by-step for Claude Desktop, claude.ai, ChatGPT, Claude Code and Cursor
               </Link>
               .
             </p>

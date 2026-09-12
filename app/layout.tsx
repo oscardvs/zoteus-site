@@ -6,7 +6,7 @@ import { Analytics } from '@/components/analytics';
 import type { Metadata } from 'next';
 import { siteDescription, siteUrl } from '@/lib/seo';
 
-const siteTitle = 'Zoteus: an open-source Zotero MCP server for Claude';
+const siteTitle = 'Zoteus: an open-source Zotero MCP server for Claude and ChatGPT';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -19,6 +19,9 @@ export const metadata: Metadata = {
   keywords: [
     'Zotero MCP server',
     'connect Claude to Zotero',
+    'connect ChatGPT to Zotero',
+    'Zotero ChatGPT',
+    'ChatGPT Zotero MCP',
     'Zotero Claude Desktop',
     'Zotero Claude Code',
     'Zotero Cursor MCP',
