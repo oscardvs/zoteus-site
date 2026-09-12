@@ -23,14 +23,14 @@ What it does not do: it does not replace dual independent screening, and it does
 
 | | Self-hosted, free | Hosted Lab plan |
 |---|---|---|
-| Who runs what | Each member installs Zoteus in their own Claude (Desktop, Code or Cursor) | Each member adds one connector in claude.ai; nothing to install or update |
+| Who runs what | Each member installs Zoteus in their own Claude (Desktop, Code or Cursor) | Each member adds one connector in claude.ai or ChatGPT; nothing to install or update |
 | Where it works | On the computer where it is installed | Browser, Claude desktop and mobile apps, any device |
 | How the group is reached | Through each member's own Zotero API key with group permissions; on Zotero 10+, a group the desktop app holds is readable without a key | Each member signs in with their own Zotero account; Zoteus asks Zotero for access to the groups that account belongs to |
 | Permissions | Whatever the key allows | Whatever Zotero's own group role allows for that member |
 | Semantic index | Built on each member's machine | Built on the server, one index per user |
 | Cost | €0 | €99 a month or €990 a year for up to ten people, with a free 30-day pilot |
 
-The self-hosted route is the right one if your institution requires that library data never leave its machines. The hosted route is the right one if the team works in claude.ai and nobody wants to maintain an install. Details on both are on the [pricing page](/pricing).
+The self-hosted route is the right one if your institution requires that library data never leave its machines. The hosted route is the right one if the team works in claude.ai or ChatGPT and nobody wants to maintain an install. Details on both are on the [pricing page](/pricing).
 
 ## Setting it up
 
@@ -42,7 +42,7 @@ If you do not have one yet, create it at [zotero.org/groups](https://www.zotero.
 
 **Self-hosted.** Each member creates an API key at [zotero.org/settings/keys](https://www.zotero.org/settings/keys): tick **Allow library access**, and under the group permissions give the review group **Read/Write** (or set the default group permission to Read/Write). They then paste that key into their Zoteus install; the [Connect Claude to Zotero](/docs/connect-claude-to-zotero) page has the exact steps for each client. On Zotero 10 and newer, a group that the desktop app already holds can be read without any key while the app is running; writes to a group always need the key.
 
-**Hosted.** Each member subscribes with the lab's licence key, adds `https://mcp.zoteus.com/mcp` as a custom connector in claude.ai, and approves Zoteus on zotero.org. No API key is created by hand.
+**Hosted.** Each member subscribes with the lab's licence key, adds `https://mcp.zoteus.com/mcp` as a custom connector in claude.ai or as a plugin in ChatGPT, and approves Zoteus on zotero.org. No API key is created by hand.
 
 ### 3. Point Claude at the group
 

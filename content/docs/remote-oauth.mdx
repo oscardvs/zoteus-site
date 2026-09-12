@@ -1,16 +1,16 @@
 ---
 title: Remote OAuth
-description: "Add Zoteus as a claude.ai custom connector: run your own OAuth 2.1 + PKCE authorization server in front of the Streamable HTTP /mcp endpoint."
+description: "Add Zoteus as a claude.ai custom connector or a ChatGPT plugin: run your own OAuth 2.1 + PKCE authorization server in front of the Streamable HTTP /mcp endpoint."
 ---
 
-claude.ai connects to remote MCP servers **from the cloud**, so a connector must be reachable at a **public HTTPS URL** and protected by **OAuth 2.1 + PKCE** (a static API key or `Authorization` header cannot be entered in the connector UI). Since v0.9.0, Zoteus can be that connector: it runs its own OAuth 2.1 authorization server in front of the Streamable HTTP `/mcp` endpoint.
+claude.ai and ChatGPT connect to remote MCP servers **from the cloud**, so a connector must be reachable at a **public HTTPS URL** and protected by **OAuth 2.1 + PKCE** (claude.ai's connector UI has no field for a static API key or `Authorization` header). Since v0.9.0, Zoteus can be that connector: it runs its own OAuth 2.1 authorization server in front of the Streamable HTTP `/mcp` endpoint.
 
 ## How it works (single-tenant gating)
 
-Zotero's own API uses OAuth 1.0a, which can't be proxied to satisfy claude.ai's OAuth 2.1. So Zoteus acts as **its own OAuth 2.1 authorization server** and gates *who may connect* — it does not federate Zotero accounts:
+Zotero's own API uses OAuth 1.0a, which can't be proxied to satisfy the OAuth 2.1 that claude.ai and ChatGPT expect. So Zoteus acts as **its own OAuth 2.1 authorization server** and gates *who may connect*; it does not federate Zotero accounts:
 
 - The deployed instance holds **one** operator `ZOTERO_API_KEY` (single tenant).
-- claude.ai self-registers via **Dynamic Client Registration** (RFC 7591), runs the **authorization-code + PKCE (S256)** flow, and exchanges the code for a short-lived **opaque bearer token**.
+- claude.ai and ChatGPT self-register via **Dynamic Client Registration** (RFC 7591), run the **authorization-code + PKCE (S256)** flow, and exchange the code for a short-lived **opaque bearer token**.
 - Issuance is gated by a single **operator passcode** (`ZOTEUS_OAUTH_PASSCODE`): during consent the browser shows a one-field passcode page; only a correct passcode mints an authorization code.
 - `/mcp` then requires a valid bearer token (`requireBearerAuth`).
 
@@ -85,6 +85,17 @@ If your proxy rewrites `Host` to an internal value (causing every `/mcp` request
 4. Enter your `ZOTEUS_OAUTH_PASSCODE` and authorize.
 5. The tool list loads; try a read (e.g. `zotero_whoami` or `zotero_search_items`).
 
+## Connect from ChatGPT
+
+ChatGPT adds a remote MCP server as a plugin, behind its **Developer mode** switch (**Settings**, then **Security and login**; OpenAI offers it on the paid ChatGPT plans, in the web app). It connects from OpenAI's cloud, so the URL must be the public HTTPS one, never `localhost`.
+
+1. Open **Plugins** (left sidebar, or [chatgpt.com/plugins](https://chatgpt.com/plugins)) and click **Create app**.
+2. In the **New Plugin** dialog: Name `Zoteus`, Connection **Server URL**, MCP Server URL `https://<your-host>/mcp`, Authentication **OAuth**. Leave **Advanced OAuth settings** empty: ChatGPT discovers the endpoints from the metadata above and registers itself via DCR (it may show *CIMD unavailable*, which is expected). Tick the acknowledgement and click **Create**.
+3. Click **Sign in with Zoteus**. The popup opens the Zoteus consent page: enter the `ZOTEUS_OAUTH_PASSCODE` in passcode mode, or sign in at zotero.org in `zotero` mode, and authorize.
+4. If the plugin page says *No app actions available yet*, click **Refresh** in its **Information** section; the tool list then loads.
+
+[Connect ChatGPT to Zotero](/docs/connect-chatgpt-to-zotero) walks through the same dialog for the hosted connector, with the permission prompts and the troubleshooting table.
+
 ## Connect from Claude Code (remote)
 
 The same OAuth remote also works from the **Claude Code CLI** — useful for testing the connector or using a hosted instance from the terminal. Claude Code runs the OAuth flow itself (DCR + PKCE with an RFC 8252 loopback redirect):
@@ -152,7 +163,7 @@ issued bearer token. No `ZOTERO_API_KEY` and no `ZOTEUS_OAUTH_PASSCODE` are need
 - **The passcode is the trust boundary.** Use a high-entropy value and rotate it (restart with a new `ZOTEUS_OAUTH_PASSCODE`). `/consent` is rate-limited and locks a pending authorization after repeated wrong attempts.
 - **State persistence.** By default (`ZOTEUS_OAUTH_STORE=memory`) registered clients and tokens live in memory only — they do not survive a restart. Set `ZOTEUS_OAUTH_STORE=file` (with `ZOTEUS_OAUTH_TOKEN_SECRET`) to persist clients, tokens, and per-user Zotero keys across restarts, encrypted at rest under the data dir. Either way, state is local to one instance (no shared-replica store). Short-lived pending consents and auth codes always stay in memory; a mid-flow restart just re-prompts.
 - **Per-session transports.** Each MCP session gets its own Streamable HTTP transport (keyed by `Mcp-Session-Id`), sharing one Zotero context — so multiple/reconnecting claude.ai sessions are isolated and do not collide.
-- **Dynamic Client Registration.** Claude registers a fresh public client per connection; Zoteus caps the in-memory client store (FIFO) and sweeps expired state.
+- **Dynamic Client Registration.** Claude registers a fresh public client per connection; ChatGPT registers a confidential client with a client secret. Zoteus caps the in-memory client store (FIFO) and sweeps expired state.
 - **Token lifetime.** Refresh tokens are rotated on each use (the old one is invalidated in the same response); access tokens remain valid until their TTL even after rotation. Shorten `ZOTEUS_OAUTH_ACCESS_TTL` for tighter revocation, or use `/revoke`.
 - **Proxy must forward `Host`.** DNS-rebinding protection matches the `Host` header exactly; your TLS proxy/tunnel must forward the public host verbatim (add extras via `ZOTEUS_ALLOWED_HOSTS` if not).
 - Prefer `ZOTEUS_READ_ONLY=true` and keep `ZOTEUS_ALLOW_DELETE=false` for public connectors.

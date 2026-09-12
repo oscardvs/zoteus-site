@@ -22,9 +22,9 @@ Zoteus is configured via environment variables (see [`.env.example`](https://git
 | `ZOTEUS_READ_ONLY` | `false` | Expose only non-mutating tools. Recommended for public/remote endpoints. |
 | `ZOTEUS_LOG_LEVEL` | `info` | `debug\|info\|warn\|error` (stderr only — stdout carries the JSON-RPC stream). |
 
-## Remote OAuth (claude.ai web connector)
+## Remote OAuth (claude.ai or ChatGPT remote connector)
 
-Turn the Streamable HTTP `/mcp` endpoint into an OAuth 2.1 + PKCE protected resource so it can be added as a claude.ai custom connector. See [Remote OAuth](/docs/remote-oauth) for the full walkthrough.
+Turn the Streamable HTTP `/mcp` endpoint into an OAuth 2.1 + PKCE protected resource so it can be added as a claude.ai custom connector or a ChatGPT plugin. See [Remote OAuth](/docs/remote-oauth) for the full walkthrough.
 
 | Variable | Default | Purpose |
 |---|---|---|

@@ -9,6 +9,11 @@ export const guides: { text: string; description: string; url: string }[] = [
     url: '/docs/connect-claude-to-zotero',
   },
   {
+    text: 'Connect ChatGPT to Zotero',
+    description: 'Step by step, in Developer mode, through the hosted connector or your own remote.',
+    url: '/docs/connect-chatgpt-to-zotero',
+  },
+  {
     text: 'Group libraries for review teams',
     description: 'Screening references together in one shared Zotero library.',
     url: '/docs/group-libraries-for-review-teams',

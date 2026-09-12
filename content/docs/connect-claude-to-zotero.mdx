@@ -1,11 +1,11 @@
 ---
 title: Connect Claude to Zotero
-description: "Step-by-step setup for Claude Desktop, claude.ai, Claude Code and Cursor, with the exact commands. Free to self-host; a hosted connector for claude.ai."
+description: "Step-by-step setup for Claude Desktop, claude.ai, Claude Code, Cursor and ChatGPT, with the exact commands. Free to self-host; a hosted connector for claude.ai and ChatGPT."
 ---
 
 Zoteus is an open-source MCP server that gives Claude access to your Zotero library. Once it is connected you can ask Claude to find the paper you saved three years ago, quote the passage from its PDF with the page number, build a bibliography in the style your journal wants, or file a new reference by its DOI. The citations are real because Claude works from the references you actually have.
 
-There are four ways to connect. Pick the one that matches where you use Claude; plenty of people run two.
+There are five ways to connect. Pick the one that matches where you use Claude; plenty of people run two.
 
 | Where you use Claude | What to do | Cost |
 |---|---|---|
@@ -13,12 +13,13 @@ There are four ways to connect. Pick the one that matches where you use Claude; 
 | claude.ai in a browser, or the Claude mobile apps | [Add the hosted connector](#claude-ai) | Subscription |
 | Claude Code in a terminal | [One `claude mcp add` command](#claude-code) | Free |
 | Cursor, VS Code, Zed, Codex | [One `npx add-mcp` command, or a JSON snippet](#cursor) | Free |
+| ChatGPT (web) | [Hosted connector or self-hosted remote, needs Developer mode](#chatgpt) | Hosted plan, or free if you self-host |
 
 ## Before you start
 
 You need a Zotero library. If you already use the [Zotero desktop app](https://www.zotero.org/download/), you are ready.
 
-For the three free routes, let Zoteus talk to the Zotero app on your computer. This takes fifteen seconds and removes the need for an API key in most cases:
+For the three routes that run Zoteus on your own computer (Claude Desktop, Claude Code and Cursor), let Zoteus talk to the Zotero app on your computer. This takes fifteen seconds and removes the need for an API key in most cases:
 
 1. Open Zotero.
 2. Go to **Settings**, then **Advanced**.
@@ -78,6 +79,31 @@ The hosted connector is a subscription, because a maintained server costs money 
 Custom connectors are available on every claude.ai plan; Free plans are limited to one custom connector.
 
 **Before you decide.** The hosted connector reaches your library through your Zotero account online, so anything you have not synced to Zotero's servers is invisible to it, and PDFs that live only on your own disk stay out of reach. If most of your reading is annotated PDFs on one computer, the free Claude Desktop extension is the better tool. Many people run both: the extension at their desk, the hosted connector everywhere else. If you would rather host the connector yourself, the same OAuth remote is in the open-source package: see [Remote OAuth](/docs/remote-oauth).
+
+## ChatGPT [#chatgpt]
+
+ChatGPT connects to MCP servers over HTTPS only, from OpenAI's cloud, so it cannot run the local Zoteus server and cannot reach the Zotero app on your computer. It uses the same hosted connector as claude.ai, `https://mcp.zoteus.com/mcp`, or your own [self-hosted OAuth remote](/docs/remote-oauth). Custom servers are added through ChatGPT's Developer mode.
+
+<Callout title="Developer mode, on a paid plan">
+Adding your own MCP server to ChatGPT needs **Developer mode**: **Settings**, then **Security and login**, then the **Developer mode** switch, which ChatGPT labels as elevated risk. OpenAI offers it on the Plus, Pro, Business, Enterprise and Edu plans, in the web app; on Business and Enterprise an administrator may have to allow it first. Free ChatGPT accounts cannot add custom servers.
+</Callout>
+
+1. **Subscribe** at [zoteus.com/pricing](/pricing) and keep the subscription key from the email, or have the URL of your own remote ready.
+2. In ChatGPT, open **Plugins** (in the left sidebar, or at [chatgpt.com/plugins](https://chatgpt.com/plugins)) and click **Create app**.
+3. In the **New Plugin** dialog, enter the name `Zoteus`, choose the connection **Server URL**, and for the MCP Server URL enter exactly:
+
+   ```
+   https://mcp.zoteus.com/mcp
+   ```
+
+   Leave the authentication on **OAuth** and **Advanced OAuth settings** empty: ChatGPT discovers the OAuth endpoints and registers itself (it may show *CIMD unavailable* there, which is expected). Tick **I understand and want to continue** and click **Create**.
+4. Click **Sign in with Zoteus**. The popup asks for the subscription key once, then goes to zotero.org, where you sign in and approve access (untick write access for a read-only connection), and returns to ChatGPT. The plugin page then shows **Connected on** today's date.
+5. If the plugin page says *No app actions available yet*, click **Refresh** in its **Information** section. All 30 Zoteus tools then appear.
+6. In a chat, click **+** in the composer, pick **Zoteus**, and ask *Am I connected to my Zotero library?*
+
+The full walkthrough, including what ChatGPT asks before a write and what to do when something fails, is on [Connect ChatGPT to Zotero](/docs/connect-chatgpt-to-zotero).
+
+**Before you decide.** As with claude.ai, the connector reaches your library through your Zotero account online, so anything you have not synced to Zotero's servers is invisible to it, and PDFs that live only on your own disk stay out of reach. ChatGPT has no local alternative; if you also use Claude, the free Claude Desktop extension above reads what is on your disk.
 
 ## Claude Code [#claude-code]
 

@@ -32,7 +32,7 @@ Zoteus is a second implementation in another language, with different install er
 - **Passages with locators.** `zotero_get_fulltext` returns the relevant passage with character offsets, the nearest heading and a page locator, and extracts text on the fly from PDFs and EPUBs Zotero has not indexed yet.
 - **Your own notes and PDF annotations are indexed as passages** under the item they belong to, so "where did I object to this?" is a question search can answer.
 - **Group libraries in one server.** `zotero_groups` lists the groups your key can reach, and most tools take a `library_id`, so one connection covers your personal library and every group. The semantic index is built per library.
-- **An OAuth 2.1 remote built in**, single-tenant or per-user, which is what claude.ai needs; and a [hosted connector](/pricing) at `mcp.zoteus.com` for people who do not want to run anything.
+- **An OAuth 2.1 remote built in**, single-tenant or per-user, which is what claude.ai and ChatGPT need; and a [hosted connector](/pricing) at `mcp.zoteus.com` for people who do not want to run anything.
 - **MCP Prompts and Resources**, plus generated TypeScript wrappers for the code-execution pattern.
 - **A tag audit** against a controlled vocabulary, and a scholarly-graph tool (OpenAlex, Crossref fallback) that can flag which references and citing works are already in your library.
 
@@ -54,7 +54,7 @@ Zoteus is a second implementation in another language, with different install er
 | Group libraries | One library per server via `ZOTERO_LIBRARY_ID` and `ZOTERO_LIBRARY_TYPE=group`; search across all libraries with the SQLite backend | Any library per call via `library_id`; a semantic index per library; desktop-held groups readable without a key on Zotero 10+ |
 | Transports | stdio, Streamable HTTP, SSE; Docker images | stdio, Streamable HTTP with a built-in OAuth 2.1 and PKCE server; Docker image |
 | claude.ai | Not covered in the README | Self-host the OAuth remote, or subscribe to the hosted connector |
-| Clients named | Claude Desktop, Claude Code, ChatGPT, Cursor, Cherry Studio, Chorus, Autohand; CLI and skill for shell agents | Claude Desktop, claude.ai, Claude Code, Cursor, VS Code, Zed, Codex |
+| Clients named | Claude Desktop, Claude Code, ChatGPT, Cursor, Cherry Studio, Chorus, Autohand; CLI and skill for shell agents | Claude Desktop, claude.ai, ChatGPT, Claude Code, Cursor, VS Code, Zed, Codex |
 | Extras | Scite tallies and retraction alerts, CLI, agent skill, tool groups | Scholar graph (OpenAlex, Crossref), tag audit, sync deltas, seven MCP Prompts, code-execution wrappers |
 | Licence | MIT | MIT |
 | Funding | GitHub Sponsors, with expensable lab tiers | Hosted subscriptions; self-hosting is free with every feature |

@@ -1,0 +1,75 @@
+---
+title: Connect ChatGPT to Zotero
+description: "Step-by-step setup for ChatGPT: Developer mode, the Zoteus plugin, signing in with your Zotero account, what ChatGPT asks before a write, and what to do when the tool list is empty. Through the hosted connector or your own OAuth remote."
+---
+
+Zoteus is an open-source MCP server that gives ChatGPT access to your Zotero library. Once it is connected you can ask ChatGPT to find the paper you saved three years ago, read a page range from its PDF, build a bibliography in the style your journal wants, or tag the items you are screening. The citations are real because ChatGPT works from the references you actually have.
+
+ChatGPT connects to MCP servers over HTTPS only, from OpenAI's cloud. It cannot start the local `npx @oscardvs/zoteus` server that Claude Desktop, Claude Code and Cursor use, and it cannot reach the Zotero app on your computer. That leaves two routes, and both reach your library through your Zotero account online.
+
+| Route | What to do | Cost |
+|---|---|---|
+| The hosted connector at `mcp.zoteus.com` | [Subscribe, add the plugin, sign in](#add-zoteus-to-chatgpt) | Subscription, see the [pricing page](/pricing) |
+| Your own server | [Run the OAuth remote on a public HTTPS host](/docs/remote-oauth), then add that URL the same way | Free |
+
+## Before you start
+
+- **A paid ChatGPT plan.** OpenAI makes Developer mode available on the Plus, Pro, Business, Enterprise and Edu plans, in the web app. A free ChatGPT account cannot add custom servers. On Business and Enterprise an administrator may have to allow Developer mode first.
+- **Developer mode switched on.** In ChatGPT, open **Settings**, then **Security and login**, and turn on the **Developer mode** switch. ChatGPT labels it as elevated risk, because it lets you connect servers OpenAI has not reviewed. The same switch is linked from **Settings**, then **Plugins**.
+- **A Zotero account with your library synced.** ChatGPT reaches your library through zotero.org, so anything you have not synced to Zotero's servers is invisible to it. PDFs in Zotero's cloud storage can be read; PDFs that live only on your own disk stay out of reach. Check sync in the Zotero desktop app under **Settings**, then **Sync**.
+- **A Zoteus subscription key, or your own remote.** Subscribers get the key by email after checkout on the [pricing page](/pricing). If you self-host, you need the public HTTPS URL of your instance, which means running a server on the public internet; [Remote OAuth](/docs/remote-oauth) covers that.
+
+## Add Zoteus to ChatGPT [#add-zoteus-to-chatgpt]
+
+1. **Subscribe**, if you are using the hosted connector. Checkout on the [pricing page](/pricing) is handled by Polar and the subscription key arrives by email. Self-hosters skip this step.
+2. **Open Plugins.** Click **Plugins** in the left sidebar of ChatGPT, or go to [chatgpt.com/plugins](https://chatgpt.com/plugins), and click **Create app**. If there is no **Create app** button, Developer mode is off or the account is on a free plan.
+3. **Fill in the New Plugin dialog.**
+   - **Name**: `Zoteus`
+   - **Description**: optional
+   - **Connection**: **Server URL**
+   - **MCP Server URL**: `https://mcp.zoteus.com/mcp` (or `https://<your-host>/mcp` for your own remote)
+   - **Authentication**: **OAuth**, which is the default
+
+   Leave **Advanced OAuth settings** empty: ChatGPT discovers the OAuth endpoints and registers itself with Zoteus. It may show *CIMD unavailable* there; that is expected and harmless. Tick **I understand and want to continue** and click **Create**.
+4. **Sign in.** ChatGPT shows **Add Zoteus to ChatGPT** with a **Sign in with Zoteus** button. Click it. A popup opens the Zoteus page **Connect ChatGPT to Zoteus** and asks for the subscription key (a self-hosted instance shows its own consent page instead). It then goes to zotero.org, where you sign in and approve the permissions Zoteus asks for; untick write access there if you want a read-only connection. The popup returns to ChatGPT and the plugin page shows **Connected on** today's date.
+5. **Load the tools.** Right after connecting, the plugin's **Actions** list can say *No app actions available yet*. Click **Refresh** in the **Information** section of the plugin page. All 30 Zoteus tools then appear, each labelled **READ** or **PUBLIC WRITE** by ChatGPT.
+6. **Use it.** In a chat, click **+** in the composer (**Add files and more**), pick **Zoteus**, and ask normally. Start with *Am I connected to my Zotero library?*
+
+## What to ask first
+
+1. *Search my library for papers about urban heat islands.*
+2. *Which papers in my library argue against open-plan offices? Quote the passage and give me the page.*
+3. *Format a bibliography of the five most relevant papers in APA style.*
+4. *Give me the outline of the PDF attached to that paper, with page numbers, then read me pages 4 to 6.*
+5. *Tag the three most recent of those with `to-read`.*
+
+The second one uses search by meaning. The first time you ask for it, Zoteus reads through your library and builds an index on the server; on a large library that takes a while, once. Keyword search works immediately.
+
+## What ChatGPT asks before a write
+
+Reads never prompt. For writes, ChatGPT decides per action whether to ask: in testing, adding a tag ran without a prompt, and removing one asked **Allow ChatGPT to use Zoteus?** with the choices **Always allow**, **Allow once**, **Allow Zoteus for this conversation** and **Deny**.
+
+That behaviour is the plugin's **Permissions** setting, on its page under **Plugins**. The options are **Always ask**, **Allow read actions**, **Allow low-risk actions** (the default) and **Allow all actions**. If you want a prompt before every write, pick **Allow read actions**.
+
+## Do you need a Zotero API key?
+
+No. ChatGPT signs you in at zotero.org through the plugin, and you never create or paste a key. On the zotero.org approval page you choose what the connection may do: leave write access ticked if you want ChatGPT to add tags, file items or edit records, or untick it for a read-only connection. You can revoke the access at any time from [zotero.org/settings/keys](https://www.zotero.org/settings/keys).
+
+## When something goes wrong
+
+| What you see | What to do |
+|---|---|
+| **Create app** is missing from the Plugins page | Developer mode is off, or the account is on a free plan. Turn it on under **Settings**, then **Security and login**; on Business and Enterprise, ask an administrator to allow it. |
+| *No app actions available yet* after connecting | Click **Refresh** in the **Information** section of the plugin page. The 30 tools then appear. |
+| **Sign in with Zoteus** comes straight back without a Zotero page | The popup was blocked. Allow popups for chatgpt.com and click the button again. |
+| ChatGPT says it cannot reach the server | The URL must be a public HTTPS address ending in `/mcp`. A self-hosted instance on `localhost`, behind a firewall, or on plain HTTP cannot be reached from OpenAI's cloud; see [Remote OAuth](/docs/remote-oauth). |
+| ChatGPT asks permission on every write | The plugin's **Permissions** setting is on **Always ask** or **Allow read actions**. Set it back to **Allow low-risk actions** (the default) or to **Allow all actions** on the plugin page under **Plugins**, or choose **Always allow** when it asks. |
+| ChatGPT cannot find something you know is in Zotero | It has not been synced yet. Sync in the Zotero desktop app and ask again. |
+| Something else | [Open an issue](https://github.com/oscardvs/zoteus/issues) with what you tried and what you saw, or email [support@zoteus.com](mailto:support@zoteus.com) about the hosted connector. Never paste your subscription key. |
+
+## Next
+
+- [Connect Claude to Zotero](/docs/connect-claude-to-zotero), if you also use Claude: the free Claude Desktop extension there reads the PDFs on your own disk.
+- [Group libraries for systematic review teams](/docs/group-libraries-for-review-teams), for a shared library.
+- [Remote OAuth](/docs/remote-oauth), to host the connector yourself.
+- [Configuration](/docs/configuration), every setting in full.
