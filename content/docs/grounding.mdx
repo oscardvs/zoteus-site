@@ -1,6 +1,6 @@
 ---
 title: Full-text Grounding, Tag Audit & BBT Export
-description: Retrieve PDF passages with page locators for grounding, audit tag hygiene against a controlled vocabulary, and export with Better BibTeX formatting.
+description: Retrieve PDF passages with page locators for grounding, look at PDF pages and figures as images, audit tag hygiene against a controlled vocabulary, and export with Better BibTeX formatting.
 ---
 
 ## `zotero_get_fulltext` — retrieve PDF text for grounding
@@ -48,6 +48,30 @@ npm i pdfjs-dist
 `zotero_get_fulltext` is annotated `readOnlyHint: true` and remains available under `ZOTEUS_READ_ONLY=true`.
 
 ---
+
+## `zotero_pdf_images`: see pages, figures and scans as images
+
+Everything above returns text, and text is what a figure, a table, an equation and a scanned page all lose: a figure arrives as its caption, a table as its numbers run together, an equation as a few stray glyphs, and a scan with no text layer as nothing. `zotero_pdf_images` returns pictures instead, as MCP image content the assistant can look at, followed by the usual summary and JSON. Pass a parent `item_key` (its PDF is resolved the same way `zotero_get_fulltext` does) or an attachment key.
+
+### `mode: "pages"`: render whole pages
+
+```json
+{ "item_key": "ABCD1234", "mode": "pages", "pages": "3-4" }
+```
+
+Renders the requested pages (same `"3"` or `"3-7"` syntax as `page_range`) at a resolution that keeps body text and inline maths legible, four pages per call by default and eight at most. `dpi` (up to 300) and `format` (`jpeg`, the default, or `png`) override the defaults. This is the mode for tables, equations, vector plots and scanned pages.
+
+### `mode: "figures"`: extract the embedded images
+
+```json
+{ "item_key": "ABCD1234", "mode": "figures", "pages": "1-8" }
+```
+
+Walks the requested pages for embedded raster images and returns each with its pixel size, its position on the page and whether it covers the page (a scan rather than a figure). Icons and rules under `min_size` pixels are skipped, an image repeated across pages is returned once, and vector figures do not appear here because they are drawn, not embedded: the notice says so and points at `mode: "pages"`. Pages that paint their text as thousands of small glyph bitmaps (some older scanned papers) are reported as bitmap-text pages instead of being returned as an alphabet.
+
+### Saving files and caps
+
+On a local install, figures are saved under the Zoteus data directory (`pdf-images/<attachment key>/`) and pages on request with `save: true`; the paths come back in the result. A shared server refuses `save`, because the files would sit on the operator's disk, and returns the images inline only. The caps exist because the hosted tier runs on a small machine and images travel as base64: files above 20 MB are not parsed, about 5 MB of inline image data per response (beyond that, pages and figures are rendered but not returned inline, and the notice names them and the remedy: fewer pages, a lower `dpi`, or `format: "jpeg"`), and one render job at a time per process. A password-protected PDF, a truncated file and an EPUB each get a message that says what is wrong.
 
 ## `zotero_tag_audit` — audit tags against a controlled vocabulary
 

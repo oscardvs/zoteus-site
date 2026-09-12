@@ -7,7 +7,7 @@
 
 const FAMILIES: [string, string[]][] = [
   ['Search', ['zotero_search_items', 'zotero_semantic_search', 'zotero_index']],
-  ['Read PDFs', ['zotero_get_fulltext', 'zotero_attachment']],
+  ['Read PDFs', ['zotero_get_fulltext', 'zotero_pdf_images', 'zotero_attachment']],
   ['Cite', ['zotero_bibliography', 'zotero_format_bibliography', 'zotero_styles']],
   ['Add and edit', ['zotero_import', 'zotero_create_items', 'zotero_update_item', 'zotero_trash_items']],
   ['Annotate and attach', ['zotero_annotate', 'zotero_attach_file']],
@@ -54,7 +54,7 @@ export function SystemDiagram() {
         stdio, or HTTP with OAuth
       </Edge>
 
-      <Node title="Zoteus" sub="MCP server in TypeScript. Runs on your machine. 30 tools, namespaced zotero_*" core>
+      <Node title="Zoteus" sub="MCP server in TypeScript. Runs on your machine. 31 tools, namespaced zotero_*" core>
         <ul>
           {FAMILIES.map(([family, tools]) => (
             <li key={family}>
