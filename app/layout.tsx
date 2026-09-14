@@ -6,7 +6,7 @@ import { Analytics } from '@/components/analytics';
 import type { Metadata } from 'next';
 import { siteDescription, siteUrl } from '@/lib/seo';
 
-const siteTitle = 'Zoteus: an open-source Zotero MCP server for Claude and ChatGPT';
+const siteTitle = 'Zoteus: find Zotero evidence in Claude and ChatGPT';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

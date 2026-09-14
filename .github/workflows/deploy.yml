@@ -35,11 +35,16 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      - run: pnpm lint
+
       - name: Build
         run: pnpm build
         env:
           NODE_ENV: production
           # basePath is '' for the apex custom domain zoteus.com (set via public/CNAME).
+
+      - name: Validate links and metadata
+        run: python3 scripts/check-site.py
 
       - uses: actions/configure-pages@v5
 

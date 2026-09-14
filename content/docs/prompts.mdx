@@ -3,7 +3,7 @@ title: Prompts (Workflows)
 description: "Seven MCP Prompts: user-triggered scholarly workflows exposed as slash commands that orchestrate the zotero_* tools for common research tasks."
 ---
 
-Zoteus ships MCP **Prompts** — user-triggered scholarly workflows that hosts expose as slash commands. They orchestrate the `zotero_*` tools for common research tasks.
+Zoteus ships MCP **Prompts**: user-triggered scholarly workflows that hosts expose as slash commands. They orchestrate the `zotero_*` tools for common research tasks.
 
 | Prompt | Arguments | What it does |
 |---|---|---|
@@ -15,4 +15,10 @@ Zoteus ships MCP **Prompts** — user-triggered scholarly workflows that hosts e
 | `zotero-citation-audit` | `text` | Check a draft's citations against the library/literature. |
 | `zotero-summarize-collection` | `collection` | Summarize a collection's themes and gaps. |
 
-Each prompt returns a templated instruction message that guides the model to use the right tools (e.g. `zotero_semantic_search`, `zotero_get_item`, `zotero_bibliography`). They are read-only by themselves — any writes happen through the tools, with the usual safety gates.
+Each prompt returns a templated instruction message that guides the model to use the right tools (e.g. `zotero_semantic_search`, `zotero_get_item`, `zotero_bibliography`). They are read-only by themselves: any writes happen through the tools, with the usual safety gates.
+
+## Evidence checks
+
+Use the [first-research-task workflow](/docs/first-research-task) with any deployed version. The current source prompts require passage retrieval before detailed synthesis and distinguish an existing reference from support for a claim. Collection overviews based on abstracts must say so. These revised templates take effect when that source version is installed; hosted releases may lag.
+
+If your client does not expose MCP prompts, paste the workflow from the guide into chat. [Annotations to literature notes](/docs/annotations-to-literature-notes) uses the existing tools and asks you to review a draft before saving.

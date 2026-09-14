@@ -79,7 +79,7 @@ export function DemoVideo() {
 
   return (
     <>
-      <figure className="z-video z-panel">
+      <figure id="research-example" tabIndex={-1} className="z-video z-panel scroll-mt-24">
         <div className="z-chat-bar">
           <span className="z-label normal-case tracking-normal">claude.ai</span>
           <span className="z-label normal-case tracking-normal">Zoteus, hosted connector</span>
@@ -88,6 +88,7 @@ export function DemoVideo() {
           ref={ref}
           className="z-video-el"
           autoPlay
+          controls
           muted
           loop
           playsInline

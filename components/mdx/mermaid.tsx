@@ -45,12 +45,9 @@ export function Mermaid({ chart }: { chart: string }) {
   const [svg, setSvg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
-    if (!mounted) return;
+    if (!resolvedTheme) return;
     let cancelled = false;
 
     loadMermaid().then(async (mermaid) => {
@@ -124,7 +121,7 @@ export function Mermaid({ chart }: { chart: string }) {
     return () => {
       cancelled = true;
     };
-  }, [chart, id, mounted, resolvedTheme]);
+  }, [chart, id, resolvedTheme]);
 
   if (error) {
     return (

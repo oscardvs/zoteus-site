@@ -4,7 +4,7 @@ import { CopyCommand } from '@/components/copy-command';
 import { DemoVideo } from '@/components/demo-video';
 import { JsonLd } from '@/components/json-ld';
 import { SiteFooter } from '@/components/site-footer';
-import { SystemDiagram } from '@/components/system-diagram';
+import { ConnectionOptions } from '@/components/connection-options';
 import { siteDescription, softwareApplicationLd } from '@/lib/seo';
 import { plans, repoUrl } from '@/lib/shared';
 
@@ -36,12 +36,11 @@ const INSTALL = [
   { label: 'Any client (universal)', cmd: 'npx add-mcp @oscardvs/zoteus' },
 ];
 
-/* Feature copy is unchanged. The tool names are the Zoteus tools that back
-   each one, so a reader can match the claim to what the client will call. */
+/* Tool names link the research outcomes to the available operations. */
 const FEATURES = [
   {
-    title: 'Semantic search over your PDFs',
-    body: 'Hybrid keyword and vector search across metadata, full text, and annotations, with page locators in the results. Runs on local embeddings by default.',
+    title: 'Find a paper or a passage',
+    body: 'Search titles, abstracts, notes and annotations. Search by meaning needs an active embedding provider; PDF-body indexing is opt-in. Read the matched passage to verify its page and context.',
     tools: ['zotero_semantic_search', 'zotero_index', 'zotero_get_fulltext'],
   },
   {
@@ -55,13 +54,13 @@ const FEATURES = [
     tools: ['zotero_import'],
   },
   {
-    title: 'Safe, reversible writes',
-    body: 'Versioned, optimistic-locked, reversible trash by default, gated delete.',
+    title: 'Review changes to your library',
+    body: 'Preview a metadata edit before applying it. Trash can be restored; arbitrary metadata changes do not have automatic undo.',
     tools: ['zotero_create_items', 'zotero_update_item', 'zotero_trash_items'],
   },
   {
     title: 'Runs on your machine',
-    body: 'Reads go to the Zotero desktop app when it is running. Semantic search uses an on-device embedding model by default.',
+    body: 'The free local route reads from your running Zotero app. You can install an on-device embedding model. Retrieved excerpts still go to the AI service you choose.',
     tools: ['Zotero local API, 127.0.0.1:23119'],
   },
   {
@@ -80,26 +79,21 @@ export default function Home() {
         <div className="z-container grid items-center gap-10 py-14 sm:py-20 lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] lg:gap-14 lg:py-24">
           <div className="max-w-2xl">
             <p className="z-label">Open-source · Zotero MCP server</p>
-            <h1 className="z-display z-h1 mt-5 max-w-[17ch]">Your whole Zotero library, inside Claude&nbsp;and&nbsp;ChatGPT.</h1>
+            <h1 className="z-display z-h1 mt-5 max-w-[17ch]">Find the evidence you saved in Zotero.</h1>
             <p className="z-lead mt-6 max-w-xl">
-              Zoteus gives Claude, ChatGPT, Cursor, and other MCP clients real access to your reference
-              library: semantic search over your own PDFs, citations in any CSL style, add by
-              DOI, attachments, and PDF highlights anchored to the text they quote.{' '}
-              <strong>Installs with one command or a double-click. No Python.</strong>
+              Ask questions about your papers and notes in Claude or ChatGPT. Retrieve passages
+              with page references, compare evidence, and turn your annotations into cited notes.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <CopyCommand />
-              <Link href={repoUrl} className="z-btn z-btn-secondary" target="_blank" rel="noreferrer">
-                <GitHubIcon />
-                View on GitHub
-              </Link>
+              <Link href="#connect" className="z-btn z-btn-primary">Connect my library <ArrowIcon /></Link>
+              <Link href="#research-examples" className="z-btn z-btn-secondary">See research workflows</Link>
             </div>
             <p className="z-label mt-6 flex flex-wrap gap-x-2 normal-case tracking-[0.02em]">
               <span>MIT-licensed</span>
               <span aria-hidden>·</span>
-              <span>Runs on your machine</span>
+              <span>Free local install</span>
               <span aria-hidden>·</span>
-              <span>No telemetry</span>
+              <span>Optional hosted plans</span>
             </p>
           </div>
           <DemoVideo />
@@ -136,23 +130,36 @@ export default function Home() {
         </div>
       </section>
 
-      {/* The problem, and where Zoteus sits */}
-      <section className="z-section">
+      <section id="connect" className="z-section scroll-mt-20">
         <div className="z-container">
-          <div className="z-section-head">
-            <h2 className="z-h2">
-              Your references are in Zotero. Your AI client can&rsquo;t see them.
-            </h2>
-            <p className="z-lead">
-              Without a connection, every new chat starts from nothing: you paste the same PDFs
-              again, describe your library again, and a request for references can come back
-              with <strong>citations that do not exist</strong>. Zoteus connects the library
-              itself, so your AI works from <strong>what you&rsquo;ve already read and saved.</strong>
-            </p>
+          <p className="z-label">Connect your library</p>
+          <h2 className="z-h2 mt-3 mb-8">Choose where you want to work.</h2>
+          <ConnectionOptions />
+          <p className="z-small mt-5">Connected already? <Link className="z-link" href="/docs/first-research-task">Find and verify your first passage</Link>.</p>
+        </div>
+      </section>
+
+      <section id="research-examples" className="z-section border-t border-fd-border">
+        <div className="z-container">
+          <p className="z-label">Research workflows</p>
+          <h2 className="z-h2 mt-3">From a question to evidence you can check.</h2>
+          <p className="z-lead mt-4 max-w-3xl">These example prompts show what to ask and how to review the result. The recording above shows a real library session. The outputs below are illustrative formats, not findings from your library.</p>
+          <div className="mt-8 grid gap-4 lg:grid-cols-3">
+            {[
+              { title: 'Recover a forgotten passage', prompt: 'Find the paper where I highlighted an objection to this method. Quote the passage with its page.', result: 'Paper title · your highlight or comment · retrieved quotation · page to verify', href: '/docs/first-research-task', label: 'Try a first evidence question' },
+              { title: 'Compare several papers', prompt: 'Compare how these five papers support my question. Read the relevant passages first and mark missing evidence.', result: 'Study · finding · quotation · page · supported, contradicted, or unverified', href: '/docs/first-research-task#compare-evidence', label: 'Build an evidence table' },
+              { title: 'Turn annotations into a note', prompt: 'Find my objections and decisions about this topic. Draft a cited note and show it to me before saving.', result: 'Your comment · source passage · cited synthesis · draft for your review', href: '/docs/annotations-to-literature-notes', label: 'Work with your annotations' },
+            ].map((example) => (
+              <article key={example.title} className="z-panel flex flex-col p-6">
+                <h3 className="z-h3">{example.title}</h3>
+                <p className="z-body mt-4">{example.prompt}</p>
+                <p className="z-label mt-5">Result to check</p>
+                <p className="z-small mt-2 mb-5">{example.result}</p>
+                <Link href={example.href} className="z-link mt-auto">{example.label} <ArrowIcon /></Link>
+              </article>
+            ))}
           </div>
-          <div className="mt-10 lg:mt-12">
-            <SystemDiagram />
-          </div>
+          <p className="z-small mt-6">A real reference does not guarantee a correct AI conclusion. Open the source passage, check its context, and label synthesis based only on abstracts.</p>
         </div>
       </section>
 
@@ -162,7 +169,7 @@ export default function Home() {
           <div className="z-section-head">
             <div>
               <p className="z-label">Install</p>
-              <h2 className="z-h2 mt-3">One command for any MCP client.</h2>
+              <h2 className="z-h2 mt-3">Prefer a terminal? Start locally.</h2>
             </div>
             <p className="z-lead">
               Reads work key-free against the running desktop app, and so do the personal-library
@@ -268,11 +275,11 @@ export default function Home() {
           <div>
             <h2 className="z-h2">Connect your Zotero library.</h2>
             <p className="z-lead mt-3 max-w-xl">
-              One command in your MCP client. Open-source and free to self-host.
+              Choose hosted access or a free local install, then verify one passage from a paper you know.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            <CopyCommand />
+            <Link href="#connect" className="z-btn z-btn-primary">Connect my library <ArrowIcon /></Link>
             <Link href={repoUrl} className="z-btn z-btn-secondary" target="_blank" rel="noreferrer">
               <GitHubIcon /> View on GitHub
             </Link>

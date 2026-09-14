@@ -9,7 +9,7 @@ A systematic review team keeps its references in one place: a Zotero group libra
 
 With Zoteus connected to the group, every member can ask Claude to:
 
-- **Search the group by keyword or by meaning.** "Which of our included studies measured adherence at twelve months?" runs against titles, abstracts, creators, tags, your notes and your PDF annotations, and optionally the full text of every PDF.
+- **Search the group by keyword or by meaning.** "Which of our included studies measured adherence at twelve months?" runs against titles, abstracts, creators, tags, your notes and your PDF annotations, and optionally available PDF body text within configured indexing caps.
 - **Quote the evidence with a locator.** `zotero_get_fulltext` returns the passage with its page number and the nearest heading, so an extraction table can cite the page a number came from.
 - **Tag and file decisions.** Add or remove tags (`include`, `exclude-wrong-population`, `full-text-pending`) and move items between collections, so the screening state lives in Zotero where everyone sees it.
 - **Audit the tagging.** `zotero_tag_audit` checks the library against a controlled vocabulary you supply and reports off-taxonomy tags and items missing a required tag, per collection if you want.
@@ -19,6 +19,10 @@ With Zoteus connected to the group, every member can ask Claude to:
 
 What it does not do: it does not replace dual independent screening, and it does not decide anything on its own. A person asks, reads the answer, and acts. Writes go to Zotero with version checks, "remove" means the trash (reversible), and permanent deletion is switched off unless the operator turns it on and Claude confirms on every call.
 
+## Individual or Lab?
+
+The plans sell hosting, seats and support, not group-library functionality. Individual covers one researcher, including libraries their Zotero permissions allow. Lab covers up to ten people with assisted setup, priority email support, invoicing and purchase orders. It does not unlock combined semantic search across libraries. [Compare the plans and prerequisites](/pricing#before-you-pay).
+
 ## Two ways to run it
 
 | | Self-hosted, free | Hosted Lab plan |
@@ -27,10 +31,10 @@ What it does not do: it does not replace dual independent screening, and it does
 | Where it works | On the computer where it is installed | Browser, Claude desktop and mobile apps, any device |
 | How the group is reached | Through each member's own Zotero API key with group permissions; on Zotero 10+, a group the desktop app holds is readable without a key | Each member signs in with their own Zotero account; Zoteus asks Zotero for access to the groups that account belongs to |
 | Permissions | Whatever the key allows | Whatever Zotero's own group role allows for that member |
-| Semantic index | Built on each member's machine | Built on the server, one index per user |
+| Semantic index | Built on each member's machine | One selected library index per authenticated user |
 | Cost | €0 | €99 a month or €990 a year for up to ten people, with a free 30-day pilot |
 
-The self-hosted route is the right one if your institution requires that library data never leave its machines. The hosted route is the right one if the team works in claude.ai or ChatGPT and nobody wants to maintain an install. Details on both are on the [pricing page](/pricing).
+A local connector can read local files, but retrieved excerpts still go to the chosen AI service. Local embeddings do not make Claude or ChatGPT run locally. If institutional policy requires data to stay on its machines, assess the entire client, connector, embedding and Zotero data path. Hosted access suits teams that prefer a maintained server and whose data requirements permit it. Details on both are on the [pricing page](/pricing).
 
 ## Setting it up
 
@@ -42,7 +46,7 @@ If you do not have one yet, create it at [zotero.org/groups](https://www.zotero.
 
 **Self-hosted.** Each member creates an API key at [zotero.org/settings/keys](https://www.zotero.org/settings/keys): tick **Allow library access**, and under the group permissions give the review group **Read/Write** (or set the default group permission to Read/Write). They then paste that key into their Zoteus install; the [Connect Claude to Zotero](/docs/connect-claude-to-zotero) page has the exact steps for each client. On Zotero 10 and newer, a group that the desktop app already holds can be read without any key while the app is running; writes to a group always need the key.
 
-**Hosted.** Each member subscribes with the lab's licence key, adds `https://mcp.zoteus.com/mcp` as a custom connector in claude.ai or as a plugin in ChatGPT, and approves Zoteus on zotero.org. No API key is created by hand.
+**Hosted.** Before checkout, the billing owner arranges member access with support. Each member uses their assigned access, adds `https://mcp.zoteus.com/mcp` as a custom connector in claude.ai or as a plugin in ChatGPT, and approves Zoteus on zotero.org. No API key is created by hand.
 
 ### 3. Point Claude at the group
 
@@ -50,7 +54,11 @@ Ask *Which Zotero group libraries can you see?* Claude calls `zotero_groups`, wh
 
 ### 4. Build the search index once
 
-Ask *Build the semantic search index for the group library.* Claude runs `zotero_index` with the group's id; on a large library the first build takes a while and later updates are incremental. Keyword search works before the index exists. If you want the body of every PDF searchable too, ask for the build with full text, which costs more time and disk. See [Semantic Search](/docs/semantic-search).
+First [check search readiness](/docs/search-readiness), including the selected library, active embeddings, item cap and PDF coverage. Then ask to build the index for that group's numeric ID. Direct keyword lookup works before the index exists.
+
+**One indexed library at a time:** ordinary tools can address multiple permitted libraries per call, but the persistent index is scoped to one library per data directory (per authenticated user when hosted). A second-library build is refused. Local users can run separate instances with separate data directories. Discuss personal-plus-group needs with hosted support before paying.
+
+Default indexing stops at 5,000 items. PDF bodies are opt-in and default to 40,000 characters per item; only available extracted text is included. Those limits do not prevent reading a later page directly from an accessible PDF. Check one [verified passage](/docs/first-research-task) before a large build.
 
 ### 5. Work
 
@@ -66,16 +74,16 @@ Zoteus also ships MCP Prompts for common workflows, including a citation audit t
 
 ## Data handling, for the ethics form
 
-- **Self-hosted:** nothing leaves the member's machine except calls to Zotero's own API under the member's own key, and to any embedding provider the member chooses (on-device by default). The server has no telemetry.
+- **Self-hosted:** tool results, including retrieved passages and notes, are sent to the chosen AI client/service. Zotero sync/cloud calls and optional external embedding or scholarly services have their own data paths. Local embeddings keep embedding computation on that host only. Optional usage logging is off by default and records tool outcomes without query text; the operator controls it.
 - **Hosted:** Zoteus stores each member's Zotero token encrypted at rest (AES-256-GCM) and uses it only for that member's requests; operational logs, with secrets redacted, are kept for up to 30 days. The hosted instance currently runs on Google Cloud in the United States. A Data Processing Addendum (GDPR Article 28) is available on request. The full [privacy policy](/privacy) has the sub-processor list.
-- **Seats** on the Lab plan are a contractual term, not a technical lock: nobody is cut off in the middle of a screening round because an eleventh person joined for a week. Buy the plan that matches the group.
+- **Seats:** choose the plan that covers the people using it. Arrange member access with support during setup; a license key can be bound to a Zotero account, so do not assume the same key can be shared among everyone.
 
 ## The pilot
 
 For a review team the setup, not the software, is the part that costs an afternoon, so it is done with you. A pilot is:
 
-1. A [15-minute call](https://cal.com/oscardvs/zoteus-setup) with the maintainer, on which your group library is connected and the first index is started.
+1. A [15-minute call](https://cal.com/oscardvs/zoteus-setup) with the maintainer, on which your group library is connected and the first index is started. Bring one known paper and one research question to check PDF availability and retrieve a verifiable passage. Agree on a task to evaluate during the pilot.
 2. Thirty days of the Lab plan at no charge, for the whole team. No card.
-3. At the end, either the Lab plan (€99 a month, or €990 a year, which suits grant budgets and stays under most procurement thresholds; invoices and purchase orders are fine) or nothing happens.
+3. At the end, either the Lab plan (€99 a month, or €990 a year, invoices and purchase orders are available) or nothing happens.
 
 [Book the setup call](https://cal.com/oscardvs/zoteus-setup) or email [support@zoteus.com](mailto:support@zoteus.com). If your group is larger than ten, the Department plan covers up to fifty people and comes with an onboarding session; write first.

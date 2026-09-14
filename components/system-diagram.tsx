@@ -54,7 +54,7 @@ export function SystemDiagram() {
         stdio, or HTTP with OAuth
       </Edge>
 
-      <Node title="Zoteus" sub="MCP server in TypeScript. Runs on your machine. 31 tools, namespaced zotero_*" core>
+      <Node title="Zoteus" sub="MCP server in TypeScript. Runs on your machine. research tools, namespaced zotero_*" core>
         <ul>
           {FAMILIES.map(([family, tools]) => (
             <li key={family}>

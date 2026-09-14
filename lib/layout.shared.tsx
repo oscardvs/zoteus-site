@@ -20,7 +20,7 @@ export const guides: { text: string; description: string; url: string }[] = [
   },
   {
     text: 'Zoteus and zotero-mcp',
-    description: 'How the two Zotero MCP servers compare.',
+    description: 'A dated comparison of two selected Zotero connectors.',
     url: '/docs/zoteus-and-zotero-mcp',
   },
 ];
@@ -32,7 +32,7 @@ export function baseOptions(): BaseLayoutProps {
       transparentMode: 'top',
     },
     links: [
-      { text: 'Docs', url: '/docs', active: 'nested-url' },
+      { text: 'Get started', url: '/docs', active: 'nested-url' },
       {
         type: 'menu',
         text: 'Guides',

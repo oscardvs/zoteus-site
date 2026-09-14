@@ -1,53 +1,43 @@
 ---
-title: Zoteus Documentation
-description: "Zoteus is an open-source MCP server that connects your Zotero library to Claude, ChatGPT and other AI assistants: search, cite, write back, sync, and explore the scholarly graph."
+title: Get started with Zoteus
+description: "Choose Claude or ChatGPT, connect a hosted or free local Zotero library, and verify your first PDF passage. Setup, search readiness and troubleshooting."
 ---
 
-Zoteus is an open-source [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server for [Zotero](https://www.zotero.org). It exposes your Zotero library to Claude, ChatGPT, Claude Code, Cursor and any other MCP client as a set of typed, safe tools: search by keyword or by meaning, quote passages from your PDFs with page locators, format citations in any CSL style, add items by DOI, write back to your library, and explore the wider literature around any paper.
+import { ConnectionOptions } from '@/components/connection-options';
 
-## Guides
+Find a passage you remember, compare papers, or recover your own notes. Start with a paper you know so you can check what the assistant retrieves.
 
-- [**Connect Claude to Zotero**](/docs/connect-claude-to-zotero): step-by-step for Claude Desktop (the double-click extension), claude.ai (the hosted connector), Claude Code and Cursor, with the exact commands.
-- [**Connect ChatGPT to Zotero**](/docs/connect-chatgpt-to-zotero): ChatGPT reaches Zoteus through the hosted connector or your own OAuth remote; Developer mode, the plugin dialog, signing in with your Zotero account, and what to do when the tool list is empty.
-- [**Group libraries for systematic review teams**](/docs/group-libraries-for-review-teams): a shared Zotero group library in Claude for a screening or evidence-synthesis team, and the free 30-day lab pilot.
-- [**Zoteus and zotero-mcp**](/docs/zoteus-and-zotero-mcp): an honest side-by-side of the two open-source Zotero MCP servers.
+## 1. Choose your client and connection
 
-## Quick start
+<ConnectionOptions />
 
-Add Zoteus to Claude Code in one step:
+[Shared group library? Start with the review-team guide.](/docs/group-libraries-for-review-teams) ChatGPT requires a public HTTPS connector; a free local `npx` process cannot connect to ChatGPT. Self-hosting that remote is free software, but infrastructure and any API usage are your responsibility.
 
-```bash
-claude mcp add --transport stdio zoteus -- npx -y @oscardvs/zoteus
-```
+## 2. Check what is ready
 
-Or run it directly:
+Before a large research question, ask which library is connected, whether one PDF is readable, and whether search uses keywords or vectors. [Search readiness](/docs/search-readiness) explains metadata, notes, PDF coverage, embedding setup, and index limits. [Hosted requirements](/pricing#before-you-pay) are worth checking before subscribing.
 
-```bash
-npx -y @oscardvs/zoteus
-```
+## 3. Get your first verified passage
 
-With the Zotero desktop app running and **Settings, Advanced, "Allow other applications on this computer to communicate with Zotero"** ticked, reads need no API key, and neither do the writes that go through the app: adding items by identifier, attachments, annotations, and trash and restore. Add a key from [zotero.org/settings/keys](https://www.zotero.org/settings/keys) for sync, group libraries, metadata edits, tags and collections, and writes when the app is closed:
+Follow [your first research task](/docs/first-research-task): find a known paper, retrieve a quotation, and open the page in Zotero to check it. You do not need to finish a whole-library semantic index first.
 
-```bash
-claude mcp add --transport stdio zoteus -e ZOTERO_API_KEY=your_key -- npx -y @oscardvs/zoteus
-```
+Then try [annotations to literature notes](/docs/annotations-to-literature-notes), or [compare evidence from several papers](/docs/first-research-task#compare-evidence). AI conclusions can still be wrong even when references exist.
 
-Claude Desktop users can skip the terminal entirely: download the bundle for your system (`zoteus-macos.mcpb`, `zoteus-windows.mcpb` or `zoteus-linux.mcpb`) from the [latest release](https://github.com/oscardvs/zoteus/releases/latest) and double-click it. See [Connect Claude to Zotero](/docs/connect-claude-to-zotero).
+## Troubleshooting
 
-## Reference
+- [Missing PDFs, local-only files, WebDAV and scans](/docs/missing-pdfs)
+- [Search misses a known paper, returns keywords only, or stops indexing](/docs/search-readiness#when-search-misses-something)
+- [Claude connection problems](/docs/connect-claude-to-zotero#when-something-goes-wrong)
+- [ChatGPT tools or connection missing](/docs/connect-chatgpt-to-zotero#when-something-goes-wrong)
 
-- [**Architecture**](/docs/architecture): internal layers, source map, and key design principles.
-- [**Configuration**](/docs/configuration): all environment variables: core, OAuth, CIMD, ops, optional dependencies, and library backends.
-- [**Citations**](/docs/citations): import by DOI, ISBN, arXiv or URL, resolve CSL styles, render bibliographies with citeproc-js.
-- [**Semantic Search**](/docs/semantic-search): hybrid BM25 and vector search with privacy-first local embeddings.
-- [**Writing to Zotero**](/docs/writing): create, patch, trash and delete items safely; manage collections, tags, and saved searches.
-- [**Files, Full-text, Sync and Export**](/docs/files-and-sync): attachment upload and download, full-text read and write, sync deltas, group libraries, and machine-readable exports.
-- [**Scholar Graph**](/docs/scholar): explore references, citations, and related works via OpenAlex and Crossref; spot citation gaps.
-- [**Grounding, Tag Audit and BBT Export**](/docs/grounding): PDF passage retrieval with page locators, PDF pages and figures as images, tag vocabulary audit, Better BibTeX export.
-- [**Prompts**](/docs/prompts): seven MCP Prompt workflows (literature review, cite, organize, find related, citation audit, and more).
-- [**Code Execution**](/docs/code-execution): progressive tool discovery and generated TypeScript wrappers for sandbox-based agent scripts.
-- [**Remote OAuth**](/docs/remote-oauth): deploy Zoteus as a claude.ai or ChatGPT custom connector with OAuth 2.1 and PKCE; single-tenant and multi-tenant modes.
+## Advanced reference
 
-## Source and license
+Use these after the first successful task: [configuration](/docs/configuration), [semantic search](/docs/semantic-search), [passages and page images](/docs/grounding), [citations](/docs/citations), [safe writes](/docs/writing), [files and sync](/docs/files-and-sync), [scholarly context](/docs/scholar), and [research prompts](/docs/prompts).
 
-[github.com/oscardvs/zoteus](https://github.com/oscardvs/zoteus), MIT licensed. Hosted plans, for people who would rather not run anything, are on the [pricing page](/pricing).
+For operators and developers: [remote OAuth hosting](/docs/remote-oauth), [architecture](/docs/architecture), and [code execution](/docs/code-execution).
+
+## Choosing or migrating a connector
+
+[Zoteus and zotero-mcp](/docs/zoteus-and-zotero-mcp) compares two selected projects and links to the broader field. Zoteus complements the [Zotero Connector](https://www.zotero.org/support/connector): save papers in your browser with Zotero, then work with the library you have saved.
+
+[Source code and releases](https://github.com/oscardvs/zoteus), MIT licensed. [Privacy and data paths](/privacy).

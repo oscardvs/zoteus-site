@@ -1,41 +1,43 @@
 ---
-title: Hybrid Semantic Search
-description: BM25 keyword scoring fused with vector similarity (Reciprocal Rank Fusion) for natural-language "papers about X" queries, with a privacy-first local embeddings default.
+title: Semantic search reference
+description: "Zoteus index actions, coverage limits, embedding providers, persistence and single-library scope. Advanced reference for configuring search."
 ---
 
-Zoteus adds local-first hybrid retrieval: BM25 keyword scoring fused with vector similarity (Reciprocal Rank Fusion), with results that cite the matching item and a snippet.
+For setup and common symptoms, start with [search readiness](/docs/search-readiness). This page is the advanced reference. The [full implementation and operations reference](https://github.com/oscardvs/zoteus/blob/main/docs/semantic-search.md) retains detailed diagnostics and implementation history.
 
-## Tools
+## Index actions
 
-### `zotero_index` — build the index
-
-- `action: "build"` / `"refresh"` — fetch the library's top-level items and index their text (title, abstract, creators, tags) for BM25, plus vector embeddings if an embedder is configured. Persisted under the Zoteus data dir.
-- `action: "status"` — report passages/items indexed and the active embedder.
-
-### `zotero_semantic_search` — search by meaning
-
-- `q` — natural-language query. `mode`: `auto` (hybrid, default), `keyword` (BM25), or `semantic` (vector).
-- Returns ranked items with a snippet and fused score. Build the index first.
-- Snippets are query-centred and trimmed to word boundaries: the excerpt is positioned around the first query token hit rather than always taken from the document head, so the relevant phrase appears in the snippet even when it occurs deep in the abstract.
-
-For exact field/tag/itemType filtering, use `zotero_search_items`. Use semantic search for conceptual "papers about X" queries.
-
-## Embedding backends (privacy-first)
-
-Set `ZOTEUS_EMBEDDINGS`:
-
-| Value | Behaviour |
+| `zotero_index` action | Behaviour |
 |---|---|
-| `local` (default) | On-device embeddings via `@huggingface/transformers` (model `all-MiniLM-L6-v2`). **No data leaves your machine.** |
-| `openai` / `gemini` | API embeddings (opt-in; requires `OPENAI_API_KEY` / `GEMINI_API_KEY`; data is sent to the provider). |
-| `off` | Keyword-only (BM25). |
+| `status` | Read progress, stored item/passage counts, active embedder, coverage warnings, persistence errors and library version |
+| `build` | First build or resume persisted work, including missing vectors; respects the configured item cap |
+| `update` | Read changes since the recorded library version; can fall back to a full build when the backend or model changed |
+| `refresh` | Start over; repeats extraction and embedding work, potentially including API costs |
+| `stop` | Cancel the current job while preserving partial progress |
+| `pause` / `resume` | Persist a hold / clear the hold; resume does not itself start a build |
 
-**`local` is opt-in by install** to keep the core package light:
+Builds run in the background. Poll `status` instead of repeatedly requesting builds. Default `ZOTEUS_INDEX_MAX_ITEMS` is 5000; a tool `limit` can lower but cannot raise that cap. Child notes and annotations are included by default. PDF body text is opt-in using `fulltext:true` or `ZOTEUS_INDEX_FULLTEXT=true`; the default `ZOTEUS_INDEX_FULLTEXT_MAX_CHARS` is 40000 per item. A value of 0 removes the text cap, with increased resource use. The source is text Zotero has extracted, not OCR or a complete disk crawl.
 
-```bash
-npm i @huggingface/transformers
-```
+## Ranking modes
 
-If the optional dependency (or an API key) is absent, Zoteus **automatically falls back to keyword-only** search and logs a one-line note — everything still works, just without vector ranking. The first local build downloads the model (~25 MB) once.
+`zotero_semantic_search` accepts `q` and `mode`: `auto` combines BM25 and vectors when available; `keyword` uses BM25; `semantic` requires vectors and an active query embedder. `auto_build` defaults to true and starts an initial background build when empty. A partially indexed library is only partially searchable.
 
-The index is stored at `<ZOTEUS_DATA_DIR>/search-index.json` and reloaded on startup.
+Use `zotero_search_items` for exact metadata/filter discovery without a Zoteus index. Read a returned hit with `zotero_get_fulltext` for the passage and available locator; an index snippet is not a complete evidence check.
+
+## Embedding providers
+
+| `ZOTEUS_EMBEDDINGS` | Requirements and data path |
+|---|---|
+| `local` (default setting) | Requires a separate `@huggingface/transformers` install and reachable dependency path; embeddings run on the server hosting Zoteus |
+| `openai` / `gemini` | API key configured by the operator; indexed text and queries sent to that provider, potentially billed separately |
+| `off` | Deliberate keyword-only ranking |
+
+The desktop bundle omits the local dependency. Follow the [supported installation path](/docs/search-readiness#set-up-search-by-meaning-locally), then inspect `embedderActive` and `embedderReason`. Configuration alone does not establish working vectors. Local embeddings do not keep a cloud AI conversation local.
+
+## Storage and library scope
+
+`ZOTEUS_INDEX_BACKEND=auto` selects SQLite on supported Node runtimes (Node 22.13+), otherwise the memory backend with JSON persistence. Indexes live under `ZOTEUS_DATA_DIR`; hosted multi-user mode scopes files by authenticated user.
+
+**One index file holds one library.** A build for a different library is refused to protect the existing index. Ordinary per-call group access does not mean multiple persistent indexes or federated semantic search. Use separate local instances with separate data directories, or agree on the intended library with the hosted operator.
+
+[Configuration reference](/docs/configuration) · [Coverage troubleshooting](/docs/search-readiness#when-search-misses-something) · [Missing PDFs](/docs/missing-pdfs)

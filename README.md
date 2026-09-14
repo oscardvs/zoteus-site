@@ -14,6 +14,8 @@ pnpm dev          # http://localhost:3000
 pnpm build        # static export to out/
 pnpm lint
 pnpm types:check  # fumadocs-mdx + next typegen + tsc --noEmit
+python3 scripts/check-site.py  # after build: links, assets, metadata and sitemap
+python3 -m http.server 4173 --bind 127.0.0.1 --directory out  # review the export
 ```
 
 `pnpm install` runs `fumadocs-mdx` as a postinstall step to generate the content collections that `lib/source.ts` imports.

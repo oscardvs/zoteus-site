@@ -122,7 +122,7 @@ export const plans: Plan[] = [
     blurb: 'One researcher, nothing to run.',
     features: [
       'Connect in claude.ai or ChatGPT with one URL',
-      'Your personal Zotero library',
+      'Personal or permitted group library, for one researcher',
       'Per-user Zotero login, encrypted at rest',
       'Always on, maintained and updated',
       'Email support · cancel anytime',
@@ -142,7 +142,7 @@ export const plans: Plan[] = [
     blurb: 'Your whole group, on your shared Zotero group library.',
     features: [
       'Everything in Individual, for 10 people',
-      'Zotero group libraries, shared across the team',
+      'Shared billing for your research team',
       'A 15-minute setup call with the maintainer',
       'Priority email support',
       'Invoicing and purchase orders',

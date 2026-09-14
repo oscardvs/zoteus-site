@@ -1,9 +1,9 @@
 ---
 title: Connect Claude to Zotero
-description: "Step-by-step setup for Claude Desktop, claude.ai, Claude Code, Cursor and ChatGPT, with the exact commands. Free to self-host; a hosted connector for claude.ai and ChatGPT."
+description: "Connect Claude to Zotero using the free desktop extension or hosted access. Platform downloads, embedding setup, PDF checks and your first verified passage."
 ---
 
-Zoteus is an open-source MCP server that gives Claude access to your Zotero library. Once it is connected you can ask Claude to find the paper you saved three years ago, quote the passage from its PDF with the page number, build a bibliography in the style your journal wants, or file a new reference by its DOI. The citations are real because Claude works from the references you actually have.
+Zoteus is an open-source MCP server that gives Claude access to your Zotero library. Once it is connected you can ask Claude to find the paper you saved three years ago, quote the passage from its PDF with the page number, build a bibliography in the style your journal wants, or file a new reference by its DOI. References come from your library, but you still need to verify each passage and the conclusions drawn from it.
 
 There are five ways to connect. Pick the one that matches where you use Claude; plenty of people run two.
 
@@ -28,16 +28,28 @@ For the three routes that run Zoteus on your own computer (Claude Desktop, Claud
 
 With that switched on, Zoteus reads your library, your notes and the text of your PDFs straight from the app, and writes the things that have a desktop path (adding items by identifier, attaching files, highlighting PDFs, moving items to the trash and restoring them) without any cloud key. On Zotero 10 and newer the app asks once whether to allow writes; choose **Always Allow**. Metadata edits, tags, collections, group libraries, sync, and anything you do while Zotero is closed go through the Zotero Web API and need a key. See [Do you need a Zotero API key?](#do-you-need-a-zotero-api-key) below.
 
+import { PlatformDownloads } from '@/components/platform-downloads';
+
 ## Claude Desktop [#claude-desktop]
 
-The Claude Desktop app installs Zoteus from one file, with nothing else to download and no terminal. The bundle carries its own copy of Zoteus and runs on the Node.js built into the Claude app, so you do not need Node.js or Python installed.
+<PlatformDownloads />
 
-1. **Download the extension.** Go to the [latest release](https://github.com/oscardvs/zoteus/releases/latest) and click the bundle for your system in the **Assets** list: **`zoteus-macos.mcpb`**, **`zoteus-windows.mcpb`** or **`zoteus-linux.mcpb`**. The file is 32 to 57 MB. Your browser may warn that the file type is unusual; it comes from the project's own release page.
+<details>
+<summary>See the current release download page</summary>
+
+![Zoteus v1.20.0 release assets for Linux, macOS and Windows](/images/github-release-download.png)
+
+Captured 14 September 2026 in a desktop browser on Linux. These are release assets, not proof of installation on each platform.
+</details>
+
+The Claude Desktop app installs the core connector from one file, with no terminal. Search by meaning needs an additional embedding setup; keyword lookup and PDF reading do not. The bundle carries its own copy of Zoteus and runs on the Node.js built into the Claude app, so you do not need Node.js or Python installed.
+
+1. **Download the extension.** Go to the [latest release](https://github.com/oscardvs/zoteus/releases/latest) and click the bundle for your system in the **Assets** list: **`zoteus-macos.mcpb`**, **`zoteus-windows.mcpb`** or **`zoteus-linux.mcpb`**. The v1.20.0 bundles are about 34 to 60 MB, depending on platform. Check that the download comes from the project's own release page.
 2. **Install it.** Double-click the downloaded file. The Claude app opens, shows what Zoteus can do, and you click **Add**. If double-clicking does nothing (on Linux, or where the file type is not registered), open the Claude app, go to **Settings**, then **Extensions** under **Desktop app**, and drag the downloaded file onto the panel that says *Drag .MCPB or .DXT files here to install*.
 3. **Restart Claude properly.** Closing the window is not enough. Quit the whole app (**Cmd-Q** on macOS, **File, Exit** on Windows) and open it again.
 4. **Check it worked.** Start a new chat and ask: *Am I connected to my Zotero library?* Claude answers with a line that starts *Signed in as ...* or *No cloud API key configured, running in local-only read mode*, and says whether it can see the Zotero app on your computer. Either answer means Zoteus is installed.
 
-To add an API key later, open **Settings**, then **Extensions**, click **Configure** next to Zoteus, and paste it into the **Zotero API Key** field. Every other field on that screen is optional.
+To add an API key later, open **Settings**, then **Extensions**, click **Configure** next to Zoteus, and paste it into the **Zotero API Key** field. For search by meaning, also follow [embedding setup and readiness](/docs/search-readiness). The default local provider name does not mean the model is installed.
 
 <Callout title="Updates are not automatic">
 An extension installed by hand does not update itself. Turn on **Check for updates** in the Zoteus settings (it is off by default) and Zoteus asks GitHub once a day, then tells you in chat when a newer version exists. Updating is the same two steps: download the new bundle for your system, install it over the old one. Your settings stay where they are.
@@ -57,7 +69,11 @@ If you would rather run Zoteus through `npx` in Claude Desktop (for example to p
 }
 ```
 
-Delete the `"env"` line if you have no key and Zotero is running on the same computer. Then quit and reopen the app.
+If you have no key and Zotero is running on the same computer, remove the `"env"` line **and the comma after the `"args"` array** so the JSON stays valid. Merge this entry into existing settings rather than overwriting other connections. Then quit and reopen the app.
+
+<Callout title="Before subscribing">
+Check [hosted requirements and limits](/pricing#before-you-pay): client access, synced PDF availability, one indexed library, and the provider/coverage your research needs. Metadata sync alone does not make local-only or WebDAV file bytes readable. Zoteus does not include a separate AI subscription.
+</Callout>
 
 ## claude.ai [#claude-ai]
 
@@ -82,28 +98,7 @@ Custom connectors are available on every claude.ai plan; Free plans are limited 
 
 ## ChatGPT [#chatgpt]
 
-ChatGPT connects to MCP servers over HTTPS only, from OpenAI's cloud, so it cannot run the local Zoteus server and cannot reach the Zotero app on your computer. It uses the same hosted connector as claude.ai, `https://mcp.zoteus.com/mcp`, or your own [self-hosted OAuth remote](/docs/remote-oauth). Custom servers are added through ChatGPT's Developer mode.
-
-<Callout title="Developer mode, on a paid plan">
-Adding your own MCP server to ChatGPT needs **Developer mode**: **Settings**, then **Security and login**, then the **Developer mode** switch, which ChatGPT labels as elevated risk. OpenAI offers it on the Plus, Pro, Business, Enterprise and Edu plans, in the web app; on Business and Enterprise an administrator may have to allow it first. Free ChatGPT accounts cannot add custom servers.
-</Callout>
-
-1. **Subscribe** at [zoteus.com/pricing](/pricing) and keep the subscription key from the email, or have the URL of your own remote ready.
-2. In ChatGPT, open **Plugins** (in the left sidebar, or at [chatgpt.com/plugins](https://chatgpt.com/plugins)) and click **Create app**.
-3. In the **New Plugin** dialog, enter the name `Zoteus`, choose the connection **Server URL**, and for the MCP Server URL enter exactly:
-
-   ```
-   https://mcp.zoteus.com/mcp
-   ```
-
-   Leave the authentication on **OAuth** and **Advanced OAuth settings** empty: ChatGPT discovers the OAuth endpoints and registers itself (it may show *CIMD unavailable* there, which is expected). Tick **I understand and want to continue** and click **Create**.
-4. Click **Sign in with Zoteus**. The popup asks for the subscription key once, then goes to zotero.org, where you sign in and approve access (untick write access for a read-only connection), and returns to ChatGPT. The plugin page then shows **Connected on** today's date.
-5. If the plugin page says *No app actions available yet*, click **Refresh** in its **Information** section. All 30 Zoteus tools then appear.
-6. In a chat, click **+** in the composer, pick **Zoteus**, and ask *Am I connected to my Zotero library?*
-
-The full walkthrough, including what ChatGPT asks before a write and what to do when something fails, is on [Connect ChatGPT to Zotero](/docs/connect-chatgpt-to-zotero).
-
-**Before you decide.** As with claude.ai, the connector reaches your library through your Zotero account online, so anything you have not synced to Zotero's servers is invisible to it, and PDFs that live only on your own disk stay out of reach. ChatGPT has no local alternative; if you also use Claude, the free Claude Desktop extension above reads what is on your disk.
+Use the [ChatGPT connection guide](/docs/connect-chatgpt-to-zotero). It covers Developer mode, supported accounts, the hosted connector or a self-hosted HTTPS remote, and your first verified passage. ChatGPT cannot run the local extension described above.
 
 ## Claude Code [#claude-code]
 
@@ -119,7 +114,7 @@ With a Zotero API key:
 claude mcp add --transport stdio zoteus -e ZOTERO_API_KEY=xxxxx -- npx -y @oscardvs/zoteus
 ```
 
-Add `-s user` to make Zoteus available in every project rather than only the current directory. Inside Claude Code, run `/mcp` to confirm that **zoteus** is connected, then ask something like *search my Zotero library for papers about urban heat islands*. Manage it with `claude mcp list`, `claude mcp get zoteus` and `claude mcp remove zoteus`. An `npx` install always runs the latest published version.
+Add `-s user` to make Zoteus available in every project rather than only the current directory. Inside Claude Code, run `/mcp` to confirm that **zoteus** is connected, then ask something like *search my Zotero library for papers about urban heat islands*. Manage it with `claude mcp list`, `claude mcp get zoteus` and `claude mcp remove zoteus`. To explicitly request the latest published version, use `@oscardvs/zoteus@latest`; an unversioned invocation can reuse a cached package.
 
 Subscribers can also use the hosted connector from the terminal. Claude Code runs the OAuth flow itself:
 
@@ -151,16 +146,20 @@ For Cursor specifically, you can instead add the server by hand. Create `.cursor
 }
 ```
 
-Delete the `"env"` line if you have no key and Zotero is running on the same computer. Cursor also accepts an install link that carries the same configuration: [Add Zoteus to Cursor](cursor://anysphere.cursor-deeplink/mcp/install?name=zoteus&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIkBvc2NhcmR2cy96b3RldXMiXX0%3D). Either way, Zoteus then appears in Cursor's MCP settings, where you can switch it on and off.
+If you have no key and Zotero is running on the same computer, remove the `"env"` line **and the comma after the `"args"` array** so the JSON stays valid. Merge this entry into existing settings rather than overwriting other connections. Cursor also accepts an install link that carries the same configuration: [Add Zoteus to Cursor](cursor://anysphere.cursor-deeplink/mcp/install?name=zoteus&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIkBvc2NhcmR2cy96b3RldXMiXX0%3D). Either way, Zoteus then appears in Cursor's MCP settings, where you can switch it on and off.
 
-## What to ask first
+## First successful research task
+
+[Find a known paper, retrieve a passage and verify its page](/docs/first-research-task). Check [search readiness](/docs/search-readiness) before interpreting a missing semantic hit as missing evidence.
+
+## What to ask next
 
 1. *Search my library for papers about urban heat islands.*
 2. *Which papers in my library argue against open-plan offices? Quote the passage and give me the page.*
 3. *Format a bibliography of the five most relevant papers in APA style.*
 4. *Add this paper to my Zotero library by DOI: 10.1038/s41586-021-03819-2.*
 
-The second one uses search by meaning. The first time you ask for it, Zoteus reads through your library and builds an index; on a large library that takes a while, once. Keyword search works immediately. On-device vector search needs one extra package outside the Claude Desktop bundle; see [Semantic Search](/docs/semantic-search).
+The second question can use search by meaning to locate candidates, followed by passage retrieval. The first time you ask for it, Zoteus reads through your library and builds an index; on a large library that takes a while, once. Keyword search works immediately. On-device vector search needs one extra package outside the Claude Desktop bundle; see [Semantic Search](/docs/semantic-search).
 
 ## Do you need a Zotero API key?
 
@@ -190,6 +189,14 @@ To create one: go to [zotero.org/settings/keys](https://www.zotero.org/settings/
 
 ## Next
 
+- [First verified passage](/docs/first-research-task).
+- [Search readiness and embedding setup](/docs/search-readiness).
+- [Missing PDFs, WebDAV and scans](/docs/missing-pdfs).
+
 - [Group libraries for systematic review teams](/docs/group-libraries-for-review-teams), for a shared library.
 - [Zoteus and zotero-mcp](/docs/zoteus-and-zotero-mcp), if you are choosing between the two open-source servers.
 - [Configuration](/docs/configuration), every setting in full.
+
+## Verification notes
+
+Instructions reviewed 14 September 2026 against Zoteus v1.20.0 and [Anthropic connector guidance](https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp). Web setup uses the current browser interface, which has no fixed client version. Release assets were checked for macOS, Windows and Linux. End-to-end authenticated installation was not repeated on all platforms; menu labels and workspace permissions can vary.

@@ -110,4 +110,4 @@ export function techArticleLd(page: { title: string; description?: string; path:
 
 /** The one meta description for the home page and the SoftwareApplication node. Under 160 characters. */
 export const siteDescription =
-  'Open-source MCP server for Claude, ChatGPT, Claude Code and Cursor: search your Zotero library, PDF passages with page numbers, CSL citations, writes back.';
+  'Find evidence in your Zotero papers and notes with Claude or ChatGPT. Verify PDF passages, compare sources and cite. Free local install or hosted access.';

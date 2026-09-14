@@ -1,16 +1,16 @@
 ---
 title: Connect ChatGPT to Zotero
-description: "Step-by-step setup for ChatGPT: Developer mode, the Zoteus plugin, signing in with your Zotero account, what ChatGPT asks before a write, and what to do when the tool list is empty. Through the hosted connector or your own OAuth remote."
+description: "Connect ChatGPT to Zotero with a hosted or self-hosted remote. Check Developer mode, PDF availability and permissions, then verify your first passage."
 ---
 
-Zoteus is an open-source MCP server that gives ChatGPT access to your Zotero library. Once it is connected you can ask ChatGPT to find the paper you saved three years ago, read a page range from its PDF, build a bibliography in the style your journal wants, or tag the items you are screening. The citations are real because ChatGPT works from the references you actually have.
+Zoteus is an open-source MCP server that gives ChatGPT access to your Zotero library. Once it is connected you can ask ChatGPT to find the paper you saved three years ago, read a page range from its PDF, build a bibliography in the style your journal wants, or tag the items you are screening. References come from your library, but you still need to verify each passage and the conclusions drawn from it.
 
 ChatGPT connects to MCP servers over HTTPS only, from OpenAI's cloud. It cannot start the local `npx @oscardvs/zoteus` server that Claude Desktop, Claude Code and Cursor use, and it cannot reach the Zotero app on your computer. That leaves two routes, and both reach your library through your Zotero account online.
 
 | Route | What to do | Cost |
 |---|---|---|
 | The hosted connector at `mcp.zoteus.com` | [Subscribe, add the plugin, sign in](#add-zoteus-to-chatgpt) | Subscription, see the [pricing page](/pricing) |
-| Your own server | [Run the OAuth remote on a public HTTPS host](/docs/remote-oauth), then add that URL the same way | Free |
+| Your own server | [Run the OAuth remote on a public HTTPS host](/docs/remote-oauth), then add that URL the same way | Free software; your own hosting costs |
 
 ## Before you start
 
@@ -18,6 +18,10 @@ ChatGPT connects to MCP servers over HTTPS only, from OpenAI's cloud. It cannot 
 - **Developer mode switched on.** In ChatGPT, open **Settings**, then **Security and login**, and turn on the **Developer mode** switch. ChatGPT labels it as elevated risk, because it lets you connect servers OpenAI has not reviewed. The same switch is linked from **Settings**, then **Plugins**.
 - **A Zotero account with your library synced.** ChatGPT reaches your library through zotero.org, so anything you have not synced to Zotero's servers is invisible to it. PDFs in Zotero's cloud storage can be read; PDFs that live only on your own disk stay out of reach. Check sync in the Zotero desktop app under **Settings**, then **Sync**.
 - **A Zoteus subscription key, or your own remote.** Subscribers get the key by email after checkout on the [pricing page](/pricing). If you self-host, you need the public HTTPS URL of your instance, which means running a server on the public internet; [Remote OAuth](/docs/remote-oauth) covers that.
+
+<Callout title="Before subscribing">
+Check [hosted requirements and limits](/pricing#before-you-pay): client access, synced PDF availability, one indexed library, and the provider/coverage your research needs. Metadata sync alone does not make local-only or WebDAV file bytes readable. Zoteus does not include a separate AI subscription.
+</Callout>
 
 ## Add Zoteus to ChatGPT [#add-zoteus-to-chatgpt]
 
@@ -32,10 +36,14 @@ ChatGPT connects to MCP servers over HTTPS only, from OpenAI's cloud. It cannot 
 
    Leave **Advanced OAuth settings** empty: ChatGPT discovers the OAuth endpoints and registers itself with Zoteus. It may show *CIMD unavailable* there; that is expected and harmless. Tick **I understand and want to continue** and click **Create**.
 4. **Sign in.** ChatGPT shows **Add Zoteus to ChatGPT** with a **Sign in with Zoteus** button. Click it. A popup opens the Zoteus page **Connect ChatGPT to Zoteus** and asks for the subscription key (a self-hosted instance shows its own consent page instead). It then goes to zotero.org, where you sign in and approve the permissions Zoteus asks for; untick write access there if you want a read-only connection. The popup returns to ChatGPT and the plugin page shows **Connected on** today's date.
-5. **Load the tools.** Right after connecting, the plugin's **Actions** list can say *No app actions available yet*. Click **Refresh** in the **Information** section of the plugin page. All 30 Zoteus tools then appear, each labelled **READ** or **PUBLIC WRITE** by ChatGPT.
+5. **Load the tools.** Right after connecting, the plugin's **Actions** list can say *No app actions available yet*. Click **Refresh** in the **Information** section of the plugin page. The available Zoteus tools then appear, each labelled **READ** or **PUBLIC WRITE** by ChatGPT.
 6. **Use it.** In a chat, click **+** in the composer (**Add files and more**), pick **Zoteus**, and ask normally. Start with *Am I connected to my Zotero library?*
 
-## What to ask first
+## First successful research task
+
+[Find a known paper, retrieve a passage and verify its page](/docs/first-research-task). Check [search readiness](/docs/search-readiness) before interpreting a missing semantic hit as missing evidence.
+
+## What to ask next
 
 1. *Search my library for papers about urban heat islands.*
 2. *Which papers in my library argue against open-plan offices? Quote the passage and give me the page.*
@@ -43,13 +51,13 @@ ChatGPT connects to MCP servers over HTTPS only, from OpenAI's cloud. It cannot 
 4. *Give me the outline of the PDF attached to that paper, with page numbers, then read me pages 4 to 6.*
 5. *Tag the three most recent of those with `to-read`.*
 
-The second one uses search by meaning. The first time you ask for it, Zoteus reads through your library and builds an index on the server; on a large library that takes a while, once. Keyword search works immediately.
+The second question can use search by meaning to locate candidates, followed by passage retrieval. The first request can start a background index build. Semantic ranking needs active embeddings; PDF-body indexing is opt-in and may cover only part of a library. Check [search readiness](/docs/search-readiness) first. Direct keyword lookup works without that index.
 
 ## What ChatGPT asks before a write
 
-Reads never prompt. For writes, ChatGPT decides per action whether to ask: in testing, adding a tag ran without a prompt, and removing one asked **Allow ChatGPT to use Zoteus?** with the choices **Always allow**, **Allow once**, **Allow Zoteus for this conversation** and **Deny**.
+ChatGPT controls tool confirmations through the app permissions. Behaviour can vary by account, tool and saved choices. Review the current permissions instead of assuming every write will ask first.
 
-That behaviour is the plugin's **Permissions** setting, on its page under **Plugins**. The options are **Always ask**, **Allow read actions**, **Allow low-risk actions** (the default) and **Allow all actions**. If you want a prompt before every write, pick **Allow read actions**.
+That behaviour is the plugin's **Permissions** setting, on its page under **Plugins**. The options are **Always ask**, **Allow read actions**, **Allow low-risk actions** (the default) and **Allow all actions**. To review writes, select the setting that asks before writes (for example **Allow read actions**) and ask for a proposed change first. Zotero authorization must also permit the write.
 
 ## Do you need a Zotero API key?
 
@@ -60,16 +68,24 @@ No. ChatGPT signs you in at zotero.org through the plugin, and you never create 
 | What you see | What to do |
 |---|---|
 | **Create app** is missing from the Plugins page | Developer mode is off, or the account is on a free plan. Turn it on under **Settings**, then **Security and login**; on Business and Enterprise, ask an administrator to allow it. |
-| *No app actions available yet* after connecting | Click **Refresh** in the **Information** section of the plugin page. The 30 tools then appear. |
+| *No app actions available yet* after connecting | Click **Refresh** in the **Information** section of the plugin page. The available tools then appear. |
 | **Sign in with Zoteus** comes straight back without a Zotero page | The popup was blocked. Allow popups for chatgpt.com and click the button again. |
 | ChatGPT says it cannot reach the server | The URL must be a public HTTPS address ending in `/mcp`. A self-hosted instance on `localhost`, behind a firewall, or on plain HTTP cannot be reached from OpenAI's cloud; see [Remote OAuth](/docs/remote-oauth). |
-| ChatGPT asks permission on every write | The plugin's **Permissions** setting is on **Always ask** or **Allow read actions**. Set it back to **Allow low-risk actions** (the default) on the plugin page under **Plugins**, or choose **Always allow** when it asks. |
-| ChatGPT cannot find something you know is in Zotero | It has not been synced yet. Sync in the Zotero desktop app and ask again. |
+| ChatGPT asks permission on every write | The plugin's **Permissions** setting is on **Always ask** or **Allow read actions**. This can be intentional. Keep confirmations if you want to review changes; inspect the proposed edit and approve only the action you intend. |
+| ChatGPT cannot find something you know is in Zotero | Check account, selected library and permissions, then sync. Try exact title lookup. Indexed search may be capped, partial or keyword-only; a PDF may lack accessible bytes or a text layer. See [search readiness](/docs/search-readiness) and [missing PDFs](/docs/missing-pdfs). |
 | Something else | [Open an issue](https://github.com/oscardvs/zoteus/issues) with what you tried and what you saw, or email [support@zoteus.com](mailto:support@zoteus.com) about the hosted connector. Never paste your subscription key. |
 
 ## Next
+
+- [First verified passage](/docs/first-research-task).
+- [Search readiness and embedding setup](/docs/search-readiness).
+- [Missing PDFs, WebDAV and scans](/docs/missing-pdfs).
 
 - [Connect Claude to Zotero](/docs/connect-claude-to-zotero), if you also use Claude: the free Claude Desktop extension there reads the PDFs on your own disk.
 - [Group libraries for systematic review teams](/docs/group-libraries-for-review-teams), for a shared library.
 - [Remote OAuth](/docs/remote-oauth), to host the connector yourself.
 - [Configuration](/docs/configuration), every setting in full.
+
+## Verification notes
+
+Instructions reviewed 14 September 2026 against Zoteus v1.20.0 and [OpenAI Developer mode guidance](https://developers.openai.com/api/docs/guides/developer-mode). Web setup uses the current browser interface, which has no fixed client version. Release assets were checked for macOS, Windows and Linux. End-to-end authenticated installation was not repeated on all platforms; menu labels and workspace permissions can vary.

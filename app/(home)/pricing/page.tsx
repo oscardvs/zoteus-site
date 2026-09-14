@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { CopyCommand } from '@/components/copy-command';
 import { SiteFooter } from '@/components/site-footer';
 import { SubscribeButton, BookCallButton } from '@/components/subscribe-button';
 import { JsonLd } from '@/components/json-ld';
@@ -8,7 +7,7 @@ import { faqPageLd } from '@/lib/seo';
 import { plans, hostedLive, supportEmail, connectorUrl, bookingHref, bookingLive } from '@/lib/shared';
 
 export const metadata: Metadata = {
-  title: 'Pricing',
+  title: 'Hosted pricing and free local use',
   description:
     'Zoteus is free and open-source to self-host, with every feature. Hosted plans start at €69/year for one researcher and €99/month for a lab of up to 10, billed via Polar.',
   alternates: { canonical: '/pricing/' },
@@ -45,6 +44,20 @@ function Plus() {
 /* `link` is rendered after the answer on the page only; the FAQPage JSON-LD carries q and a. */
 const FAQ: { q: string; a: string; link?: { label: string; href: string } }[] = [
   {
+    q: 'Can Individual access a group library?',
+    a: 'Individual is for one researcher, including the group libraries their Zotero account permits. Lab pays for up to ten people, assisted setup, priority email support, and invoicing or purchase orders. Group access is not a feature paywall. Neither plan promises multiple persistent library indexes or combined semantic search.',
+    link: { label: 'Group-library setup and index limits', href: '/docs/group-libraries-for-review-teams' },
+  },
+  {
+    q: 'Why does Lab cost more than ten Individual subscriptions?',
+    a: 'Ten monthly Individual subscriptions total €70. Lab is €99/month and includes a 15-minute setup call with the maintainer, priority email support, and invoicing and purchase orders for the team. Choose Individual for a single researcher or Lab when the team needs that shared service. There is no additional research-tool capability unlocked by Lab.',
+  },
+  {
+    q: 'Are embeddings and all my PDFs included?',
+    a: 'Do not assume complete semantic PDF coverage from a subscription. The hosted operator controls the embedding provider and indexing caps. Before paying for a workflow that depends on it, ask support to confirm active embeddings, included usage and the intended library coverage. PDF access also depends on Zotero file availability; local-only and WebDAV file bytes cannot be fetched by the hosted connector.',
+    link: { label: 'Check search readiness', href: '/docs/search-readiness' },
+  },
+  {
     q: 'Why pay if it’s open-source?',
     a: 'You’re paying for hosting and maintenance, not features. Self-hosting gives you the same capabilities for free, forever; the hosted plans mean you don’t have to run or update anything.',
   },
@@ -55,7 +68,7 @@ const FAQ: { q: string; a: string; link?: { label: string; href: string } }[] = 
   },
   {
     q: 'What counts as a lab?',
-    a: 'A research group sharing one Zotero group library: a PI, postdocs, PhD students, and whoever else screens references with you. Up to 10 people on the Lab plan, up to 50 on Department. Seat limits are on trust, not enforced in software, so nobody gets locked out mid-review.',
+    a: 'A research group sharing one Zotero group library: a PI, postdocs, PhD students, and whoever else screens references with you. Up to 10 people on the Lab plan, up to 50 on Department. Arrange member access with support during setup. License keys can be bound to a Zotero account, so do not assume one key can be reused by every member.',
   },
   {
     q: 'Can we try it before we pay?',
@@ -63,7 +76,7 @@ const FAQ: { q: string; a: string; link?: { label: string; href: string } }[] = 
   },
   {
     q: 'Is my data safe?',
-    a: 'Your Zotero key is encrypted at rest (AES-256-GCM) and only ever used to talk to your own Zotero library. Zoteus is a data processor, not a data owner. You can revoke access at any time, and reads stay scoped to your library. The server software has no telemetry; the hosted service keeps operational logs, with secrets redacted, for up to 30 days, as set out in the privacy policy.',
+    a: 'Your Zotero key is encrypted at rest (AES-256-GCM) and only ever used to talk to your own Zotero library. Zoteus is a data processor, not a data owner. You can revoke access at any time, and reads stay scoped to your library. Retrieved passages are sent to your chosen AI service. The software supports optional usage logging, disabled by default, and the hosted service keeps operational logs with secrets redacted for up to 30 days. See the privacy policy for storage and data paths.',
   },
   {
     q: 'Can I cancel?',
@@ -82,7 +95,7 @@ const FAQ: { q: string; a: string; link?: { label: string; href: string } }[] = 
 const STEPS = [
   ['01', 'Subscribe', 'Check out via Polar and get a license key by email.'],
   ['02', 'Connect', 'Add mcp.zoteus.com/mcp as a connector in claude.ai or as a plugin in ChatGPT, and sign in to your own Zotero.'],
-  ['03', 'Use', 'Paste your key once. Your library is then available to your AI.'],
+  ['03', 'Verify a passage', 'Confirm the selected library, find a known paper, and check a retrieved quotation against its PDF page.'],
 ];
 
 export default function PricingPage() {
@@ -98,6 +111,25 @@ export default function PricingPage() {
             Zoteus is open-source and free to self-host, with <strong>every</strong> feature.
             The hosted plans are for people who’d rather not run anything. They also sustain the project.
           </p>
+        </div>
+      </section>
+
+      <section id="before-you-pay" className="border-b border-fd-border scroll-mt-24">
+        <div className="z-container py-10">
+          <h2 className="z-h2">Before you pay</h2>
+          <ul className="z-body mt-5 grid list-disc gap-x-10 gap-y-3 pl-5 md:grid-cols-2">
+            <li><strong>Your AI account:</strong> Zoteus does not include a Claude or ChatGPT subscription. Confirm custom connector access first. ChatGPT needs Developer mode on a supported paid web plan; workspace administrators may restrict it.</li>
+            <li><strong>Your files:</strong> hosted access uses Zotero online. Metadata sync is not file sync. Files only on your disk or in WebDAV are not available as hosted PDF bytes.</li>
+            <li><strong>Your search coverage:</strong> PDF-body indexing is opt-in in the software. Defaults are 5,000 items and 40,000 body-text characters per item. Ask support to confirm hosted embeddings, included usage and caps for your library before relying on them.</li>
+            <li><strong>Your libraries and data:</strong> ordinary calls can use permitted groups, but each hosted user has one indexed library. Hosting is currently in the US. Retrieved text goes to your AI service; check your institution&apos;s requirements.</li>
+          </ul>
+          <div className="mt-6 flex flex-wrap gap-5">
+            <Link href="/docs/connect-claude-to-zotero#claude-ai" className="z-link">Claude requirements</Link>
+            <Link href="/docs/connect-chatgpt-to-zotero" className="z-link">ChatGPT requirements</Link>
+            <Link href="/docs/missing-pdfs" className="z-link">Check PDF availability</Link>
+            <Link href="/privacy" className="z-link">Privacy and data paths</Link>
+            <a href={`mailto:${supportEmail}?subject=Hosted%20search%20readiness`} className="z-link">Confirm my library&apos;s fit</a>
+          </div>
         </div>
       </section>
 
@@ -130,7 +162,7 @@ export default function PricingPage() {
                 <div className="mt-6 flex flex-col gap-2">
                   {plan.cta === 'install' ? (
                     <>
-                      <CopyCommand className="z-copy-wrap w-full" />
+                      <Link href="/docs/connect-claude-to-zotero#claude-desktop" className="z-btn z-btn-secondary">Install free locally</Link>
                       <Link href="/docs" className="z-link text-sm">Read the docs <Arrow /></Link>
                     </>
                   ) : (

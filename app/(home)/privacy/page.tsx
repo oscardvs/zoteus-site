@@ -13,7 +13,7 @@ export default function Privacy() {
   return (
     <LegalPage
       title="Privacy Policy"
-      updated="1 June 2026"
+      updated="14 September 2026"
       intro={
         <>
           Zoteus, operated by {operator}, is an open-source connector between your Zotero library
@@ -27,8 +27,7 @@ export default function Privacy() {
       <Sec h="Self-hosting: we collect nothing">
         <p>
           The open-source connector runs on <strong>your own machine or server</strong>. Your Zotero
-          credentials and library data flow only between your device, your Zotero account, and the AI
-          client you choose. We have no access to any of it, and the connector phones home to nobody.
+          credentials and library data are processed on that machine. Retrieved passages, metadata and notes are returned to the AI client you choose and may be sent to its cloud service. Local embeddings keep embedding computation on the connector host; they do not make a cloud AI conversation local. Optional API embeddings send text and queries to that provider. Zotero, identifier resolvers and scholarly services receive requests when used. Opt-in update checks contact GitHub.
         </p>
       </Sec>
 
@@ -56,9 +55,7 @@ export default function Privacy() {
             can object at any time by writing to us.
           </p>
           <p>
-            <strong>The connector itself has no analytics.</strong> Neither the self-hosted connector nor the
-            hosted tier contains any telemetry, and neither reports anything about your library or your usage to
-            us or to anyone else. This section is about the website you are reading, and only the website.
+            <strong>Website analytics and connector logs are separate.</strong> The open-source connector supports optional operator-controlled usage logging, disabled by default. When enabled, it records tool names, outcomes, duration and, in multi-user mode, user identity, without argument values, search text or library content. Those logs stay on the connector host. Hosted operational logging is described below.
           </p>
         </Sec>
       )}
@@ -68,12 +65,12 @@ export default function Privacy() {
         <ul>
           <li><strong>Your Zotero API key / login</strong>, used solely to access <em>your</em> library on your behalf. It is <strong>encrypted at rest (AES-256-GCM)</strong> and transmitted over TLS.</li>
           <li><strong>Your account email and subscription status</strong>, to provision and maintain access (managed via Polar; see Payments).</li>
+          <li><strong>Search indexes and caches</strong>, which can contain metadata, notes, extracted passages and embeddings derived from the library you ask to index. These are stored on the connector host and scoped per authenticated user. Retrieved content is returned to your chosen AI service.</li>
           <li><strong>Operational logs</strong> with secrets redacted, kept for reliability and abuse prevention and deleted within 30 days.</li>
         </ul>
         <p>
           We act as a <strong>data processor</strong> for your library data; you remain in control
-          of it. We do not read, mine, sell, or use your library or PDFs to train anything. Reads stay
-          scoped to your own library.
+          of it. We access and process the library content needed to answer your requests and build the requested indexes. We do not sell your library or use it to train models. Access stays scoped to libraries your Zotero permissions allow. Your chosen AI service has its own data-handling terms.
         </p>
         <p>
           We process your account email, subscription status, and encrypted Zotero key because they are
@@ -108,9 +105,7 @@ export default function Privacy() {
           States</strong> (region us-central1). This means that if you use the hosted tier, your encrypted
           Zotero API key and account email are transferred to and stored in the US. We rely on Google Cloud’s
           Standard Contractual Clauses (and, where applicable, the EU–US Data Privacy Framework) as the
-          safeguard for this transfer under Articles 44–46 GDPR. We are evaluating moving hosting to a Google
-          Cloud EU region to keep this data inside the EEA; if you <strong>self-host</strong>, no transfer
-          takes place at all.
+          safeguard for this transfer under Articles 44–46 GDPR. No EU hosting option is promised here. If you <strong>self-host</strong>, assess where your server, Zotero account, chosen AI service and any external embedding provider process data; self-hosting does not by itself eliminate international transfers.
         </p>
         {analyticsEnabled && (
           <p>
