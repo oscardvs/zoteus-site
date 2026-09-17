@@ -5,7 +5,8 @@ import { DemoVideo } from '@/components/demo-video';
 import { JsonLd } from '@/components/json-ld';
 import { SiteFooter } from '@/components/site-footer';
 import { ConnectionOptions } from '@/components/connection-options';
-import { siteDescription, softwareApplicationLd } from '@/lib/seo';
+import { demoVideoLd, siteDescription, softwareApplicationLd } from '@/lib/seo';
+import { DEMO_VIDEO_DESCRIPTION } from '@/lib/shared';
 import { plans, repoUrl } from '@/lib/shared';
 
 /* Title and description are inherited from the root layout; the home page only pins its canonical. */
@@ -74,6 +75,7 @@ export default function Home() {
   return (
     <main className="flex flex-col">
       <JsonLd data={softwareApplicationLd(siteDescription)} />
+      <JsonLd data={demoVideoLd(DEMO_VIDEO_DESCRIPTION)} />
       {/* Hero */}
       <section className="border-b border-fd-border">
         <div className="z-container grid items-center gap-10 py-14 sm:py-20 lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] lg:gap-14 lg:py-24">

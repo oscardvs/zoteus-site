@@ -198,3 +198,12 @@ export const analyticsDomains = 'zoteus.com';
 
 export const analyticsEnabled =
   analyticsLive && umamiWebsiteId !== '' && !umamiWebsiteId.startsWith('PASTE-');
+
+/**
+ * The one description of the home page recording: the video's aria-label and the
+ * description in its VideoObject markup, so the two can never drift apart. It lives
+ * here rather than in the client component because a server component cannot read a
+ * plain export out of a 'use client' module (Next hands it a client reference).
+ */
+export const DEMO_VIDEO_DESCRIPTION =
+  'Claude in the browser answers a question about the Zotero library through Zoteus: it lists the seven JEPA papers, quotes the I-JEPA passage with its page, and gives APA references.';

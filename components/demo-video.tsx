@@ -1,14 +1,13 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { DEMO_VIDEO_DESCRIPTION } from '@/lib/shared';
 
 const SOURCES = [
   { src: '/demo/claude-ai.webm', type: 'video/webm' },
   { src: '/demo/claude-ai.mp4', type: 'video/mp4' },
 ];
 
-const CAPTION_ALT =
-  'Claude in the browser answers a question about the Zotero library through Zoteus: it lists the seven JEPA papers, quotes the I-JEPA passage with its page, and gives APA references.';
 
 function ExpandIcon() {
   return (
@@ -96,7 +95,7 @@ export function DemoVideo() {
           poster="/demo/claude-ai-poster.jpg"
           width={900}
           height={768}
-          aria-label={CAPTION_ALT}
+          aria-label={DEMO_VIDEO_DESCRIPTION}
         >
           {SOURCES.map((s) => (
             <source key={s.src} src={s.src} type={s.type} />
@@ -141,7 +140,7 @@ export function DemoVideo() {
               poster="/demo/claude-ai-poster.jpg"
               width={900}
               height={768}
-              aria-label={CAPTION_ALT}
+              aria-label={DEMO_VIDEO_DESCRIPTION}
             >
               {SOURCES.map((s) => (
                 <source key={s.src} src={s.src} type={s.type} />

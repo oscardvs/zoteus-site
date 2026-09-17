@@ -80,6 +80,29 @@ export function softwareApplicationLd(description: string) {
   };
 }
 
+/**
+ * VideoObject for the home page recording. Every value is measured or recorded, not
+ * estimated: the duration comes from the file (28s), and uploadDate is the day the
+ * session was captured against the maintainer's own library. Google needs name,
+ * description, thumbnailUrl and uploadDate before it will consider a video at all.
+ */
+export function demoVideoLd(description: string) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'VideoObject',
+    name: 'Zoteus answering a question from a Zotero library in claude.ai',
+    description,
+    thumbnailUrl: [`${siteUrl}/demo/claude-ai-poster.jpg`],
+    uploadDate: '2026-09-06T20:51:59+02:00',
+    duration: 'PT28S',
+    contentUrl: `${siteUrl}/demo/claude-ai.mp4`,
+    embedUrl: `${siteUrl}/#research-example`,
+    isFamilyFriendly: true,
+    inLanguage: 'en',
+    publisher,
+  };
+}
+
 /** FAQPage for a page that really renders those questions and answers on screen. */
 export function faqPageLd(items: ReadonlyArray<{ q: string; a: string }>) {
   return {
