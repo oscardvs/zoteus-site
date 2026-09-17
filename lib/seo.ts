@@ -93,8 +93,17 @@ export function faqPageLd(items: ReadonlyArray<{ q: string; a: string }>) {
   };
 }
 
-/** TechArticle for a docs page: title, description and canonical url, nothing invented. */
-export function techArticleLd(page: { title: string; description?: string; path: string }) {
+/**
+ * TechArticle for a docs page: title, description and canonical url, nothing invented.
+ * dateModified is the git commit date of the .mdx file and is omitted when history is
+ * unavailable, so the markup never claims a freshness the page cannot back up.
+ */
+export function techArticleLd(page: {
+  title: string;
+  description?: string;
+  path: string;
+  modified?: Date;
+}) {
   return {
     '@context': 'https://schema.org',
     '@type': 'TechArticle',
@@ -102,6 +111,7 @@ export function techArticleLd(page: { title: string; description?: string; path:
     description: page.description,
     url: absoluteUrl(page.path),
     inLanguage: 'en',
+    ...(page.modified ? { dateModified: page.modified.toISOString() } : {}),
     author,
     publisher,
     about: { '@type': 'SoftwareApplication', name: appName, url: `${siteUrl}/` },

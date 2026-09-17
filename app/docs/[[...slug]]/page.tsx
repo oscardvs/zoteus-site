@@ -13,6 +13,7 @@ import type { Metadata } from 'next';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
 import { JsonLd } from '@/components/json-ld';
 import { canonicalPath, techArticleLd } from '@/lib/seo';
+import { lastModified } from '@/lib/last-modified';
 import { gitConfig } from '@/lib/shared';
 
 export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
@@ -31,7 +32,12 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
   return (
     <DocsPage toc={page.data.toc} full={page.data.full}>
       <JsonLd
-        data={techArticleLd({ title: page.data.title, description: page.data.description, path: page.url })}
+        data={techArticleLd({
+          title: page.data.title,
+          description: page.data.description,
+          path: page.url,
+          modified: lastModified(`content/docs/${page.path}`),
+        })}
       />
       {sectionLabel && (
         <div className="mb-3 flex items-center gap-2">

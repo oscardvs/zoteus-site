@@ -23,6 +23,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history: the sitemap's <lastmod> and the docs dateModified are read
+          # from each file's git commit date, which a shallow clone does not carry.
+          fetch-depth: 0
 
       - uses: pnpm/action-setup@v4
         with:
