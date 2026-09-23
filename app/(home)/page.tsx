@@ -7,7 +7,7 @@ import { SiteFooter } from '@/components/site-footer';
 import { ConnectionOptions } from '@/components/connection-options';
 import { demoVideoLd, siteDescription, softwareApplicationLd } from '@/lib/seo';
 import { DEMO_VIDEO_DESCRIPTION } from '@/lib/shared';
-import { plans, repoUrl } from '@/lib/shared';
+import { plans, repoUrl, selfHostedPlan } from '@/lib/shared';
 
 /* Title and description are inherited from the root layout; the home page only pins its canonical. */
 export const metadata: Metadata = {
@@ -89,6 +89,14 @@ export default function Home() {
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Link href="#connect" className="z-btn z-btn-primary">Connect my library <ArrowIcon /></Link>
               <Link href="#research-examples" className="z-btn z-btn-secondary">See research workflows</Link>
+              <Link
+                href="/pricing#plans"
+                className="z-btn z-btn-secondary"
+                data-umami-event="home-pricing-click"
+                data-umami-event-source="hero"
+              >
+                Hosted, from €7/month
+              </Link>
             </div>
             <p className="z-label mt-6 flex flex-wrap gap-x-2 normal-case tracking-[0.02em]">
               <span>MIT-licensed</span>
@@ -252,7 +260,7 @@ export default function Home() {
             </p>
           </div>
           <div className="z-panel mt-10 grid gap-px overflow-hidden bg-fd-border sm:grid-cols-2 xl:grid-cols-4">
-            {plans.map((plan) => (
+            {[selfHostedPlan, ...plans].map((plan) => (
               <div key={plan.id} className="flex flex-col bg-fd-card p-5 sm:p-6">
                 <h3 className="z-h3">{plan.name}</h3>
                 <p className="mt-3 flex items-baseline gap-1">
@@ -265,9 +273,19 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <Link href="/pricing" className="z-link mt-6">
-            Compare the plans <ArrowIcon />
-          </Link>
+          <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
+            <Link
+              href="/pricing#plans"
+              className="z-btn z-btn-primary"
+              data-umami-event="home-pricing-click"
+              data-umami-event-source="pricing-strip"
+            >
+              See hosted plans, from €7/month <ArrowIcon />
+            </Link>
+            <Link href="/docs/connect-claude-to-zotero#claude-desktop" className="z-link">
+              Or install free locally <ArrowIcon />
+            </Link>
+          </div>
         </div>
       </section>
 

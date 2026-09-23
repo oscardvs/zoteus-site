@@ -3,13 +3,14 @@ import Link from 'next/link';
 import { SiteFooter } from '@/components/site-footer';
 import { SubscribeButton, BookCallButton } from '@/components/subscribe-button';
 import { JsonLd } from '@/components/json-ld';
+import { OpenDetailsOnHash } from '@/components/open-details-on-hash';
 import { faqPageLd } from '@/lib/seo';
-import { plans, hostedLive, supportEmail, connectorUrl, bookingHref, bookingLive } from '@/lib/shared';
+import { plans, hostedLive, supportEmail, connectorUrl } from '@/lib/shared';
 
 export const metadata: Metadata = {
   title: 'Hosted pricing and free local use',
   description:
-    'Zoteus is free and open-source to self-host, with every feature. Hosted plans start at €69/year for one researcher and €99/month for a lab of up to 10, billed via Polar.',
+    'Your Zotero library in claude.ai, the Claude mobile apps and ChatGPT, with nothing to install. Individual €69/year or €7/month with 14 days free, Lab €99/month for up to 10. The local install is free.',
   alternates: { canonical: '/pricing/' },
   openGraph: {
     title: 'Zoteus pricing: free to self-host, hosted for you or your lab',
@@ -23,13 +24,6 @@ function Check() {
   return (
     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="mt-[3px] flex-none text-fd-muted-foreground" aria-hidden>
       <path d="M20 6 9 17l-5-5" />
-    </svg>
-  );
-}
-function Arrow() {
-  return (
-    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M5 12h14M13 6l6 6-6 6" />
     </svg>
   );
 }
@@ -49,12 +43,8 @@ const FAQ: { q: string; a: string; link?: { label: string; href: string } }[] = 
     link: { label: 'Group-library setup and index limits', href: '/docs/group-libraries-for-review-teams' },
   },
   {
-    q: 'Why does Lab cost more than ten Individual subscriptions?',
-    a: 'Ten monthly Individual subscriptions total €70. Lab is €99/month and includes a 15-minute setup call with the maintainer, priority email support, and invoicing and purchase orders for the team. Choose Individual for a single researcher or Lab when the team needs that shared service. There is no additional research-tool capability unlocked by Lab.',
-  },
-  {
     q: 'Are embeddings and all my PDFs included?',
-    a: 'Do not assume complete semantic PDF coverage from a subscription. The hosted operator controls the embedding provider and indexing caps. Before paying for a workflow that depends on it, ask support to confirm active embeddings, included usage and the intended library coverage. PDF access also depends on Zotero file availability; local-only and WebDAV file bytes cannot be fetched by the hosted connector.',
+    a: 'Hosted currently searches metadata, notes and PDF full text by keyword. Search by meaning runs in the free local install. PDF access also depends on Zotero file availability: local-only and WebDAV file bytes cannot be fetched by the hosted connector.',
     link: { label: 'Check search readiness', href: '/docs/search-readiness' },
   },
   {
@@ -72,7 +62,7 @@ const FAQ: { q: string; a: string; link?: { label: string; href: string } }[] = 
   },
   {
     q: 'Can we try it before we pay?',
-    a: 'Yes. Labs get a free 30-day pilot and I run the setup with you on a call. If it doesn’t fit your workflow, nothing happens at the end of the 30 days.',
+    a: 'Yes. Individual starts with 14 days free, and you can cancel anytime from the Polar customer portal. Labs get a free 30-day pilot and I run the setup with you on a call. If it doesn’t fit your workflow, nothing happens at the end of the 30 days.',
   },
   {
     q: 'Is my data safe?',
@@ -106,44 +96,29 @@ export default function PricingPage() {
       <section className="border-b border-fd-border">
         <div className="z-container py-14 sm:py-20">
           <p className="z-label">Pricing</p>
-          <h1 className="z-display z-h1 mt-5 max-w-3xl">Free to self-host. Hosted for you or your lab.</h1>
+          <h1 className="z-display z-h1 mt-5 max-w-3xl">Your Zotero library in claude.ai, on your phone, and in ChatGPT.</h1>
           <p className="z-lead mt-6 max-w-2xl">
-            Zoteus is open-source and free to self-host, with <strong>every</strong> feature.
-            The hosted plans are for people who’d rather not run anything. They also sustain the project.
+            Nothing to install. Add one URL, sign in with Zotero, and ask. Using Claude Desktop,
+            Claude Code or Cursor? The{' '}
+            <Link href="/docs/connect-claude-to-zotero/" className="text-[color:var(--accent-text)] underline underline-offset-[3px]">
+              free local install
+            </Link>{' '}
+            already does everything, and you do not need a plan.
           </p>
-        </div>
-      </section>
-
-      <section id="before-you-pay" className="border-b border-fd-border scroll-mt-24">
-        <div className="z-container py-10">
-          <h2 className="z-h2">Before you pay</h2>
-          <ul className="z-body mt-5 grid list-disc gap-x-10 gap-y-3 pl-5 md:grid-cols-2">
-            <li><strong>Your AI account:</strong> Zoteus does not include a Claude or ChatGPT subscription. Confirm custom connector access first. ChatGPT needs Developer mode on a supported paid web plan; workspace administrators may restrict it.</li>
-            <li><strong>Your files:</strong> hosted access uses Zotero online. Metadata sync is not file sync. Files only on your disk or in WebDAV are not available as hosted PDF bytes.</li>
-            <li><strong>Your search coverage:</strong> PDF-body indexing is opt-in in the software. Defaults are 5,000 items and 40,000 body-text characters per item. Ask support to confirm hosted embeddings, included usage and caps for your library before relying on them.</li>
-            <li><strong>Your libraries and data:</strong> ordinary calls can use permitted groups, and each library you use, personal or group, can have its own search index, searchable one at a time or together. Hosting is currently in the US. Retrieved text goes to your AI service; check your institution&apos;s requirements.</li>
-          </ul>
-          <div className="mt-6 flex flex-wrap gap-5">
-            <Link href="/docs/connect-claude-to-zotero#claude-ai" className="z-link">Claude requirements</Link>
-            <Link href="/docs/connect-chatgpt-to-zotero" className="z-link">ChatGPT requirements</Link>
-            <Link href="/docs/missing-pdfs" className="z-link">Check PDF availability</Link>
-            <Link href="/privacy" className="z-link">Privacy and data paths</Link>
-            <a href={`mailto:${supportEmail}?subject=Hosted%20search%20readiness`} className="z-link">Confirm my library&apos;s fit</a>
-          </div>
         </div>
       </section>
 
       {/* Tiers */}
       <section className="z-section">
         <div className="z-container">
-          <div className="grid items-stretch gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <div id="plans" className="grid scroll-mt-24 items-stretch gap-4 lg:grid-cols-3">
             {plans.map((plan) => (
               <div key={plan.id} className={`z-panel flex flex-col p-5 sm:p-6 ${plan.highlight ? 'z-panel-strong' : ''}`}>
                 <div className="flex items-center justify-between gap-2">
                   <h2 className="z-h3">{plan.name}</h2>
-                  {plan.highlight && (
+                  {plan.badge && (
                     <span className="z-label rounded border border-fd-border px-1.5 py-0.5 text-[0.68rem] text-fd-foreground">
-                      Most labs
+                      {plan.badge}
                     </span>
                   )}
                 </div>
@@ -152,6 +127,9 @@ export default function PricingPage() {
                   {plan.period && <span className="z-small">{plan.period}</span>}
                 </p>
                 <p className="z-small mt-1.5">{plan.altPrice}</p>
+                {plan.trial && hostedLive && (
+                  <p className="mt-2 text-[0.9375rem] font-medium text-fd-foreground">{plan.trial}</p>
+                )}
                 <p className="z-body mt-3 text-[0.9375rem]">{plan.blurb}</p>
                 <p className="z-label mt-3">{plan.seats}</p>
                 <ul className="mt-5 flex-1 space-y-2 text-[0.9375rem] leading-snug text-fd-foreground">
@@ -160,36 +138,85 @@ export default function PricingPage() {
                   ))}
                 </ul>
                 <div className="mt-6 flex flex-col gap-2">
-                  {plan.cta === 'install' ? (
+                  {plan.id === 'lab' ? (
                     <>
-                      <Link href="/docs/connect-claude-to-zotero#claude-desktop" className="z-btn z-btn-secondary">Install free locally</Link>
-                      <Link href="/docs" className="z-link text-sm">Read the docs <Arrow /></Link>
-                    </>
-                  ) : (
-                    <>
-                      <SubscribeButton plan={plan} full label={plan.cta === 'contact' ? 'Talk to us' : 'Subscribe'} />
-                      {plan.id === 'lab' && (
+                      <BookCallButton full label="Start free 30-day pilot" source="pricing-lab" />
+                      {hostedLive && plan.checkout && (
                         <a
-                          href={bookingHref}
+                          href={plan.checkout}
                           className="z-link justify-center text-sm"
-                          data-umami-event="book-call-click"
-                          data-umami-event-source="pricing-lab"
-                          {...(bookingLive ? { target: '_blank', rel: 'noreferrer' } : {})}
+                          aria-label={`Subscribe to Zoteus ${plan.name} now`}
+                          data-umami-event="subscribe-click"
+                          data-umami-event-plan={plan.id}
                         >
-                          or start a free 30-day pilot
+                          or subscribe now
                         </a>
                       )}
                     </>
+                  ) : (
+                    <SubscribeButton
+                      plan={plan}
+                      full
+                      label={plan.cta === 'contact' ? 'Talk to us' : plan.trial ? 'Start 14-day free trial' : 'Subscribe'}
+                    />
                   )}
                 </div>
               </div>
             ))}
           </div>
+          <p className="z-body mt-6 text-[0.9375rem]">
+            Works when your PDFs sync to Zotero storage and your Claude or ChatGPT plan allows custom
+            connectors.{' '}
+            <a href="#before-you-pay" className="text-[color:var(--accent-text)] underline underline-offset-[3px]">
+              See the full requirements
+            </a>
+            .
+          </p>
+          <p className="z-body mt-2 text-[0.9375rem]">
+            On Claude Desktop, Claude Code or Cursor?{' '}
+            <Link
+              href="/docs/connect-claude-to-zotero/"
+              className="text-[color:var(--accent-text)] underline underline-offset-[3px]"
+              data-umami-event="install-free-click"
+              data-umami-event-source="pricing"
+            >
+              Install Zoteus free on your computer
+            </Link>
+            .
+          </p>
           {hostedLive && (
-            <p className="z-small mt-6">
+            <p className="z-small mt-4">
               Secure checkout &amp; EU VAT via Polar · monthly or annual, chosen at checkout · cancel anytime
             </p>
           )}
+        </div>
+      </section>
+
+      {/* Requirements, collapsed below the plans; #before-you-pay is linked from the docs. */}
+      <section id="before-you-pay" className="scroll-mt-24 pb-4">
+        <div className="z-container">
+          <OpenDetailsOnHash hash="#before-you-pay" detailsId="before-you-pay-details" />
+          <div className="z-faq max-w-5xl border-y border-fd-border">
+            <details id="before-you-pay-details">
+              <summary>
+                Before you pay: the full requirements
+                <Plus />
+              </summary>
+              <ul className="z-body grid list-disc gap-x-10 gap-y-3 pb-5 pl-5 text-[0.9375rem] md:grid-cols-2">
+                <li><strong>Your AI account:</strong> Zoteus does not include a Claude or ChatGPT subscription. Confirm custom connector access first. ChatGPT needs Developer mode on a supported paid web plan; workspace administrators may restrict it.</li>
+                <li><strong>Your files:</strong> hosted access uses Zotero online. Metadata sync is not file sync. Files only on your disk or in WebDAV are not available as hosted PDF bytes.</li>
+                <li><strong>Your search coverage:</strong> hosted currently searches metadata, notes and PDF full text by keyword; search by meaning runs in the free local install. PDF-body indexing is opt-in in the software, with defaults of 5,000 items and 40,000 body-text characters per item. Ask support to confirm the caps for your library before relying on them.</li>
+                <li><strong>Your libraries and data:</strong> ordinary calls can use permitted groups, and each library you use, personal or group, can have its own search index, searchable one at a time or together. Hosting is currently in the US. Retrieved text goes to your AI service; check your institution&apos;s requirements.</li>
+              </ul>
+              <div className="flex flex-wrap gap-5 pb-6">
+                <Link href="/docs/connect-claude-to-zotero#claude-ai" className="z-link">Claude requirements</Link>
+                <Link href="/docs/connect-chatgpt-to-zotero" className="z-link">ChatGPT requirements</Link>
+                <Link href="/docs/missing-pdfs" className="z-link">Check PDF availability</Link>
+                <Link href="/privacy" className="z-link">Privacy and data paths</Link>
+                <a href={`mailto:${supportEmail}?subject=Hosted%20search%20readiness`} className="z-link">Confirm my library&apos;s fit</a>
+              </div>
+            </details>
+          </div>
         </div>
       </section>
 

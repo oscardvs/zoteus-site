@@ -90,28 +90,38 @@ export interface Plan {
   checkout: string;
   checkoutAlt: string;
   highlight: boolean;
+  /** Short badge shown next to the plan name on /pricing, e.g. "Most researchers". */
+  badge?: string;
+  /** Free-trial line shown under the price on /pricing. Omit when the plan has no trial. */
+  trial?: string;
 }
 
+/**
+ * The free, MIT-licensed local install. Not a card on /pricing (the grid sells hosting),
+ * but llms.txt, the home page strip and the structured-data offers still list it first.
+ */
+export const selfHostedPlan: Plan = {
+  id: 'self-hosted',
+  name: 'Self-hosted',
+  seats: 'Unlimited',
+  price: 'Free',
+  period: '',
+  altPrice: 'Forever',
+  blurb: 'MIT-licensed. Run it yourself.',
+  features: [
+    'Every feature, no paywall',
+    'Local-first; your machine, your keys',
+    'Self-host the OAuth remote for a team',
+    'Community support on GitHub',
+  ],
+  cta: 'install',
+  checkout: '',
+  checkoutAlt: '',
+  highlight: false,
+};
+
+/** The paid hosted tiers, in the order /pricing shows them. */
 export const plans: Plan[] = [
-  {
-    id: 'self-hosted',
-    name: 'Self-hosted',
-    seats: 'Unlimited',
-    price: 'Free',
-    period: '',
-    altPrice: 'Forever',
-    blurb: 'MIT-licensed. Run it yourself.',
-    features: [
-      'Every feature, no paywall',
-      'Local-first; your machine, your keys',
-      'Self-host the OAuth remote for a team',
-      'Community support on GitHub',
-    ],
-    cta: 'install',
-    checkout: '',
-    checkoutAlt: '',
-    highlight: false,
-  },
   {
     id: 'individual',
     name: 'Individual',
@@ -130,7 +140,9 @@ export const plans: Plan[] = [
     cta: 'checkout',
     checkout: individualCheckout,
     checkoutAlt: '',
-    highlight: false,
+    highlight: true,
+    badge: 'Most researchers',
+    trial: '14 days free, then €69/year. Cancel anytime.',
   },
   {
     id: 'lab',
@@ -150,7 +162,8 @@ export const plans: Plan[] = [
     cta: 'checkout',
     checkout: labCheckout,
     checkoutAlt: '',
-    highlight: true,
+    highlight: false,
+    badge: 'Most labs',
   },
   {
     id: 'department',

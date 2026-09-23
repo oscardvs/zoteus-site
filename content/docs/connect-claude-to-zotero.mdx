@@ -10,10 +10,10 @@ There are five ways to connect. Pick the one that matches where you use Claude; 
 | Where you use Claude | What to do | Cost |
 |---|---|---|
 | The Claude Desktop app | [Double-click the extension file](#claude-desktop) | Free |
-| claude.ai in a browser, or the Claude mobile apps | [Add the hosted connector](#claude-ai) | Subscription |
+| claude.ai in a browser, or the Claude mobile apps | [Add the hosted connector](#claude-ai) | [From €7/month](/pricing#plans) |
 | Claude Code in a terminal | [One `claude mcp add` command](#claude-code) | Free |
 | Cursor, VS Code, Zed, Codex | [One `npx add-mcp` command, or a JSON snippet](#cursor) | Free |
-| ChatGPT (web) | [Hosted connector or self-hosted remote, needs Developer mode](#chatgpt) | Hosted plan, or free if you self-host |
+| ChatGPT (web) | [Hosted connector or self-hosted remote, needs Developer mode](#chatgpt) | [From €7/month](/pricing#plans) hosted, or free if you self-host |
 
 ## Before you start
 
@@ -71,17 +71,15 @@ If you would rather run Zoteus through `npx` in Claude Desktop (for example to p
 
 If you have no key and Zotero is running on the same computer, remove the `"env"` line **and the comma after the `"args"` array** so the JSON stays valid. Merge this entry into existing settings rather than overwriting other connections. Then quit and reopen the app.
 
-<Callout title="Before subscribing">
-Check [hosted requirements and limits](/pricing#before-you-pay): client access, synced PDF availability, which libraries you want indexed, and the provider/coverage your research needs. Metadata sync alone does not make local-only or WebDAV file bytes readable. Zoteus does not include a separate AI subscription.
-</Callout>
-
 ## claude.ai [#claude-ai]
 
 claude.ai connects to MCP servers from Anthropic's cloud, not from your device, so it cannot reach the Zotero app on your computer. What it can reach is a server on the public internet. Zoteus runs one at `https://mcp.zoteus.com/mcp`: you sign in with your own Zotero account, and Claude sees your library through Zotero's online API. The same connector then works in the Claude desktop and mobile apps, on any device where you are signed in.
 
-The hosted connector is a subscription, because a maintained server costs money to keep online: €69 a year or €7 a month for one person, €99 a month for a lab of up to ten on a shared group library. Everything on this page that runs on your own machine stays free, with every feature. Details on the [pricing page](/pricing).
+The hosted connector is a subscription, because a maintained server costs money to keep online: €69 a year or €7 a month for one person, €99 a month for a lab of up to ten on a shared group library. Everything on this page that runs on your own machine stays free, with every feature. Details on the [pricing page](/pricing#plans).
 
-1. **Subscribe** at [zoteus.com/pricing](/pricing). Checkout is handled by Polar and you receive a licence key by email.
+<PricingCta source="connect-claude" />
+
+1. **Subscribe** at [zoteus.com/pricing](/pricing#plans). Checkout is handled by Polar and you receive a licence key by email.
 2. In claude.ai, open **Settings** (called **Customize** on some plans), then **Connectors**, then **Add custom connector**. On a Team or Enterprise plan an organisation owner adds it under **Organization settings**, **Connectors**.
 3. For the URL, enter exactly:
 
@@ -93,6 +91,10 @@ The hosted connector is a subscription, because a maintained server costs money 
 5. Start a chat and ask *Am I connected to my Zotero library?*
 
 Custom connectors are available on every claude.ai plan; Free plans are limited to one custom connector.
+
+<Callout title="Before subscribing">
+Check [hosted requirements and limits](/pricing#before-you-pay): client access, synced PDF availability, which libraries you want indexed, and the provider/coverage your research needs. Metadata sync alone does not make local-only or WebDAV file bytes readable. Zoteus does not include a separate AI subscription.
+</Callout>
 
 **Before you decide.** The hosted connector reaches your library through your Zotero account online, so anything you have not synced to Zotero's servers is invisible to it, and PDFs that live only on your own disk stay out of reach. If most of your reading is annotated PDFs on one computer, the free Claude Desktop extension is the better tool. Many people run both: the extension at their desk, the hosted connector everywhere else. If you would rather host the connector yourself, the same OAuth remote is in the open-source package: see [Remote OAuth](/docs/remote-oauth).
 

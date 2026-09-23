@@ -1,4 +1,4 @@
-import { appName, npmUrl, plans, repoUrl } from './shared';
+import { appName, npmUrl, plans, repoUrl, selfHostedPlan } from './shared';
 
 /** The public origin. Every canonical, sitemap entry and JSON-LD url is built from it. */
 export const siteUrl = 'https://zoteus.com';
@@ -81,7 +81,7 @@ export function softwareApplicationLd(description: string) {
     softwareHelp: { '@type': 'CreativeWork', url: absoluteUrl('/docs') },
     sameAs: [repoUrl, npmUrl, 'https://registry.modelcontextprotocol.io'],
     author,
-    offers: plans.map((plan) => ({
+    offers: [selfHostedPlan, ...plans].map((plan) => ({
       '@type': 'Offer',
       name: `${appName} ${plan.name}`,
       price: priceNumber(plan.price),

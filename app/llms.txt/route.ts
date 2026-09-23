@@ -1,7 +1,7 @@
 import { source } from '@/lib/source';
 import { llms } from 'fumadocs-core/source';
 import { absoluteMarkdownLinks, absoluteUrl, siteUrl } from '@/lib/seo';
-import { appName, connectorUrl, npmUrl, plans, repoUrl } from '@/lib/shared';
+import { appName, connectorUrl, npmUrl, plans, repoUrl, selfHostedPlan } from '@/lib/shared';
 
 export const revalidate = false;
 
@@ -11,10 +11,11 @@ export const revalidate = false;
  * page tree's name ("# Documentation") and emits site-relative links, so this route
  * writes its own header and renders only the tree's children, with every link absolute.
  *
- * Prices are read from the same `plans` array as /pricing, so the two cannot disagree.
+ * Prices are read from the same `plans` array as /pricing, so the two cannot disagree. The
+ * free self-hosted option is no longer a card on /pricing, so it is prepended here by hand.
  */
 function priceLine(): string {
-  return plans
+  return [selfHostedPlan, ...plans]
     .map((plan) =>
       plan.period
         ? `${plan.name} ${plan.price}${plan.period} ${plan.altPrice} (${plan.seats.toLowerCase()})`

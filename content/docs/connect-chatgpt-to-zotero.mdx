@@ -9,7 +9,7 @@ ChatGPT connects to MCP servers over HTTPS only, from OpenAI's cloud. It cannot 
 
 | Route | What to do | Cost |
 |---|---|---|
-| The hosted connector at `mcp.zoteus.com` | [Subscribe, add the plugin, sign in](#add-zoteus-to-chatgpt) | Subscription, see the [pricing page](/pricing) |
+| The hosted connector at `mcp.zoteus.com` | [Subscribe, add the plugin, sign in](#add-zoteus-to-chatgpt) | [From €7/month](/pricing#plans) |
 | Your own server | [Run the OAuth remote on a public HTTPS host](/docs/remote-oauth), then add that URL the same way | Free software; your own hosting costs |
 
 ## Before you start
@@ -17,7 +17,7 @@ ChatGPT connects to MCP servers over HTTPS only, from OpenAI's cloud. It cannot 
 - **A paid ChatGPT plan.** OpenAI makes Developer mode available on the Plus, Pro, Business, Enterprise and Edu plans, in the web app. A free ChatGPT account cannot add custom servers. On Business and Enterprise an administrator may have to allow Developer mode first.
 - **Developer mode switched on.** In ChatGPT, open **Settings**, then **Security and login**, and turn on the **Developer mode** switch. ChatGPT labels it as elevated risk, because it lets you connect servers OpenAI has not reviewed. The same switch is linked from **Settings**, then **Plugins**.
 - **A Zotero account with your library synced.** ChatGPT reaches your library through zotero.org, so anything you have not synced to Zotero's servers is invisible to it. PDFs in Zotero's cloud storage can be read; PDFs that live only on your own disk stay out of reach. Check sync in the Zotero desktop app under **Settings**, then **Sync**.
-- **A Zoteus subscription key, or your own remote.** Subscribers get the key by email after checkout on the [pricing page](/pricing). If you self-host, you need the public HTTPS URL of your instance, which means running a server on the public internet; [Remote OAuth](/docs/remote-oauth) covers that.
+- **A Zoteus subscription key, or your own remote.** Subscribers get the key by email after checkout on the [pricing page](/pricing#plans). If you self-host, you need the public HTTPS URL of your instance, which means running a server on the public internet; [Remote OAuth](/docs/remote-oauth) covers that.
 
 <Callout title="Before subscribing">
 Check [hosted requirements and limits](/pricing#before-you-pay): client access, synced PDF availability, which libraries you want indexed, and the provider/coverage your research needs. Metadata sync alone does not make local-only or WebDAV file bytes readable. Zoteus does not include a separate AI subscription.
@@ -25,7 +25,9 @@ Check [hosted requirements and limits](/pricing#before-you-pay): client access, 
 
 ## Add Zoteus to ChatGPT [#add-zoteus-to-chatgpt]
 
-1. **Subscribe**, if you are using the hosted connector. Checkout on the [pricing page](/pricing) is handled by Polar and the subscription key arrives by email. Self-hosters skip this step.
+<PricingCta source="connect-chatgpt" />
+
+1. **Subscribe**, if you are using the hosted connector. Checkout on the [pricing page](/pricing#plans) is handled by Polar and the subscription key arrives by email. Self-hosters skip this step.
 2. **Open Plugins.** Click **Plugins** in the left sidebar of ChatGPT, or go to [chatgpt.com/plugins](https://chatgpt.com/plugins), and click **Create app**. If there is no **Create app** button, Developer mode is off or the account is on a free plan.
 3. **Fill in the New Plugin dialog.**
    - **Name**: `Zoteus`
@@ -106,7 +108,7 @@ Zoteus is MIT-licensed and free to self-host with every feature, but ChatGPT onl
 
 ### Does Zoteus work with Zotero group libraries in ChatGPT?
 
-Yes. Zoteus lets ChatGPT use the group libraries your Zotero account belongs to, within what your Zotero group role allows: ask ChatGPT which groups it can see, then name the group in your request. Each library, personal or group, can have its own search index for search by meaning, and ChatGPT can search several of them at once; see [group libraries for review teams](/docs/group-libraries-for-review-teams).
+Yes. Zoteus lets ChatGPT use the group libraries your Zotero account belongs to, within what your Zotero group role allows: ask ChatGPT which groups it can see, then name the group in your request. Each library, personal or group, can have its own search index, and ChatGPT can search several of them at once. The hosted connector currently searches by keyword, including PDF full text; search by meaning needs a server with embeddings switched on, such as a self-hosted remote; see [group libraries for review teams](/docs/group-libraries-for-review-teams).
 
 ### Can ChatGPT cite page numbers from my Zotero PDFs?
 

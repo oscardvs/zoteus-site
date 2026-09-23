@@ -12,7 +12,14 @@ export function ConnectionOptions() {
           <Link className="z-btn z-btn-secondary" href="/docs/connect-claude-to-zotero#claude-ai">Connect Claude</Link>
           <Link className="z-btn z-btn-secondary" href="/docs/connect-chatgpt-to-zotero">Connect ChatGPT</Link>
         </div>
-        <Link className="z-link" href="/pricing#before-you-pay">Requirements and hosted plans</Link>
+        <Link
+          className="z-link"
+          href="/pricing#plans"
+          data-umami-event="pricing-click"
+          data-umami-event-source="connection-options"
+        >
+          Hosted plans, from €7/month
+        </Link>
       </div>
       <div className="z-panel flex flex-col gap-4 p-6">
         <h3 className="z-h3">Free: run on your computer</h3>

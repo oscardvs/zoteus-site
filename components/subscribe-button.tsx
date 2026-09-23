@@ -44,6 +44,9 @@ export function SubscribeButton({
         href={bookingHref}
         className={`z-btn z-btn-secondary ${block}`}
         aria-label={`Talk to us about the ${plan.name} plan`}
+        data-umami-event="book-call-click"
+        data-umami-event-source={`pricing-${plan.id}`}
+        {...(bookingLive ? { target: '_blank', rel: 'noreferrer' } : {})}
       >
         {label ?? 'Talk to us'}
         <Arrow />
@@ -65,14 +68,22 @@ export function SubscribeButton({
   );
 }
 
-/** Secondary CTA: book the free 15-minute setup call that every pilot starts with. */
-export function BookCallButton({ label = 'Book a 15-minute setup call', full = false }: { label?: string; full?: boolean }) {
+/** Book the free 15-minute setup call that every pilot starts with. `source` tags the Umami event. */
+export function BookCallButton({
+  label = 'Book a 15-minute setup call',
+  full = false,
+  source = 'pilot-section',
+}: {
+  label?: string;
+  full?: boolean;
+  source?: string;
+}) {
   return (
     <a
       href={bookingHref}
       className={`z-btn z-btn-primary ${full ? 'z-btn-block' : ''}`}
       data-umami-event="book-call-click"
-      data-umami-event-source="pilot-section"
+      data-umami-event-source={source}
       {...(bookingLive ? { target: '_blank', rel: 'noreferrer' } : {})}
     >
       {label}
