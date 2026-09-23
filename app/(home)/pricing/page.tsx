@@ -13,9 +13,9 @@ export const metadata: Metadata = {
     'Your Zotero library in claude.ai, the Claude mobile apps and ChatGPT, with nothing to install. Individual €69/year or €7/month with 14 days free, Lab €99/month for up to 10. The local install is free.',
   alternates: { canonical: '/pricing/' },
   openGraph: {
-    title: 'Zoteus pricing: free to self-host, hosted for you or your lab',
+    title: 'Zoteus pricing: your Zotero library in claude.ai and ChatGPT',
     description:
-      'Self-hosted is free with every feature. Individual €69/year or €7/month. Lab €99/month or €990/year for up to 10 seats, with a free 30-day pilot.',
+      'Hosted Zoteus, nothing to install. Individual €69/year or €7/month with 14 days free. Lab €99/month for up to 10 seats, with a free 30-day pilot. The local install is free.',
     url: '/pricing/',
   },
 };
