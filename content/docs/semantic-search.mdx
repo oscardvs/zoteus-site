@@ -38,6 +38,6 @@ The desktop bundle omits the local dependency. Follow the [supported installatio
 
 `ZOTEUS_INDEX_BACKEND=auto` selects SQLite on supported Node runtimes (Node 22.13+), otherwise the memory backend with JSON persistence. Indexes live under `ZOTEUS_DATA_DIR`; hosted multi-user mode scopes files by authenticated user.
 
-**One index file holds one library.** A build for a different library is refused to protect the existing index. Ordinary per-call group access does not mean multiple persistent indexes or federated semantic search. Use separate local instances with separate data directories, or agree on the intended library with the hosted operator.
+**One index file per library.** A data directory holds one index file per library: the personal library keeps its file and each other library gets a sibling beside it. `zotero_index action:"libraries"` lists them, and `zotero_semantic_search` with `libraries` searches several at once, merging by rank and labelling each hit with its library. `ZOTEUS_INDEX_MAX_OPEN` (default 4) bounds how many indexes are open at once, not how many libraries can be indexed.
 
 [Configuration reference](/docs/configuration) · [Coverage troubleshooting](/docs/search-readiness#when-search-misses-something) · [Missing PDFs](/docs/missing-pdfs)

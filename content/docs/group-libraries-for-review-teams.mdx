@@ -56,7 +56,7 @@ Ask *Which Zotero group libraries can you see?* Claude calls `zotero_groups`, wh
 
 First [check search readiness](/docs/search-readiness), including the selected library, active embeddings, item cap and PDF coverage. Then ask to build the index for that group's numeric ID. Direct keyword lookup works before the index exists.
 
-**One indexed library at a time:** ordinary tools can address multiple permitted libraries per call, but the persistent index is scoped to one library per data directory (per authenticated user when hosted). A second-library build is refused. Local users can run separate instances with separate data directories. Discuss personal-plus-group needs with hosted support before paying.
+**Personal and group indexes side by side:** each library gets its own search index in the same data directory (per authenticated user when hosted), so indexing the group does not touch your personal index. Ask Claude to search both at once; each hit is labelled with the library it came from.
 
 Default indexing stops at 5,000 items. PDF bodies are opt-in and default to 40,000 characters per item; only available extracted text is included. Those limits do not prevent reading a later page directly from an accessible PDF. Check one [verified passage](/docs/first-research-task) before a large build.
 

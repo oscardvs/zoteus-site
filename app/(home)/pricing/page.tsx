@@ -121,7 +121,7 @@ export default function PricingPage() {
             <li><strong>Your AI account:</strong> Zoteus does not include a Claude or ChatGPT subscription. Confirm custom connector access first. ChatGPT needs Developer mode on a supported paid web plan; workspace administrators may restrict it.</li>
             <li><strong>Your files:</strong> hosted access uses Zotero online. Metadata sync is not file sync. Files only on your disk or in WebDAV are not available as hosted PDF bytes.</li>
             <li><strong>Your search coverage:</strong> PDF-body indexing is opt-in in the software. Defaults are 5,000 items and 40,000 body-text characters per item. Ask support to confirm hosted embeddings, included usage and caps for your library before relying on them.</li>
-            <li><strong>Your libraries and data:</strong> ordinary calls can use permitted groups, but each hosted user has one indexed library. Hosting is currently in the US. Retrieved text goes to your AI service; check your institution&apos;s requirements.</li>
+            <li><strong>Your libraries and data:</strong> ordinary calls can use permitted groups, and each library you use, personal or group, can have its own search index, searchable one at a time or together. Hosting is currently in the US. Retrieved text goes to your AI service; check your institution&apos;s requirements.</li>
           </ul>
           <div className="mt-6 flex flex-wrap gap-5">
             <Link href="/docs/connect-claude-to-zotero#claude-ai" className="z-link">Claude requirements</Link>

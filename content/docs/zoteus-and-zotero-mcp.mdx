@@ -5,17 +5,17 @@ description: "Compare two selected Zotero MCP projects: setup, PDF access, seman
 
 Zoteus and [54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp) are both open-source MCP servers that connect an AI assistant to a Zotero library. Zoteus is built for reading and verifying as much as for editing: it searches a library by keyword or by meaning, returns passages from PDFs with a page locator and the nearest heading, shows PDF pages and figures as images, retrieves your own notes and PDF annotations, and formats citations in any CSL style. It also adds items by DOI or arXiv id and tags, files, edits and highlights items, with a reversible trash. Zoteus runs free on your own computer in Claude Desktop, Claude Code, Cursor and other MCP clients, or through a hosted or self-hosted remote connector for claude.ai and ChatGPT.
 
-This is a comparison of **two selected projects**, written by the Zoteus maintainer. It is not a complete market survey or a hands-on benchmark. Reviewed 14 September 2026 against Zoteus v1.20.0 and the [54yyyu/zotero-mcp README](https://github.com/54yyyu/zotero-mcp#readme). A documented capability is not proof of performance or availability on every deployment.
+This is a comparison of **two selected projects**, written by the Zoteus maintainer. It is not a complete market survey or a hands-on benchmark. Reviewed 23 September 2026 against Zoteus v1.21.0 and the [54yyyu/zotero-mcp README](https://github.com/54yyyu/zotero-mcp#readme). A documented capability is not proof of performance or availability on every deployment.
 
 ## What differs
 
-| Decision | 54yyyu/zotero-mcp, as documented | Zoteus v1.20.0 |
+| Decision | 54yyyu/zotero-mcp, as documented | Zoteus v1.21.0 |
 |---|---|---|
 | Setup | Python, guided setup, CLI and agent skill | Node.js or platform-specific Claude Desktop bundle; optional embedding setup is separate |
-| Acquisition | Broad import formats, open-access PDF discovery, duplicate finding and merge previews | DOI/arXiv metadata import; additional identifiers through a translation server; attach a known file/URL |
-| Embeddings | Local models, OpenAI, Gemini and Ollama | Local transformers.js, OpenAI, Gemini or keyword-only; PDF-body indexing opt-in |
-| Multiple libraries | SQLite backend documents cross-library search | Ordinary per-call library selection; one persistent index per data directory, scoped per hosted user |
-| Research support | PDF tools and optional Scite context | Passage locators, page images, citations in CSL styles, own-note/annotation retrieval and tag audit |
+| Acquisition | Broad import formats, open-access PDF discovery, duplicate finding and merge previews | DOI/arXiv metadata import; BibTeX, RIS and CSL-JSON import without a translation server; DOI or arXiv id recovered from a PDF; duplicate check before saving and merge previews; open-access PDF discovery and attachment |
+| Embeddings | Local models, OpenAI, Gemini and Ollama | Local transformers.js, Ollama, OpenAI, Gemini or keyword-only; PDF-body indexing opt-in |
+| Multiple libraries | SQLite backend documents cross-library search | Per-call library selection; one index per library, searchable together with hits labelled by library |
+| Research support | PDF tools and optional Scite context | Passage locators, page images, optional OCR for scanned PDFs, citations in CSL styles, own-note/annotation retrieval, evidence tables, retraction notices and tag audit |
 | Access | Open-source, self-managed setup paths | Open-source local/remote deployment or paid maintained hosting |
 
 These are documented differences, not claims that either project makes AI conclusions correct. Compare your own known passages, installation constraints and required file types. Context costs vary by client and tool-discovery behaviour; no universal token saving is claimed here.
@@ -24,7 +24,7 @@ These are documented differences, not claims that either project makes AI conclu
 
 - [Hosted or local connection](/docs): ChatGPT requires a reachable HTTPS server; local desktop use can read files on your machine.
 - [Search readiness](/docs/search-readiness): the bundle needs an extra dependency for local vectors. Metadata, notes and PDF bodies have different coverage. Default caps are 5,000 items and, with body indexing enabled, 40,000 characters per item.
-- [Group libraries](/docs/group-libraries-for-review-teams): group permissions and per-call access do not imply multiple persistent semantic indexes or federated search.
+- [Group libraries](/docs/group-libraries-for-review-teams): each library, personal or group, gets its own index, and semantic search can cover several at once.
 - [Missing PDFs](/docs/missing-pdfs): neither a reference record nor synced extracted text guarantees accessible PDF bytes.
 - [Pricing](/pricing): pay for server maintenance, seats and support. Free software has the same tool capabilities, with configuration and environment limits.
 

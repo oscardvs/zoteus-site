@@ -20,7 +20,7 @@ ChatGPT connects to MCP servers over HTTPS only, from OpenAI's cloud. It cannot 
 - **A Zoteus subscription key, or your own remote.** Subscribers get the key by email after checkout on the [pricing page](/pricing). If you self-host, you need the public HTTPS URL of your instance, which means running a server on the public internet; [Remote OAuth](/docs/remote-oauth) covers that.
 
 <Callout title="Before subscribing">
-Check [hosted requirements and limits](/pricing#before-you-pay): client access, synced PDF availability, one indexed library, and the provider/coverage your research needs. Metadata sync alone does not make local-only or WebDAV file bytes readable. Zoteus does not include a separate AI subscription.
+Check [hosted requirements and limits](/pricing#before-you-pay): client access, synced PDF availability, which libraries you want indexed, and the provider/coverage your research needs. Metadata sync alone does not make local-only or WebDAV file bytes readable. Zoteus does not include a separate AI subscription.
 </Callout>
 
 ## Add Zoteus to ChatGPT [#add-zoteus-to-chatgpt]
@@ -106,7 +106,7 @@ Zoteus is MIT-licensed and free to self-host with every feature, but ChatGPT onl
 
 ### Does Zoteus work with Zotero group libraries in ChatGPT?
 
-Yes. Zoteus lets ChatGPT use the group libraries your Zotero account belongs to, within what your Zotero group role allows: ask ChatGPT which groups it can see, then name the group in your request. On the hosted connector each user has one indexed library for search by meaning, while ordinary searches and reads can address any permitted group; see [group libraries for review teams](/docs/group-libraries-for-review-teams).
+Yes. Zoteus lets ChatGPT use the group libraries your Zotero account belongs to, within what your Zotero group role allows: ask ChatGPT which groups it can see, then name the group in your request. Each library, personal or group, can have its own search index for search by meaning, and ChatGPT can search several of them at once; see [group libraries for review teams](/docs/group-libraries-for-review-teams).
 
 ### Can ChatGPT cite page numbers from my Zotero PDFs?
 
