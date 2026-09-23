@@ -197,6 +197,32 @@ To create one: go to [zotero.org/settings/keys](https://www.zotero.org/settings/
 - [Zoteus and zotero-mcp](/docs/zoteus-and-zotero-mcp), if you are choosing between the two open-source servers.
 - [Configuration](/docs/configuration), every setting in full.
 
+## Frequently asked questions [#faq]
+
+### Is Zoteus only for editing my library, or can it read my PDFs?
+
+Zoteus reads first. In Claude it searches your Zotero library by keyword or, once embeddings are set up, by meaning, returns passages from your PDFs with page numbers, shows PDF pages and figures as images, and finds your own notes and PDF annotations. It also writes: Zoteus adds items by DOI or arXiv id, tags and files items and highlights passages in PDFs. Removing an item moves it to the Zotero trash, where you can restore it, and permanent deletion stays off unless you turn it on.
+
+### Is there a free version of Zoteus?
+
+Yes. Zoteus is open-source under the MIT licence and free with every feature when it runs on your own computer, in the Claude Desktop extension, Claude Code or Cursor. claude.ai in the browser and the Claude mobile apps need a remote connector instead: the hosted Zoteus connector costs €69 a year or €7 a month for one person, or €99 a month for a lab of up to ten, and you can self-host the same OAuth remote for free. Zoteus does not include a Claude subscription.
+
+### Do I need to install anything?
+
+For Claude Desktop, one file: download the Zoteus extension for macOS, Windows or Linux from the latest GitHub release and double-click it. It carries its own copy of Zoteus, so you do not need Node.js or Python. Claude Code and Cursor need Node.js 20.19 or newer and one command. With the hosted connector in claude.ai there is nothing to install: you add `https://mcp.zoteus.com/mcp` as a custom connector and sign in with your Zotero account.
+
+### Does Zoteus work with Zotero group libraries?
+
+Yes. Zoteus lists the group libraries your Zotero account belongs to, and you name the group in your request so Claude searches, quotes and tags there. With the Zotero desktop app running (Zotero 10 and newer), Zoteus reads a group the app already holds without an API key; changing a group library needs a Zotero API key with write access to that group, or the hosted connector, where your Zotero group role decides what you can do.
+
+### Can Claude cite page numbers from my Zotero PDFs?
+
+Yes. Zoteus returns each passage from a PDF with its page number and the nearest heading, so Claude can quote it with the page, and it formats bibliographies with citeproc-js in any CSL style, such as APA, Vancouver or Chicago. Zoteus can also highlight the quoted passage in the PDF, so you can find it in Zotero and check it against the page before you rely on it.
+
+### How is Zoteus different from zotero-mcp?
+
+Zoteus and 54yyyu/zotero-mcp are both open-source MCP servers for Zotero. zotero-mcp is a Python project; Zoteus runs on Node.js or as a one-click Claude Desktop extension that needs neither Node.js nor Python, and it also offers a maintained hosted connector for claude.ai and ChatGPT. Zoteus focuses on verifiable reading: PDF passages with page locators, PDF pages as images, citations in any CSL style, and retrieval of your own notes and annotations. See the dated [comparison of Zoteus and zotero-mcp](/docs/zoteus-and-zotero-mcp).
+
 ## Verification notes
 
 Instructions reviewed 14 September 2026 against Zoteus v1.20.0 and [Anthropic connector guidance](https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp). Web setup uses the current browser interface, which has no fixed client version. Release assets were checked for macOS, Windows and Linux. End-to-end authenticated installation was not repeated on all platforms; menu labels and workspace permissions can vary.

@@ -2,6 +2,7 @@ import { docs } from 'collections/server';
 import { loader } from 'fumadocs-core/source';
 import { lucideIconsPlugin } from 'fumadocs-core/source/lucide-icons';
 import { docsContentRoute, docsImageRoute, docsRoute } from './shared';
+import { absoluteMarkdownLinks, absoluteUrl } from './seo';
 
 // See https://fumadocs.dev/docs/headless/source-api for more info
 export const source = loader({
@@ -28,10 +29,11 @@ export function getPageMarkdownUrl(page: (typeof source)['$inferPage']) {
   };
 }
 
+/** The Markdown copy of a page for llms-full.txt and content.md, with absolute links. */
 export async function getLLMText(page: (typeof source)['$inferPage']) {
   const processed = await page.data.getText('processed');
 
-  return `# ${page.data.title} (${page.url})
+  return `# ${page.data.title} (${absoluteUrl(page.url)})
 
-${processed}`;
+${absoluteMarkdownLinks(processed)}`;
 }

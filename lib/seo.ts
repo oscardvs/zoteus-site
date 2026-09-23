@@ -17,6 +17,28 @@ export function absoluteUrl(path: string): string {
   return `${siteUrl}${canonicalPath(path)}`;
 }
 
+/**
+ * Absolute form of a site-relative href that may carry a #fragment or ?query, or point
+ * at a file. A page path gets the canonical trailing slash; a file path (its last
+ * segment has an extension, e.g. /images/x.png or /llms-full.txt) is left as it is.
+ */
+export function absoluteHref(href: string): string {
+  const cut = href.search(/[?#]/);
+  const path = cut === -1 ? href : href.slice(0, cut);
+  const rest = cut === -1 ? '' : href.slice(cut);
+  const last = path.slice(path.lastIndexOf('/') + 1);
+  return `${siteUrl}${last.includes('.') ? path : canonicalPath(path)}${rest}`;
+}
+
+/**
+ * Rewrites every site-relative Markdown link or image, `](/...)`, to an absolute
+ * https://zoteus.com URL. llms.txt and the Markdown copies of the docs are read out of
+ * context by crawlers and assistants, where a bare /docs/... path resolves to nothing.
+ */
+export function absoluteMarkdownLinks(markdown: string): string {
+  return markdown.replace(/\]\((\/[^)\s]*)\)/g, (_m, href: string) => `](${absoluteHref(href)})`);
+}
+
 const author = {
   '@type': 'Person',
   name: 'Oscar Devos',
@@ -114,6 +136,36 @@ export function faqPageLd(items: ReadonlyArray<{ q: string; a: string }>) {
       acceptedAnswer: { '@type': 'Answer', text: item.a },
     })),
   };
+}
+
+/**
+ * Questions and answers from a docs page's "## Frequently asked questions" section, read
+ * out of the page's own processed Markdown: each `### Question` heading and the paragraph
+ * under it. The visible section is the only source, so the FAQPage markup built from it
+ * can never say something the page does not. Links, emphasis and code marks are reduced
+ * to their text. Returns [] when the page has no such section.
+ */
+export function faqFromMarkdown(markdown: string): { q: string; a: string }[] {
+  const section = /^## Frequently asked questions\b.*$([\s\S]*?)(?=^## |(?![\s\S]))/m.exec(markdown);
+  if (!section) return [];
+  const plain = (s: string) =>
+    s
+      .replace(/!?\[([^\]]*)\]\([^)]*\)/g, '$1')
+      .replace(/\*\*([^*]+)\*\*/g, '$1')
+      .replace(/\*([^*]+)\*/g, '$1')
+      .replace(/`([^`]+)`/g, '$1')
+      .replace(/\s+/g, ' ')
+      .trim();
+  return section[1]
+    .split(/^### /m)
+    .slice(1)
+    .map((block) => {
+      const newline = block.indexOf('\n');
+      const heading = newline === -1 ? block : block.slice(0, newline);
+      const body = newline === -1 ? '' : block.slice(newline + 1);
+      return { q: plain(heading.replace(/\s*\[#[^\]]+\]\s*$/, '')), a: plain(body) };
+    })
+    .filter((item) => item.q && item.a);
 }
 
 /**

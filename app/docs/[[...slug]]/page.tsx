@@ -12,7 +12,7 @@ import { getMDXComponents } from '@/components/mdx';
 import type { Metadata } from 'next';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
 import { JsonLd } from '@/components/json-ld';
-import { canonicalPath, techArticleLd } from '@/lib/seo';
+import { canonicalPath, faqFromMarkdown, faqPageLd, techArticleLd } from '@/lib/seo';
 import { lastModified } from '@/lib/last-modified';
 import { gitConfig } from '@/lib/shared';
 
@@ -23,6 +23,9 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
 
   const MDX = page.data.body;
   const markdownUrl = getPageMarkdownUrl(page).url;
+  /* FAQPage markup only for a page that renders a "Frequently asked questions" section,
+     built from that section's own text. */
+  const faq = faqFromMarkdown(await page.data.getText('processed'));
 
   /* "§ HMI / Calibration" — section pip above the title.
      Skips for the docs index where slugs is empty. */
@@ -39,6 +42,7 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
           modified: lastModified(`content/docs/${page.path}`),
         })}
       />
+      {faq.length > 0 && <JsonLd data={faqPageLd(faq)} />}
       {sectionLabel && (
         <div className="mb-3 flex items-center gap-2">
           <span className="h-mono text-[10.5px] tracking-[0.18em] uppercase text-fd-primary">

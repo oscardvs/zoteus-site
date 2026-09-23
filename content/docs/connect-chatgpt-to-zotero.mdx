@@ -86,6 +86,32 @@ No. ChatGPT signs you in at zotero.org through the plugin, and you never create 
 - [Remote OAuth](/docs/remote-oauth), to host the connector yourself.
 - [Configuration](/docs/configuration), every setting in full.
 
+## Frequently asked questions [#faq]
+
+### Can ChatGPT read the PDFs in my Zotero library?
+
+Yes, through Zoteus, for PDFs stored in Zotero's cloud storage. Zoteus reaches your library through your Zotero account online, so ChatGPT can read those PDFs, quote passages with their page numbers and look at a page as an image. PDFs that exist only on your own disk or in WebDAV storage are out of reach for ChatGPT; see [missing PDFs](/docs/missing-pdfs).
+
+### Is Zoteus only for editing my library, or can it read my PDFs?
+
+Zoteus reads first. In ChatGPT it searches your Zotero library by keyword or, where embeddings are active, by meaning, returns passages from your PDFs with page numbers, finds your own notes and PDF annotations, and can compare papers in a cited evidence table. It can also add items by DOI or arXiv id, tag and file items and edit records, but only if you leave write access ticked when you approve Zoteus on zotero.org.
+
+### Do I need to install anything?
+
+No. ChatGPT cannot run a program on your computer, so Zoteus connects to ChatGPT as a remote plugin: you add `https://mcp.zoteus.com/mcp` under **Plugins**, sign in with your Zotero account, and there is nothing to install or update. You do need Developer mode, which OpenAI offers on paid ChatGPT plans in the web app, and a Zotero library synced to zotero.org.
+
+### Is there a free version of Zoteus for ChatGPT?
+
+Zoteus is MIT-licensed and free to self-host with every feature, but ChatGPT only connects to servers on the public internet, so the free route for ChatGPT means running the Zoteus OAuth remote on your own HTTPS host at your own hosting cost. The free local install works in Claude Desktop, Claude Code and Cursor, not in ChatGPT. The hosted Zoteus connector costs €69 a year or €7 a month for one researcher, or €99 a month for a lab of up to ten, and does not include a ChatGPT subscription.
+
+### Does Zoteus work with Zotero group libraries in ChatGPT?
+
+Yes. Zoteus lets ChatGPT use the group libraries your Zotero account belongs to, within what your Zotero group role allows: ask ChatGPT which groups it can see, then name the group in your request. On the hosted connector each user has one indexed library for search by meaning, while ordinary searches and reads can address any permitted group; see [group libraries for review teams](/docs/group-libraries-for-review-teams).
+
+### Can ChatGPT cite page numbers from my Zotero PDFs?
+
+Yes. When ChatGPT asks Zoteus for a passage, Zoteus returns the text from the PDF with its page number and the nearest heading, so ChatGPT can quote it with the page. Zoteus also formats bibliographies with citeproc-js in any CSL style, such as APA, Vancouver or Chicago. Check each quoted passage against the PDF page before you rely on it.
+
 ## Verification notes
 
 Instructions reviewed 14 September 2026 against Zoteus v1.20.0 and [OpenAI Developer mode guidance](https://developers.openai.com/api/docs/guides/developer-mode). Web setup uses the current browser interface, which has no fixed client version. Release assets were checked for macOS, Windows and Linux. End-to-end authenticated installation was not repeated on all platforms; menu labels and workspace permissions can vary.
