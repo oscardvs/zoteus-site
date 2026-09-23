@@ -39,7 +39,8 @@ pages = {p.resolve(): Page(p) for p in root.rglob('*.html')}
 errors, checks, public = [], 0, []
 for path, page in pages.items():
     rel = path.relative_to(root).as_posix()
-    if rel in ('404.html', '404/index.html', '_not-found/index.html'): continue
+    # Utility pages that are noindex and deliberately left out of the sitemap.
+    if rel in ('404.html', '404/index.html', '_not-found/index.html', 'thanks/index.html'): continue
     if path.name != 'index.html': continue
     public.append(page)
     for requirement, valid in [('title', bool(page.title.strip())), ('description', bool(page.description)), ('one h1', page.h1 == 1), ('canonical', page.canonical.startswith('https://zoteus.com/') and page.canonical.endswith('/'))]:
