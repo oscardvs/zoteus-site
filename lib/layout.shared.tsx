@@ -19,6 +19,11 @@ export const guides: { text: string; description: string; url: string }[] = [
     url: '/docs/group-libraries-for-review-teams',
   },
   {
+    text: 'Best Zotero MCP servers',
+    description: 'Zotero MCP servers and AI plugins compared, with our pick.',
+    url: '/docs/best-zotero-mcp-servers',
+  },
+  {
     text: 'Zoteus and zotero-mcp',
     description: 'A dated comparison of two selected Zotero connectors.',
     url: '/docs/zoteus-and-zotero-mcp',

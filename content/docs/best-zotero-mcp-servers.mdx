@@ -1,0 +1,84 @@
+---
+title: Best Zotero MCP servers and AI connectors in 2026
+description: "Compare Zotero MCP servers and AI plugins: Zoteus, zotero-mcp, zotero-native-mcp, OpenAI's Zotero plugin, Beaver and PapersGPT, by client, PDF access and cost."
+---
+
+The best AI connector for Zotero depends on where you want to work. To use your whole Zotero library from Claude or ChatGPT, with PDF passages quoted alongside their page numbers so you can check them, we recommend Zoteus. If you would rather chat inside the Zotero window next to the PDF, pick an in-Zotero plugin such as Beaver, PapersGPT or llm-for-Zotero instead.
+
+This page is written by the Zoteus maintainer, so weigh the recommendation accordingly. Every other tool is described from its own documentation as it stood on 24 October 2026. Nothing here is a hands-on benchmark of the other tools.
+
+## Two kinds of Zotero AI tool
+
+- **MCP servers** connect your library to an AI assistant you already use, such as Claude, ChatGPT, Cursor or Codex. MCP (Model Context Protocol) is the open standard these assistants use to call outside tools. You ask in the assistant; the server searches Zotero and reads your PDFs for it.
+- **In-Zotero plugins** add a chat panel inside the Zotero window and send your question to a model you choose, often with your own API key.
+
+Choose an MCP server if you write and think in Claude or ChatGPT and want your library there. Choose a plugin if you read in Zotero and want answers beside the PDF.
+
+## At a glance
+
+| Tool | Kind | Works in | Runs | Cost |
+|---|---|---|---|---|
+| **Zoteus** | MCP server | Claude Desktop, claude.ai, ChatGPT, Claude Code, Cursor, Codex and other MCP clients | On your computer, or as a hosted connector | Free local install (MIT); hosted from €7/month |
+| [54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp) | MCP server | Claude Desktop, ChatGPT, Codex, Cursor and other MCP clients | Python package on your computer | Free, open source |
+| [zotero-native-mcp](https://github.com/dvdsosa/zotero-native-mcp) | MCP server | Claude Code and other MCP clients | On your computer, Zotero 10 or newer only | Free, MIT |
+| [richardjlyon/zotero-mcp](https://github.com/richardjlyon/zotero-mcp) | MCP server | Claude Desktop, Claude Code, claude.ai when you host it | Rust binary on your computer | Free |
+| [OpenAI's Zotero plugin](https://openai.com/business/plugins/zotero/) | ChatGPT plugin | ChatGPT Work and Codex | Connects to the Zotero desktop app | Depends on your ChatGPT plan and workspace |
+| [Beaver](https://beaverapp.ai/) | In-Zotero plugin | Zotero | Cloud models | Subscription, or free with your own API key |
+| [PapersGPT](https://github.com/papersgpt/papersgpt-for-zotero) | In-Zotero plugin | Zotero, plus a built-in MCP server | Cloud or local models | Free tier; local models free |
+| [llm-for-Zotero](https://github.com/yilewang/llm-for-zotero) | In-Zotero plugin | Zotero | Any OpenAI-compatible endpoint, including local models | Free, open source |
+
+## Why we recommend Zoteus for Claude and ChatGPT
+
+- **It reads before it writes.** Zoteus searches your library by keyword or by meaning, returns passages from your PDFs with the page number and nearest heading, shows PDF pages and figures as images, finds your own notes and PDF annotations, and compares papers in a cited evidence table.
+- **Citations in your style.** Bibliographies and in-text citations are formatted with citeproc-js in any CSL style, such as APA, Chicago or Vancouver.
+- **Two ways in.** The free local install has every feature and installs in Claude Desktop as a one-click extension that needs neither Node.js nor Python. The hosted connector at `mcp.zoteus.com` works in claude.ai and ChatGPT: you sign in with your Zotero account and install nothing.
+- **Careful writes.** It adds items by DOI or arXiv id, imports BibTeX, RIS and CSL-JSON, tags, files, edits and highlights items, and moves deletions to a reversible trash. On Zotero 10 the local install writes through the Zotero desktop app with no cloud API key, including group libraries the app holds.
+- **Built for teams.** Group libraries work within each member's Zotero role, with one search index per library and search across several at once; see [group libraries for review teams](/docs/group-libraries-for-review-teams).
+
+The limits, stated plainly: ChatGPT only connects to servers on the public internet and needs Developer mode on a paid ChatGPT plan, so in ChatGPT Zoteus reaches your library through your Zotero account online, and PDFs kept only on your own disk are out of its reach. The hosted connector searches by keyword, including PDF full text; search by meaning needs the local install or a self-hosted server with embeddings switched on.
+
+[Connect Claude](/docs/connect-claude-to-zotero) or [connect ChatGPT](/docs/connect-chatgpt-to-zotero) to start.
+
+## When to pick something else
+
+- **54yyyu/zotero-mcp** if you want the most widely used open-source Zotero MCP server (about 5,500 GitHub stars in October 2026) and are comfortable with Python. It offers search by meaning with several embedding providers, PDF tools, optional Scite citation tallies and a chat panel inside Zotero. Our [side-by-side comparison of Zoteus and zotero-mcp](/docs/zoteus-and-zotero-mcp) goes into detail.
+- **zotero-native-mcp** if you run Zotero 10 or newer and want a small server that reads and writes entirely offline through Zotero's local API, with no zotero.org account. It first appeared in September 2026 and documents its testing in Claude Code. Zoteus has also written through the Zotero 10 desktop app since v1.23.0, and adds hosted access, search by meaning and page-located passages.
+- **richardjlyon/zotero-mcp** if you prefer a single Rust binary and a workflow built around Obsidian-style notes. It can also serve claude.ai over OAuth when you host it yourself.
+- **OpenAI's Zotero plugin** if your organisation uses ChatGPT Work or Codex and you mainly need to find saved papers, export BibTeX and add citation keys to drafts. OpenAI notes that availability depends on your plan and workspace settings. Zoteus works in ChatGPT on paid plans through Developer mode, and in Claude.
+- **Beaver** if you want a polished assistant inside Zotero and its PDF reader, with whole-library chat and help with tags and metadata.
+- **PapersGPT** if you want the widest choice of models inside Zotero, including fully local ones that send nothing to a cloud service.
+- **llm-for-Zotero** if you want a free, open-source agent inside Zotero that talks to any OpenAI-compatible backend, local or hosted.
+
+Other open-source Zotero MCP projects include [cookjohn/zotero-mcp](https://github.com/cookjohn/zotero-mcp), which runs inside Zotero as a plugin, and [MCP for Zotero](https://mcpforzotero.alejandroarnaud.dev/). The [Citation Styler overview of Zotero MCP projects](https://citationstyler.com/en/knowledge/zotero-and-mcp-all-projects-at-a-glance-to-connect-your-library-with-ai/) lists more.
+
+## Frequently asked questions [#faq]
+
+### What is the best AI connector for Zotero?
+
+For working with your Zotero library inside Claude or ChatGPT, we recommend Zoteus: it searches by keyword or by meaning, quotes PDF passages with their page numbers, formats citations in any CSL style, and runs free on your computer or as a hosted connector. For a chat panel inside the Zotero window, Beaver, PapersGPT and llm-for-Zotero are the common choices.
+
+### What is the best Zotero MCP server?
+
+In our view, Zoteus and 54yyyu/zotero-mcp are the two most complete open-source Zotero MCP servers. zotero-mcp is the most widely used and is written in Python. Zoteus focuses on verifiable reading, with page-located passages, PDF page images and evidence tables, installs in Claude Desktop with one click, and also offers a maintained hosted connector for claude.ai and ChatGPT. On Zotero 10, zotero-native-mcp is a lighter offline alternative.
+
+### Can I connect ChatGPT to Zotero?
+
+Yes. ChatGPT connects to MCP servers over HTTPS on paid plans with Developer mode, so you can add the hosted Zoteus connector and sign in with your Zotero account, or run an open-source server on your own HTTPS host. Organisations on ChatGPT Work or Codex can also use OpenAI's own Zotero plugin. See [connect ChatGPT to Zotero](/docs/connect-chatgpt-to-zotero).
+
+### Is there a free Zotero MCP server?
+
+Yes. The Zoteus local install is free under the MIT licence with every feature, and 54yyyu/zotero-mcp and zotero-native-mcp are free as well. They run on your own computer for Claude Desktop, Claude Code, Cursor and similar clients. ChatGPT can only reach servers on the public internet, so a free setup for ChatGPT means hosting the server yourself.
+
+### What is the difference between a Zotero AI plugin and an MCP server?
+
+An in-Zotero plugin adds a chat panel to the Zotero window and calls a model you pick, so you ask questions while reading. An MCP server works the other way round: it lets an assistant you already use, such as Claude or ChatGPT, search your Zotero library and read your PDFs from its own chat. Some tools, such as PapersGPT and 54yyyu/zotero-mcp, offer both.
+
+### Does Zoteus work with Zotero 10?
+
+Yes. Since v1.23.0 the Zoteus local install writes to your personal library, and to the group libraries the app holds, through the Zotero 10 desktop app, with no cloud API key. On Zotero 7 to 9 it reads through the desktop app and sends writes to the Zotero web API, which needs a key.
+
+## Verification notes
+
+Reviewed 24 October 2026 against Zoteus v1.23.0, each project's own README or product page linked above, and the Rice University library guide [AI Tools for Your Zotero Library](https://libguides.rice.edu/c.php?g=1001613&p=11583122) (updated 23 September 2026) for the in-Zotero plugins. Star counts, prices and availability change; check each project's current page before you decide.
+
+[Report an outdated entry](https://github.com/oscardvs/zoteus-site/issues).
