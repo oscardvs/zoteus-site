@@ -87,14 +87,14 @@ If your proxy rewrites `Host` to an internal value (causing every `/mcp` request
 
 ## Connect from ChatGPT
 
-ChatGPT adds a remote MCP server as a plugin, behind its **Developer mode** switch (**Settings**, then **Security and login**; OpenAI offers it on the paid ChatGPT plans, in the web app). It connects from OpenAI's cloud, so the URL must be the public HTTPS one, never `localhost`.
+The hosted connector is installed from ChatGPT's plugin directory, but your own server is not listed there, so ChatGPT adds it as a custom MCP server. OpenAI currently offers that on the Business, Enterprise and Edu plans, in ChatGPT on the web (Pro accounts get read-only tools); see [Connecting custom MCP servers in ChatGPT](https://help.openai.com/en/articles/12584461-connecting-custom-mcp-servers-in-chatgpt). It connects from OpenAI's cloud, so the URL must be the public HTTPS one, never `localhost`.
 
-1. Open **Plugins** (left sidebar, or [chatgpt.com/plugins](https://chatgpt.com/plugins)) and click **Create app**.
-2. In the **New Plugin** dialog: Name `Zoteus`, Connection **Server URL**, MCP Server URL `https://<your-host>/mcp`, Authentication **OAuth**. Leave **Advanced OAuth settings** empty: ChatGPT discovers the endpoints from the metadata above and registers itself via DCR (it may show *CIMD unavailable*, which is expected). Tick the acknowledgement and click **Create**.
-3. Click **Sign in with Zoteus**. The popup opens the Zoteus consent page: enter the `ZOTEUS_OAUTH_PASSCODE` in passcode mode, or sign in at zotero.org in `zotero` mode, and authorize.
-4. If the plugin page says *No app actions available yet*, click **Refresh** in its **Information** section; the tool list then loads.
+1. Open **Plugins**, click the **+** button, then **Add custom MCP server**.
+2. Name it `Zoteus`, enter `https://<your-host>/mcp` under **Connection**, and choose OAuth: ChatGPT discovers the endpoints from the metadata above and registers itself via DCR.
+3. Tick **I understand and want to continue** and click **Create as a plugin**.
+4. Install the plugin and connect it. The sign-in window opens the Zoteus consent page: enter the `ZOTEUS_OAUTH_PASSCODE` in passcode mode, or sign in at zotero.org in `zotero` mode, and authorize.
 
-[Connect ChatGPT to Zotero](/docs/connect-chatgpt-to-zotero) walks through the same dialog for the hosted connector, with the permission prompts and the troubleshooting table.
+[Connect ChatGPT to Zotero](/docs/connect-chatgpt-to-zotero#your-own-server) has the same steps with the permission prompts and the troubleshooting table.
 
 ## Connect from Claude Code (remote)
 

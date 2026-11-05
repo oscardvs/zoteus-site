@@ -53,7 +53,7 @@ const FAQ: { q: string; a: string; link?: { label: string; href: string } }[] = 
   },
   {
     q: 'Does it work with ChatGPT?',
-    a: 'Yes, on the hosted plans or with your own self-hosted remote. ChatGPT only connects to remote MCP servers, so the free local install does not apply to it. You need Developer mode, which OpenAI offers on the paid ChatGPT plans in the web app (Settings, then Security and login); a free ChatGPT account cannot add custom servers. Then add mcp.zoteus.com/mcp as a plugin and sign in with your Zotero account.',
+    a: 'Yes, on the hosted plans. Zoteus is listed in ChatGPT\'s plugin directory: click Plugins in ChatGPT, search for Zoteus, install it and sign in with your Zotero account. There is no Developer mode to turn on. OpenAI says whether a plugin can be installed depends on your ChatGPT plan, workspace and region, and workspace administrators can turn plugins off. ChatGPT only connects to remote servers, so the free local install does not apply to it; a self-hosted server can be added as a custom MCP server on ChatGPT Business, Enterprise and Edu.',
     link: { label: 'Step by step: Connect ChatGPT to Zotero', href: '/docs/connect-chatgpt-to-zotero' },
   },
   {
@@ -203,7 +203,7 @@ export default function PricingPage() {
                 <Plus />
               </summary>
               <ul className="z-body grid list-disc gap-x-10 gap-y-3 pb-5 pl-5 text-[0.9375rem] md:grid-cols-2">
-                <li><strong>Your AI account:</strong> Zoteus does not include a Claude or ChatGPT subscription. Confirm custom connector access first. ChatGPT needs Developer mode on a supported paid web plan; workspace administrators may restrict it.</li>
+                <li><strong>Your AI account:</strong> Zoteus does not include a Claude or ChatGPT subscription. In Claude, confirm you can add custom connectors. In ChatGPT, check that you can install Zoteus from the plugin directory; OpenAI ties plugin availability to your plan, workspace and region, and workspace administrators may restrict it.</li>
                 <li><strong>Your files:</strong> hosted access uses Zotero online. Metadata sync is not file sync. Files only on your disk or in WebDAV are not available as hosted PDF bytes.</li>
                 <li><strong>Your search coverage:</strong> hosted currently searches metadata, notes and PDF full text by keyword; search by meaning runs in the free local install. PDF-body indexing is opt-in in the software, with defaults of 5,000 items and 40,000 body-text characters per item. Ask support to confirm the caps for your library before relying on them.</li>
                 <li><strong>Your libraries and data:</strong> ordinary calls can use permitted groups, and each library you use, personal or group, can have its own search index, searchable one at a time or together. Hosting is currently in the US. Retrieved text goes to your AI service; check your institution&apos;s requirements.</li>

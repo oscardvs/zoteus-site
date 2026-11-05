@@ -1,6 +1,6 @@
 ---
 title: Connect ChatGPT to Zotero
-description: "Connect ChatGPT to Zotero with a hosted or self-hosted remote. Check Developer mode, PDF availability and permissions, then verify your first passage."
+description: "Connect ChatGPT to Zotero: install Zoteus from ChatGPT's plugin directory and sign in with your Zotero account, or add your own remote. Then verify your first passage."
 ---
 
 Zoteus is an open-source MCP server that gives ChatGPT access to your Zotero library. Once it is connected you can ask ChatGPT to find the paper you saved three years ago, read a page range from its PDF, build a bibliography in the style your journal wants, or tag the items you are screening. References come from your library, but you still need to verify each passage and the conclusions drawn from it.
@@ -9,13 +9,12 @@ ChatGPT connects to MCP servers over HTTPS only, from OpenAI's cloud. It cannot 
 
 | Route | What to do | Cost |
 |---|---|---|
-| The hosted connector at `mcp.zoteus.com` | [Subscribe, add the plugin, sign in](#add-zoteus-to-chatgpt) | [From €7/month](/pricing#plans) |
-| Your own server | [Run the OAuth remote on a public HTTPS host](/docs/remote-oauth), then add that URL the same way | Free software; your own hosting costs |
+| The hosted connector, listed in ChatGPT's plugin directory | [Subscribe, install the plugin, sign in](#add-zoteus-to-chatgpt) | [From €7/month](/pricing#plans) |
+| Your own server | [Run the OAuth remote on a public HTTPS host](/docs/remote-oauth), then [add it as a custom MCP server](#your-own-server) | Free software; your own hosting costs |
 
 ## Before you start
 
-- **A paid ChatGPT plan.** OpenAI makes Developer mode available on the Plus, Pro, Business, Enterprise and Edu plans, in the web app. A free ChatGPT account cannot add custom servers. On Business and Enterprise an administrator may have to allow Developer mode first.
-- **Developer mode switched on.** In ChatGPT, open **Settings**, then **Security and login**, and turn on the **Developer mode** switch. ChatGPT labels it as elevated risk, because it lets you connect servers OpenAI has not reviewed. The same switch is linked from **Settings**, then **Plugins**.
+- **A ChatGPT account that can install plugins.** The plugin directory is open on every ChatGPT plan, under **Plugins** in the sidebar. OpenAI says whether an individual plugin can be installed depends on your plan, workspace, role and region, and on Business, Enterprise and Edu an administrator can turn plugins off. The hosted connector needs no Developer mode.
 - **A Zotero account with your library synced.** ChatGPT reaches your library through zotero.org, so anything you have not synced to Zotero's servers is invisible to it. PDFs in Zotero's cloud storage can be read; PDFs that live only on your own disk stay out of reach. Check sync in the Zotero desktop app under **Settings**, then **Sync**.
 - **A Zoteus subscription key, or your own remote.** Subscribers get the key by email after checkout on the [pricing page](/pricing#plans). If you self-host, you need the public HTTPS URL of your instance, which means running a server on the public internet; [Remote OAuth](/docs/remote-oauth) covers that.
 
@@ -28,18 +27,22 @@ Check [hosted requirements and limits](/pricing#before-you-pay): client access, 
 <PricingCta source="connect-chatgpt" />
 
 1. **Subscribe**, if you are using the hosted connector. Checkout on the [pricing page](/pricing#plans) is handled by Polar and the subscription key arrives by email. Self-hosters skip this step.
-2. **Open Plugins.** Click **Plugins** in the left sidebar of ChatGPT, or go to [chatgpt.com/plugins](https://chatgpt.com/plugins), and click **Create app**. If there is no **Create app** button, Developer mode is off or the account is on a free plan.
-3. **Fill in the New Plugin dialog.**
-   - **Name**: `Zoteus`
-   - **Description**: optional
-   - **Connection**: **Server URL**
-   - **MCP Server URL**: `https://mcp.zoteus.com/mcp` (or `https://<your-host>/mcp` for your own remote)
-   - **Authentication**: **OAuth**, which is the default
+2. **Find Zoteus.** Open the [Zoteus plugin page in ChatGPT](https://chatgpt.com/plugins/plugin_asdk_app_6adcac3c4d8c81918b04f04ec0640974), or click **Plugins** in ChatGPT's left sidebar and search for **Zoteus**.
+3. **Install it.** Click **Install plugin**, then **Connect Zoteus**.
+4. **Sign in.** A new window opens the Zoteus page **Connect ChatGPT to Zoteus** and asks for the subscription key. It then goes to zotero.org, where you sign in and approve the permissions Zoteus asks for; untick write access there if you want a read-only connection. The popup returns to ChatGPT.
+5. **Use it.** ChatGPT uses Zoteus when your request is about your library. To call it directly, type **@Zoteus** in the composer, or click **+** and pick **Zoteus**. Start with *Am I connected to my Zotero library?*
 
-   Leave **Advanced OAuth settings** empty: ChatGPT discovers the OAuth endpoints and registers itself with Zoteus. It may show *CIMD unavailable* there; that is expected and harmless. Tick **I understand and want to continue** and click **Create**.
-4. **Sign in.** ChatGPT shows **Add Zoteus to ChatGPT** with a **Sign in with Zoteus** button. Click it. A popup opens the Zoteus page **Connect ChatGPT to Zoteus** and asks for the subscription key (a self-hosted instance shows its own consent page instead). It then goes to zotero.org, where you sign in and approve the permissions Zoteus asks for; untick write access there if you want a read-only connection. The popup returns to ChatGPT and the plugin page shows **Connected on** today's date.
-5. **Load the tools.** Right after connecting, the plugin's **Actions** list can say *No app actions available yet*. Click **Refresh** in the **Information** section of the plugin page. The available Zoteus tools then appear, each labelled **READ** or **PUBLIC WRITE** by ChatGPT.
-6. **Use it.** In a chat, click **+** in the composer (**Add files and more**), pick **Zoteus**, and ask normally. Start with *Am I connected to my Zotero library?*
+If you added Zoteus by hand before it was listed, install the listed plugin as above; you can then remove the hand-added one so ChatGPT does not offer two.
+
+## Your own server [#your-own-server]
+
+A self-hosted Zoteus is not in the plugin directory, so you add it to ChatGPT as a custom MCP server. OpenAI currently offers custom MCP servers on the Business, Enterprise and Edu plans, in ChatGPT on the web, where an administrator may have to grant the **Create plugins with MCPs** permission; Pro accounts can connect them with read-only tools. Developer mode is no longer part of this.
+
+1. **Add the server.** Open **Plugins**, click the **+** button, then **Add custom MCP server**.
+2. **Fill it in.** Name it `Zoteus`. Under **Connection**, enter `https://<your-host>/mcp`, and choose OAuth for authentication: ChatGPT discovers the OAuth endpoints and registers itself with Zoteus.
+3. **Create it.** Tick **I understand and want to continue**, click **Create as a plugin**, and review the tools ChatGPT found.
+4. **Install and sign in.** Install the new plugin and connect it. The sign-in window opens your instance's consent page; [Remote OAuth](/docs/remote-oauth) covers what it asks.
+5. **Use it.** In a chat, type **@** and pick it.
 
 ## First successful research task
 
@@ -69,9 +72,9 @@ No. ChatGPT signs you in at zotero.org through the plugin, and you never create 
 
 | What you see | What to do |
 |---|---|
-| **Create app** is missing from the Plugins page | Developer mode is off, or the account is on a free plan. Turn it on under **Settings**, then **Security and login**; on Business and Enterprise, ask an administrator to allow it. |
-| *No app actions available yet* after connecting | Click **Refresh** in the **Information** section of the plugin page. The available tools then appear. |
-| **Sign in with Zoteus** comes straight back without a Zotero page | The popup was blocked. Allow popups for chatgpt.com and click the button again. |
+| Zoteus does not show up under **Plugins**, or cannot be installed | Open the [Zoteus plugin page](https://chatgpt.com/plugins/plugin_asdk_app_6adcac3c4d8c81918b04f04ec0640974) directly. OpenAI ties plugin availability to your ChatGPT plan, workspace and region; on Business, Enterprise and Edu, ask an administrator whether plugins are allowed. |
+| **Add custom MCP server** is missing (your own server) | Your plan or workspace does not allow custom MCP servers. OpenAI offers them on Business, Enterprise and Edu, on the web; on Business and Enterprise an administrator grants **Create plugins with MCPs**. See [OpenAI's article](https://help.openai.com/en/articles/12584461-connecting-custom-mcp-servers-in-chatgpt). |
+| The sign-in popup closes without a Zotero page | The popup was blocked. Allow popups for chatgpt.com and click the button again. |
 | ChatGPT says it cannot reach the server | The URL must be a public HTTPS address ending in `/mcp`. A self-hosted instance on `localhost`, behind a firewall, or on plain HTTP cannot be reached from OpenAI's cloud; see [Remote OAuth](/docs/remote-oauth). |
 | ChatGPT asks permission on every write | The plugin's **Permissions** setting is on **Always ask** or **Allow read actions**. This can be intentional. Keep confirmations if you want to review changes; inspect the proposed edit and approve only the action you intend. |
 | ChatGPT cannot find something you know is in Zotero | Check account, selected library and permissions, then sync. Try exact title lookup. Indexed search may be capped, partial or keyword-only; a PDF may lack accessible bytes or a text layer. See [search readiness](/docs/search-readiness) and [missing PDFs](/docs/missing-pdfs). |
@@ -100,11 +103,11 @@ Zoteus reads first. In ChatGPT it searches your Zotero library by keyword or, wh
 
 ### Do I need to install anything?
 
-No. ChatGPT cannot run a program on your computer, so Zoteus connects to ChatGPT as a remote plugin: you add `https://mcp.zoteus.com/mcp` under **Plugins**, sign in with your Zotero account, and there is nothing to install or update. You do need Developer mode, which OpenAI offers on paid ChatGPT plans in the web app, and a Zotero library synced to zotero.org.
+Nothing on your computer. Zoteus is a plugin in ChatGPT's plugin directory: you install it under **Plugins** in ChatGPT, sign in with your Zotero account, and there is nothing to download or update. You need a Zotero library synced to zotero.org, and OpenAI says plugin availability depends on your ChatGPT plan, workspace and region.
 
 ### Is there a free version of Zoteus for ChatGPT?
 
-Zoteus is MIT-licensed and free to self-host with every feature, but ChatGPT only connects to servers on the public internet, so the free route for ChatGPT means running the Zoteus OAuth remote on your own HTTPS host at your own hosting cost. The free local install works in Claude Desktop, Claude Code and Cursor, not in ChatGPT. The hosted Zoteus connector costs €69 a year or €7 a month for one researcher, or €99 a month for a lab of up to ten, and does not include a ChatGPT subscription.
+Zoteus is MIT-licensed and free to self-host with every feature, but ChatGPT only connects to servers on the public internet, so the free route for ChatGPT means running the Zoteus OAuth remote on your own HTTPS host at your own hosting cost and adding it as a custom MCP server, which OpenAI offers on the Business, Enterprise and Edu plans. The free local install works in Claude Desktop, Claude Code and Cursor, not in ChatGPT. The hosted Zoteus connector costs €69 a year or €7 a month for one researcher, or €99 a month for a lab of up to ten, and does not include a ChatGPT subscription.
 
 ### Does Zoteus work with Zotero group libraries in ChatGPT?
 
@@ -116,4 +119,4 @@ Yes. When ChatGPT asks Zoteus for a passage, Zoteus returns the text from the PD
 
 ## Verification notes
 
-Instructions reviewed 14 September 2026 against Zoteus v1.20.0 and [OpenAI Developer mode guidance](https://developers.openai.com/api/docs/guides/developer-mode). Web setup uses the current browser interface, which has no fixed client version. Release assets were checked for macOS, Windows and Linux. End-to-end authenticated installation was not repeated on all platforms; menu labels and workspace permissions can vary.
+Plugin directory install checked end to end on 5 November 2026, the day Zoteus was published there, on a ChatGPT Plus account in the web app: **Install plugin**, **Connect Zoteus**, the Zoteus key page, Zotero approval, then a library search that quoted a PDF passage with its page. Wording on plan and workspace limits follows OpenAI's [Plugins in ChatGPT](https://help.openai.com/en/articles/20001256-plugins-in-chatgpt) article. Self-hosted steps follow OpenAI's [Connecting custom MCP servers in ChatGPT](https://help.openai.com/en/articles/12584461-connecting-custom-mcp-servers-in-chatgpt) as read on 5 November 2026; they were not repeated end to end. Web setup uses the current browser interface, which has no fixed client version. Release assets were checked for macOS, Windows and Linux. End-to-end authenticated installation was not repeated on all platforms; menu labels and workspace permissions can vary.

@@ -26,8 +26,10 @@ export const operator = 'Oscar Devos (“Zoteus”)';
 /** Governing-law jurisdiction for the Terms; EU consumer home-country mandatory rights are preserved. */
 export const jurisdiction = 'Belgium';
 
-/** The live hosted connector URL subscribers add in claude.ai or ChatGPT. */
+/** The live hosted connector URL subscribers add in claude.ai (and self-hosters' equivalent in ChatGPT). */
 export const connectorUrl = 'https://mcp.zoteus.com/mcp';
+/** The public Zoteus listing in ChatGPT's plugin directory, published 2026-11-05. */
+export const chatgptPluginUrl = 'https://chatgpt.com/plugins/plugin_asdk_app_6adcac3c4d8c81918b04f04ec0640974';
 /** Master switch for hosted-tier sales. Flip to false to pause new subscriptions. */
 export const hostedLive: boolean = true;
 

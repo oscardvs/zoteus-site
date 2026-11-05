@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SiteFooter } from '@/components/site-footer';
 import { TrackCheckoutComplete } from '@/components/track-checkout-complete';
-import { connectorUrl, supportEmail } from '@/lib/shared';
+import { chatgptPluginUrl, connectorUrl, supportEmail } from '@/lib/shared';
 
 /*
  * Polar's success URL. Not in the sitemap (app/sitemap.ts lists pages by hand) and
@@ -58,13 +58,14 @@ export default function ThanksPage() {
               <span className="z-mono text-sm text-fd-muted-foreground">02</span>
               <h3 className="z-h3 mt-2">ChatGPT</h3>
               <p className="z-body mt-3 flex-1 text-[0.9375rem]">
-                Turn on <strong>Developer mode</strong> (<strong>Settings</strong>, then{' '}
-                <strong>Security and login</strong>; paid ChatGPT plans only). Click{' '}
-                <strong>Plugins</strong> in the left sidebar, then <strong>Create app</strong>. Set{' '}
-                <strong>Connection</strong> to <strong>Server URL</strong>, the{' '}
-                <strong>MCP Server URL</strong> to <Url />, and <strong>Authentication</strong> to{' '}
-                <strong>OAuth</strong>. Tick <strong>I understand and want to continue</strong> and click{' '}
-                <strong>Create</strong>.
+                Open the{' '}
+                <a href={chatgptPluginUrl} className={linkClass}>
+                  Zoteus plugin in ChatGPT
+                </a>
+                , or click <strong>Plugins</strong> in ChatGPT&apos;s left sidebar and search for{' '}
+                <strong>Zoteus</strong>. Click <strong>Install plugin</strong>, then{' '}
+                <strong>Connect Zoteus</strong>. Zoteus is listed in ChatGPT&apos;s plugin directory, so there is
+                no Developer mode to turn on and no server address to type.
               </p>
               <Link href="/docs/connect-chatgpt-to-zotero#add-zoteus-to-chatgpt" className="z-link mt-5">
                 Full ChatGPT guide
@@ -74,8 +75,7 @@ export default function ThanksPage() {
               <span className="z-mono text-sm text-fd-muted-foreground">03</span>
               <h3 className="z-h3 mt-2">Sign in</h3>
               <p className="z-body mt-3 flex-1 text-[0.9375rem]">
-                Click <strong>Connect</strong> in Claude, or <strong>Sign in with Zoteus</strong> in
-                ChatGPT. On the Zoteus page, paste the licence key from your Polar email. You then go to
+                Click <strong>Connect</strong> in Claude, or <strong>Connect Zoteus</strong> in ChatGPT. On the Zoteus page, paste the licence key from your Polar email. You then go to
                 zotero.org: sign in and approve the access Zoteus asks for, and you land back in your chat.
                 Ask <em>Am I connected to my Zotero library?</em>
               </p>

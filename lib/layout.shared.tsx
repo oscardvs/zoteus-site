@@ -10,7 +10,7 @@ export const guides: { text: string; description: string; url: string }[] = [
   },
   {
     text: 'Connect ChatGPT to Zotero',
-    description: 'Step by step, in Developer mode, through the hosted connector or your own remote.',
+    description: 'Install Zoteus from ChatGPT\'s plugin directory, or add your own remote.',
     url: '/docs/connect-chatgpt-to-zotero',
   },
   {
