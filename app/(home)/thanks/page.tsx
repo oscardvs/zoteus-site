@@ -30,8 +30,9 @@ export default function ThanksPage() {
           <h1 className="z-display z-h1 mt-5 max-w-3xl">Thanks for subscribing to Zoteus.</h1>
           <p className="z-lead mt-6 max-w-2xl">
             Polar is emailing your licence key to the address you used at checkout. Keep that email
-            open: you paste the key once, when you connect. Then add Zoteus where you want to use your
-            library.
+            open: you paste the key once, when you connect. If you started from the Zoteus sign-in
+            page in ChatGPT or Claude, go back to that tab and paste the key there. Otherwise, add
+            Zoteus where you want to use your library.
           </p>
         </div>
       </section>
