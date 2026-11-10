@@ -13,7 +13,7 @@ export default function Privacy() {
   return (
     <LegalPage
       title="Privacy Policy"
-      updated="14 September 2026"
+      updated="10 November 2026"
       intro={
         <>
           Zoteus, operated by {operator}, is an open-source connector between your Zotero library
@@ -65,7 +65,7 @@ export default function Privacy() {
         <ul>
           <li><strong>Your Zotero API key / login</strong>, used solely to access <em>your</em> library on your behalf. It is <strong>encrypted at rest (AES-256-GCM)</strong> and transmitted over TLS.</li>
           <li><strong>Your account email and subscription status</strong>, to provision and maintain access (managed via Polar; see Payments).</li>
-          <li><strong>Search indexes and caches</strong>, which can contain metadata, notes, extracted passages and embeddings derived from the library you ask to index. These are stored on the connector host and scoped per authenticated user. Retrieved content is returned to your chosen AI service.</li>
+          <li><strong>Search indexes and caches</strong>, which can contain metadata, notes, extracted passages and embeddings derived from the library you ask to index. These are stored on the connector host and scoped per authenticated user. Retrieved content is returned to your chosen AI service. To make search by meaning work, the titles, abstracts, creators, tags, notes and annotation text of the items being indexed, and the text of your search queries, are sent to OpenAI&rsquo;s embeddings API, which returns the numeric vectors we store. The body text of your PDFs is not sent for this.</li>
           <li><strong>Operational logs</strong> with secrets redacted, kept for reliability and abuse prevention and deleted within 30 days.</li>
         </ul>
         <p>
@@ -92,6 +92,7 @@ export default function Privacy() {
         <ul>
           <li><strong>Polar</strong>: checkout, subscriptions, and licensing.</li>
           <li><strong>Google Cloud (Google LLC)</strong>: hosts the hosted connector instance; see <em>International transfers</em> below.</li>
+          <li><strong>OpenAI (OpenAI, L.L.C.)</strong>: computes the embeddings behind search by meaning on the hosted connector, from the item text and search queries described above. OpenAI processes this in the United States under its <a href="https://openai.com/policies/" target="_blank" rel="noreferrer">API terms and data policies</a>. Self-hosted and local installs do not use it unless you configure it yourself.</li>
           {analyticsEnabled && (
             <li><strong>Umami Software, Inc.</strong>: cookieless website analytics for zoteus.com, with analytics data stored in the EU (Germany) region.</li>
           )}

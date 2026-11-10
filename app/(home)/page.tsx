@@ -68,7 +68,7 @@ const FEATURES = [
 const LIMITS = [
   'What it retrieves goes to the AI you use, local install included.',
   'Hosted can’t see PDFs stored only on your computer or in WebDAV.',
-  'Hosted search is by keyword. Search by meaning is local only.',
+  'Hosted search by meaning covers titles, abstracts, notes and highlights. To build it, that text is sent to OpenAI.',
   'The model can misread a paper. Open the page.',
 ];
 

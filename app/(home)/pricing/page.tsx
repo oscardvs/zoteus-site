@@ -44,7 +44,7 @@ const FAQ: { q: string; a: string; link?: { label: string; href: string } }[] = 
   },
   {
     q: 'Are embeddings and all my PDFs included?',
-    a: 'Hosted currently searches metadata, notes and PDF full text by keyword. Search by meaning runs in the free local install. PDF access also depends on Zotero file availability: local-only and WebDAV file bytes cannot be fetched by the hosted connector.',
+    a: 'Hosted searches titles, abstracts, your notes and your highlights by meaning as well as by keyword, and PDF full text by keyword. To search by meaning, that text (not the PDF body) is sent to OpenAI to be turned into embeddings; the privacy policy has the details. The free local install can do the same on your own machine. PDF access also depends on Zotero file availability: local-only and WebDAV file bytes cannot be fetched by the hosted connector.',
     link: { label: 'Check search readiness', href: '/docs/search-readiness' },
   },
   {
@@ -205,7 +205,7 @@ export default function PricingPage() {
               <ul className="z-body grid list-disc gap-x-10 gap-y-3 pb-5 pl-5 text-[0.9375rem] md:grid-cols-2">
                 <li><strong>Your AI account:</strong> Zoteus does not include a Claude or ChatGPT subscription. In Claude, confirm you can add custom connectors. In ChatGPT, check that you can install Zoteus from the plugin directory; OpenAI ties plugin availability to your plan, workspace and region, and workspace administrators may restrict it.</li>
                 <li><strong>Your files:</strong> hosted access uses Zotero online. Metadata sync is not file sync. Files only on your disk or in WebDAV are not available as hosted PDF bytes.</li>
-                <li><strong>Your search coverage:</strong> hosted currently searches metadata, notes and PDF full text by keyword; search by meaning runs in the free local install. PDF-body indexing is opt-in in the software, with defaults of 5,000 items and 40,000 body-text characters per item. Ask support to confirm the caps for your library before relying on them.</li>
+                <li><strong>Your search coverage:</strong> hosted searches titles, abstracts, notes and highlights by meaning and by keyword, up to 5,000 items per library, and PDF full text by keyword. Search by meaning sends that text to OpenAI to be indexed. PDF body text is not part of the meaning index on hosted. Ask support to confirm the caps for your library before relying on them.</li>
                 <li><strong>Your libraries and data:</strong> ordinary calls can use permitted groups, and each library you use, personal or group, can have its own search index, searchable one at a time or together. Hosting is currently in the US. Retrieved text goes to your AI service; check your institution&apos;s requirements.</li>
               </ul>
               <div className="flex flex-wrap gap-5 pb-6">
