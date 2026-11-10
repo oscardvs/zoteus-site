@@ -62,6 +62,8 @@ const FEATURES = [
   { verb: 'Add', body: 'Give it a DOI, arXiv id, ISBN, PMID or URL and it files the item.' },
   { verb: 'Edit', body: 'Preview a metadata change before it is applied. Trash can be restored, other edits have no undo.' },
   { verb: 'Follow', body: 'See what a paper cites and what cites it.' },
+  { verb: 'Check', body: 'Paste a draft. It lists the citations missing from your library and the quotations that are not in the paper.' },
+  { verb: 'Screen', body: 'Review teams record include and exclude decisions as Zotero tags and get the PRISMA numbers.' },
   { verb: 'Stay local', body: 'The free install reads the Zotero app and the PDFs on your machine.' },
 ];
 

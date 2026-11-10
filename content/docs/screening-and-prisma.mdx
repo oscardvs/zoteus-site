@@ -1,0 +1,55 @@
+---
+title: Screen references as a team and get the PRISMA numbers
+description: "Record include and exclude decisions as Zotero tags in a shared group library, screen independently with two reviewers, and get the PRISMA 2020 flow counts."
+---
+
+A systematic review needs every record screened, usually by two people who do not see each other's decisions, and a flow diagram at the end. Zoteus does this inside a shared Zotero group library. There is no separate screening database: each decision is an ordinary Zotero tag, so it syncs to the whole group and stays readable if you stop using Zoteus.
+
+Start with [a group library for the team](/docs/group-libraries-for-review-teams) and one collection that holds the records to screen.
+
+## Screen a batch
+
+> Show me the next 20 records to screen at title and abstract in the collection "[name]" of our group library. I am reviewer "alice". Show title, year and abstract for each.
+
+Read them, then give your decisions:
+
+> Record these decisions as reviewer alice: include 1, 3 and 7. Exclude 2 and 5 for "wrong population". Mark 4 as maybe. Leave the rest.
+
+Each decision becomes a tag such as `screen/title-abstract/exclude:wrong-population@alice`. Agree on a fixed list of exclusion reasons before you start, because the flow diagram counts them by exact wording.
+
+## One screener or two
+
+- **One screener:** leave the reviewer name out. Each decision is final.
+- **Two or more:** each person gives their own reviewer name. Your queue only holds records you have not decided yet and never shows what the others chose.
+
+When two reviewers disagree, the record is listed as a conflict. Someone settles it by recording a final decision without a reviewer name. The reviewers' own tags stay in place as the audit trail.
+
+> Show the screening status of the collection: counts per stage, each reviewer's totals, our agreement, and the records where we disagree.
+
+Agreement is reported as percent agreement and Cohen's kappa for each pair of reviewers.
+
+## Get the PRISMA flow
+
+> Give me the PRISMA 2020 flow numbers for this collection. Our searches returned PubMed 412, Scopus 380, Web of Science 297.
+
+You get the counts, a plain text version to paste, and a Mermaid flowchart. Zotero cannot know how many records a database export held before you imported it, so pass the numbers per source for an exact first box. "Reports not retrieved" is not tracked.
+
+The flow is not final while records are still pending, in conflict or marked maybe. The answer says how many.
+
+## Find duplicates after importing from several databases
+
+> List the duplicate records in this collection and suggest which copy to keep.
+
+Records count as duplicates when they share a DOI, an ISBN, or the same title with years at most one apart. A record with a mistyped title and no DOI is not caught. Nothing is merged until you ask for it.
+
+## See what the team did this week
+
+> What was added, changed or annotated in this collection in the last 7 days, and by whom?
+
+Names are available when Zoteus reads the group through Zotero's cloud, which hosted Zoteus always does. The local install shows names only when it also has a cloud API key for the group.
+
+## What a decision changes
+
+Recording a decision adds one tag and removes the earlier tag for the same stage and the same reviewer, if there was one. Your other tags, the other stage and other reviewers' tags are not touched. Up to 100 records per call.
+
+[Use Zoteus with a group library](/docs/group-libraries-for-review-teams) · [Safe writes](/docs/writing) · [Extraction tables](/docs/extraction-tables)

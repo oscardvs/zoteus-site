@@ -1,0 +1,58 @@
+---
+title: Check the citations and quotations in a draft
+description: "Paste a draft and find out which cited works are missing from your Zotero library and which direct quotations do not appear in the cited paper."
+---
+
+Before you send a draft to a supervisor or a journal, two things are worth checking by machine: that every work you cite is in your library, and that every direct quotation is really in the paper you attribute it to. Zoteus does both with the `zotero_check_citations` tool. It reads your library and changes nothing in it.
+
+## Ask for the check
+
+> Check the citations and quotations in the draft I paste next against my Zotero library. List the works that are not in my library, the citations that match more than one item, and every quotation that is not word for word in its source.
+
+Then paste the draft, with its reference list if it has one.
+
+## What it reads in the draft
+
+| Citation style | Example |
+|---|---|
+| Author and year | `(Smith, 2020)`, `(Smith & Jones, 2020, p. 4)`, `Smith et al. (2020)` |
+| Numbered | `[3]`, `[1, 4-6]`, matched through the reference list |
+| Pandoc and citation keys | `[@smith2020, p. 12]` |
+| LaTeX | `\cite{a,b}`, `\citep[p.~4]{c}`, `\textcite`, `\autocite` |
+| DOI | a DOI anywhere in the text |
+
+A quotation is checked when it is at least four words long and sits next to a citation in the same sentence, or is a block quote with a citation on its last line or the line after.
+
+## How to read the answer
+
+For each cited work:
+
+- **matched**: one item in your library fits. You get its item key and title.
+- **ambiguous**: several items fit, for example two papers by the same author in the same year. You get up to five candidates.
+- **not in library**: nothing fits. Ask the assistant to look the work up and add it by DOI.
+- **unresolved**: the citation could not be read, for example a number with no entry in the reference list.
+
+For each quotation:
+
+- **found**: the words are in the source, with the page.
+- **close match**: no exact match, but a very similar passage exists. The answer shows what the source really says, so you can fix a typo or a dropped word.
+- **not found**: nothing close. Open the paper.
+- **no full text**: the item has no readable PDF or EPUB, so the quotation could not be checked.
+
+Differences in capital letters, quotation marks, dashes, ligatures and line-break hyphens are ignored. An ellipsis splits the quotation into parts that must appear in order.
+
+## What it does not check
+
+It does not tell you whether a paper supports a claim you paraphrased. That needs someone, or the model, to read the passage. Ask for it as a second step:
+
+> For each paraphrased claim in the draft, retrieve the passage from the cited paper and tell me whether it supports the sentence. Quote the passage and give the page.
+
+A page number marked as approximate comes from Zotero's indexed text, not from the PDF pages. Confirm it in the PDF before it goes into a manuscript.
+
+## Limits
+
+- A draft can be up to 200,000 characters, about 30,000 words.
+- One call checks up to 60 citations and reads up to 5 full texts by default. For a longer draft the assistant continues where the last call stopped.
+- On hosted Zoteus, a quotation can only be checked in papers whose text Zotero has synced to its cloud. Files kept only on your computer or on WebDAV come back as "no full text". Better BibTeX keys are only looked up by the local install, because Better BibTeX lives in the desktop app.
+
+[Find and check your first passage](/docs/first-research-task) · [Missing PDFs](/docs/missing-pdfs) · [Citations and bibliography styles](/docs/citations)
