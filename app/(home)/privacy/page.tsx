@@ -24,6 +24,44 @@ export default function Privacy() {
         </>
       }
     >
+      <Sec h="Summary for the hosted connector">
+        <p>
+          This is the short form of everything below, for people who connect Zoteus to Claude or
+          ChatGPT through the hosted service.
+        </p>
+        <ul>
+          <li>
+            <strong>Categories of personal data collected:</strong> your Zotero login (an API key,
+            your Zotero user id and username); your account email and subscription status; the
+            library content you ask Zoteus to read or index (item details, notes, annotations and
+            passages from your documents); and operational logs (request time, path, status and
+            duration, with secrets redacted).
+          </li>
+          <li>
+            <strong>Purposes:</strong> to read and write your Zotero library when you ask, to search
+            it, to check that your subscription is active, and to keep the service reliable and
+            secure. We do not use your data for advertising, profiling or training models.
+          </li>
+          <li>
+            <strong>Categories of recipients:</strong> Zotero (your own account); the AI service you
+            connect, which receives what a tool returns; our hosting provider (Google Cloud); our
+            payment provider (Polar); and OpenAI, which turns item text and search queries into
+            embeddings for search by meaning. We do not sell data.
+          </li>
+          <li>
+            <strong>Retention:</strong> your encrypted key and your search indexes are kept while
+            your subscription is active and deleted within 30 days of cancellation, or sooner on
+            request. Operational logs are deleted within 30 days.
+          </li>
+          <li>
+            <strong>Your controls:</strong> revoke the key in your Zotero account to cut off access
+            at once, disconnect Zoteus in Claude or ChatGPT, cancel in the Polar customer portal, or
+            email <a href={`mailto:${contactEmail}`}>{contactEmail}</a> to have your stored data
+            deleted or exported.
+          </li>
+        </ul>
+      </Sec>
+
       <Sec h="Self-hosting: we collect nothing">
         <p>
           The open-source connector runs on <strong>your own machine or server</strong>. Your Zotero
