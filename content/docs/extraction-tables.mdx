@@ -1,0 +1,44 @@
+---
+title: Build an extraction table and link related papers
+description: "Save the same fields for every paper, such as sample size, method and country, as Zotero notes with checked source quotes, then gather them into one table."
+---
+
+A literature analysis needs the same few facts from every paper: sample size, method, country, outcome. Zotero has no custom fields, so Zoteus keeps them in a child note on each paper. The note syncs like everything else in Zotero, and anyone in the group can read it without Zoteus.
+
+## Extract the fields
+
+> For each paper in the collection "[name]", read the full text and extract: sample_size, country, study_design, primary_outcome. Give a source quote and page for each value. Save them as the extraction "rct-review". Tell me which quotes could not be verified.
+
+The assistant reads each paper and supplies the values. Zoteus stores them and checks every quote against the paper's text:
+
+- **verified**: the quote is in the paper.
+- **not found**: the text was read and the quote is not in it. The value is still saved and flagged, so you can correct it.
+- **unchecked**: there was no text to check against, for example a scan without a text layer.
+
+A verified quote proves the words are in the paper. It does not prove the value is a fair reading of them, so spot check the table.
+
+## Get the table
+
+> Show the extraction table "rct-review" for this collection, as Markdown and as CSV. List the papers with no extraction yet.
+
+You get one row per paper, the papers that are still missing, and the empty cells per paper. The CSV has the value, quote, page and quote check for each field.
+
+## Correct a value
+
+Ask the assistant to save the field again. Saving for the same paper and the same extraction name updates the note in place: fields you send replace the old ones, fields you leave out are kept, and the answer lists every value that was replaced. If you edit the note by hand in Zotero, change both the table and the data block under it, because the table tool reads the data block.
+
+## Link papers that cite each other
+
+Zotero lets you mark two items as Related by hand. Zoteus can suggest those links from citation data and add the ones you accept.
+
+> Suggest Related links for the papers in this collection: pairs where one paper cites the other. Show them before linking anything.
+
+> Link the first ten pairs.
+
+The suggestions come from OpenAlex reference lists and only cover items that have a DOI. Those lists are incomplete for some publishers, so a missing pair does not mean one paper does not cite the other. Linking only adds: existing links stay as they are.
+
+## Where it works
+
+Both features work in personal and group libraries, on the local install and on hosted. A collection is read one level deep, so papers in subcollections are not included. One save call covers up to 50 papers.
+
+[Check a draft](/docs/check-a-draft) · [Screening and PRISMA](/docs/screening-and-prisma) · [Safe writes](/docs/writing)
