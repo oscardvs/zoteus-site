@@ -5,105 +5,111 @@
 /* ----------------------------------------------------------------------------
    Zoteus theme
 
-   Type:   Fraunces for display headings, IBM Plex Sans for everything read,
-           JetBrains Mono for commands, tool names and small labels.
-   Colour: warm paper and ink. One accent, an ink blue, used for links, the
-           active nav item and small highlights. Primary buttons are plain ink.
-   Motion: none on scroll. Buttons and disclosure chevrons transition, the copy
-           control confirms, and that is all. prefers-reduced-motion turns even
-           those off.
+   Type:   IBM Plex Sans for everything, headings included. IBM Plex Mono for
+           commands and nothing else.
+   Colour: white page, black text, ordinary blue links. The one decoration is a
+           yellow highlighter mark (.z-mark), because finding what you
+           highlighted is what the product does.
+   Motion: none on scroll. Buttons transition, the copy control confirms, and
+           that is all. prefers-reduced-motion turns even those off.
    --------------------------------------------------------------------------- */
 
 @theme inline {
   --font-sans: var(--font-plex), 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-mono-jet), 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
-  --font-display: var(--font-fraunces), 'Fraunces', ui-serif, Georgia, serif;
+  --font-mono: var(--font-plex-mono), 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+  --font-display: var(--font-sans);
 }
 
 :root {
-  --color-fd-background: oklch(96.6% 0.009 85);
-  --color-fd-foreground: oklch(21% 0.012 60);
+  --color-fd-background: oklch(100% 0 0);
+  --color-fd-foreground: oklch(19% 0.005 260);
 
-  --color-fd-muted: oklch(93.5% 0.011 85);
-  --color-fd-muted-foreground: oklch(43% 0.014 60);
+  --color-fd-muted: oklch(96.5% 0.002 260);
+  --color-fd-muted-foreground: oklch(41% 0.008 260);
 
-  --color-fd-popover: oklch(99% 0.005 85);
-  --color-fd-popover-foreground: oklch(21% 0.012 60);
+  --color-fd-popover: oklch(100% 0 0);
+  --color-fd-popover-foreground: oklch(19% 0.005 260);
 
-  --color-fd-card: oklch(98.4% 0.006 85);
-  --color-fd-card-foreground: oklch(21% 0.012 60);
+  --color-fd-card: oklch(97.6% 0.002 260);
+  --color-fd-card-foreground: oklch(19% 0.005 260);
 
-  --color-fd-border: oklch(21% 0.012 60 / 14%);
+  --color-fd-border: oklch(19% 0.005 260 / 13%);
 
-  /* ink blue: links, active state, small highlights */
-  --color-fd-primary: oklch(46% 0.15 262);
-  --color-fd-primary-foreground: oklch(98.4% 0.006 85);
+  /* link blue: links, active state */
+  --color-fd-primary: oklch(45% 0.19 262);
+  --color-fd-primary-foreground: oklch(100% 0 0);
 
-  --color-fd-secondary: oklch(92.5% 0.011 85);
-  --color-fd-secondary-foreground: oklch(21% 0.012 60);
+  --color-fd-secondary: oklch(95.5% 0.002 260);
+  --color-fd-secondary-foreground: oklch(19% 0.005 260);
 
-  --color-fd-accent: oklch(91.5% 0.012 85);
-  --color-fd-accent-foreground: oklch(21% 0.012 60);
+  --color-fd-accent: oklch(94.5% 0.003 260);
+  --color-fd-accent-foreground: oklch(19% 0.005 260);
 
-  --color-fd-ring: oklch(46% 0.15 262 / 60%);
-  --color-fd-overlay: oklch(21% 0.012 60 / 30%);
+  --color-fd-ring: oklch(45% 0.19 262 / 60%);
+  --color-fd-overlay: oklch(19% 0.005 260 / 30%);
 
   --accent: var(--color-fd-primary);
-  --accent-text: oklch(42% 0.15 262);
-  --accent-soft: oklch(46% 0.15 262 / 9%);
+  --accent-text: oklch(43% 0.19 262);
+  --accent-soft: oklch(45% 0.19 262 / 9%);
 
-  /* primary buttons are ink on paper */
-  --btn-bg: oklch(21% 0.012 60);
-  --btn-bg-hover: oklch(30% 0.014 60);
-  --btn-fg: oklch(97.5% 0.008 85);
+  /* the highlighter */
+  --mark-bg: oklch(93% 0.15 100);
+  --mark-fg: oklch(19% 0.005 260);
 
-  --selection-bg: oklch(46% 0.15 262 / 18%);
-  --selection-fg: oklch(21% 0.012 60);
+  --btn-bg: oklch(19% 0.005 260);
+  --btn-bg-hover: oklch(30% 0.008 260);
+  --btn-fg: oklch(100% 0 0);
+
+  --selection-bg: oklch(93% 0.15 100);
+  --selection-fg: oklch(19% 0.005 260);
 }
 
 .dark {
-  --color-fd-background: oklch(15.5% 0.008 70);
-  --color-fd-foreground: oklch(91% 0.01 85);
+  --color-fd-background: oklch(16% 0.004 260);
+  --color-fd-foreground: oklch(93% 0.003 260);
 
-  --color-fd-muted: oklch(19% 0.01 70);
-  --color-fd-muted-foreground: oklch(71% 0.012 85);
+  --color-fd-muted: oklch(20% 0.005 260);
+  --color-fd-muted-foreground: oklch(72% 0.006 260);
 
-  --color-fd-popover: oklch(18% 0.01 70);
-  --color-fd-popover-foreground: oklch(91% 0.01 85);
+  --color-fd-popover: oklch(19% 0.005 260);
+  --color-fd-popover-foreground: oklch(93% 0.003 260);
 
-  --color-fd-card: oklch(18.2% 0.01 70);
-  --color-fd-card-foreground: oklch(91% 0.01 85);
+  --color-fd-card: oklch(19.5% 0.005 260);
+  --color-fd-card-foreground: oklch(93% 0.003 260);
 
-  --color-fd-border: oklch(91% 0.01 85 / 13%);
+  --color-fd-border: oklch(93% 0.003 260 / 14%);
 
-  --color-fd-primary: oklch(78% 0.10 262);
-  --color-fd-primary-foreground: oklch(15.5% 0.008 70);
+  --color-fd-primary: oklch(78% 0.12 262);
+  --color-fd-primary-foreground: oklch(16% 0.004 260);
 
-  --color-fd-secondary: oklch(21% 0.01 70);
-  --color-fd-secondary-foreground: oklch(91% 0.01 85);
+  --color-fd-secondary: oklch(22% 0.005 260);
+  --color-fd-secondary-foreground: oklch(93% 0.003 260);
 
-  --color-fd-accent: oklch(23% 0.012 70);
-  --color-fd-accent-foreground: oklch(91% 0.01 85);
+  --color-fd-accent: oklch(24% 0.006 260);
+  --color-fd-accent-foreground: oklch(93% 0.003 260);
 
-  --color-fd-ring: oklch(78% 0.10 262 / 60%);
+  --color-fd-ring: oklch(78% 0.12 262 / 60%);
   --color-fd-overlay: oklch(0% 0 0 / 45%);
 
   --accent: var(--color-fd-primary);
-  --accent-text: oklch(80% 0.10 262);
-  --accent-soft: oklch(78% 0.10 262 / 12%);
+  --accent-text: oklch(80% 0.12 262);
+  --accent-soft: oklch(78% 0.12 262 / 12%);
 
-  --btn-bg: oklch(91% 0.01 85);
-  --btn-bg-hover: oklch(97% 0.008 85);
-  --btn-fg: oklch(15.5% 0.008 70);
+  --mark-bg: oklch(86% 0.15 100);
+  --mark-fg: oklch(16% 0.004 260);
 
-  --selection-bg: oklch(78% 0.10 262 / 25%);
-  --selection-fg: oklch(97% 0.008 85);
+  --btn-bg: oklch(93% 0.003 260);
+  --btn-bg-hover: oklch(100% 0 0);
+  --btn-fg: oklch(16% 0.004 260);
+
+  --selection-bg: oklch(86% 0.15 100);
+  --selection-fg: oklch(16% 0.004 260);
 }
 
 /* the docs sidebar reads as a separate sheet in dark mode */
 .dark #nd-sidebar {
-  --color-fd-muted: oklch(17.5% 0.01 70);
-  --color-fd-secondary: oklch(20% 0.01 70);
+  --color-fd-muted: oklch(18% 0.005 260);
+  --color-fd-secondary: oklch(21% 0.005 260);
 }
 
 /* ---------------------------------------------------------------------------- */
@@ -112,7 +118,6 @@ html {
   scrollbar-gutter: stable;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  font-feature-settings: 'ss01', 'cv11';
 }
 
 html > body[data-scroll-locked] {
@@ -155,27 +160,24 @@ body {
 /* -- typographic scale ------------------------------------------------------ */
 
 .z-display {
-  font-family: var(--font-display);
-  font-weight: 500;
-  /* opsz 72, not 144: the 144 cut's hairlines vanish at 1x DPR */
-  font-variation-settings: 'opsz' 72, 'SOFT' 0;
-  letter-spacing: -0.022em;
-  line-height: 1.04;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -0.028em;
+  line-height: 1.14;
   text-wrap: balance;
 }
-.z-h1 { font-size: clamp(2.3rem, 1.55rem + 2.7vw, 3.75rem); }
+.z-h1 { font-size: clamp(2.1rem, 1.5rem + 2.2vw, 3.25rem); }
 .z-h2 {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-variation-settings: 'opsz' 72, 'SOFT' 0;
-  letter-spacing: -0.018em;
-  line-height: 1.12;
-  font-size: clamp(1.7rem, 1.3rem + 1.4vw, 2.4rem);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -0.022em;
+  line-height: 1.15;
+  font-size: clamp(1.5rem, 1.25rem + 1vw, 2rem);
   text-wrap: balance;
 }
 .z-h3 {
   font-family: var(--font-sans);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 1.0625rem;
   line-height: 1.4;
   letter-spacing: -0.005em;
@@ -185,7 +187,7 @@ body {
   line-height: 1.6;
   color: var(--color-fd-muted-foreground);
 }
-.z-lead strong, .z-body strong { color: var(--color-fd-foreground); font-weight: 500; }
+.z-lead strong, .z-body strong { color: var(--color-fd-foreground); font-weight: 600; }
 .z-body { font-size: 1rem; line-height: 1.65; color: var(--color-fd-muted-foreground); }
 .z-small { font-size: 0.875rem; line-height: 1.55; color: var(--color-fd-muted-foreground); }
 
@@ -193,21 +195,77 @@ body {
   font-family: var(--font-mono);
   font-feature-settings: 'tnum', 'zero';
 }
+/* a small plain label: no capitals, no tracking */
 .z-label {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   line-height: 1.4;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-weight: 500;
   color: var(--color-fd-muted-foreground);
 }
-.z-serif { font-family: var(--font-display); font-variation-settings: 'opsz' 48, 'SOFT' 0; }
+.z-serif { font-family: var(--font-sans); }
+
+/* the highlighter: a marker stroke behind a few words */
+.z-mark {
+  background: var(--mark-bg);
+  color: var(--mark-fg);
+  padding: 0.02em 0.18em;
+  margin-inline: -0.06em;
+  border-radius: 3px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* a quotation set off by a rule on the left */
+.z-quote { border-left: 3px solid var(--mark-bg); padding-left: 1.25rem; }
+.z-quote blockquote { font-size: 1.1875rem; line-height: 1.55; color: var(--color-fd-foreground); }
+
+/* a prompt someone would type, shown as their chat message */
+.z-bubble {
+  position: relative;
+  flex: 1;
+  padding: 1rem 1.15rem;
+  border-radius: 18px 18px 18px 4px;
+  background: var(--color-fd-card);
+  border: 1px solid var(--color-fd-border);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  font-weight: 500;
+  color: var(--color-fd-foreground);
+}
+/* what comes back, as a row of small tags; the last one is marked */
+.z-chip {
+  padding: 0.2rem 0.6rem;
+  border-radius: 99px;
+  border: 1px solid var(--color-fd-border);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--color-fd-muted-foreground);
+}
+.z-chip:last-child { background: var(--mark-bg); border-color: transparent; color: var(--mark-fg); }
+
+/* heading in a narrow left column, content on the right */
+.z-split { display: grid; gap: 1.5rem; }
+@media (min-width: 64rem) {
+  .z-split { grid-template-columns: 15rem minmax(0, 1fr); gap: 3.5rem; align-items: start; }
+}
+
+/* one-word feature heads */
+.z-verb { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; color: var(--color-fd-foreground); }
+
+/* a margin note, in highlighter yellow */
+.z-note {
+  align-self: start;
+  padding: 1.1rem 1.2rem;
+  border-radius: 6px;
+  background: color-mix(in oklab, var(--mark-bg) 38%, var(--color-fd-background));
+  color: var(--color-fd-foreground);
+}
 
 /* -- layout rhythm ------------------------------------------------------------ */
 
 .z-container {
   width: 100%;
-  max-width: 72rem;
+  max-width: 68rem;
   margin-inline: auto;
   padding-inline: 1.25rem;
 }
@@ -216,7 +274,7 @@ body {
 .z-container-mid { max-width: 56rem; }
 .z-container-narrow { max-width: 44rem; }
 
-.z-section { padding-block: clamp(3.25rem, 3vw + 2rem, 5.5rem); }
+.z-section { padding-block: clamp(3rem, 2.5vw + 2rem, 4.75rem); }
 .z-rule { border-top: 1px solid var(--color-fd-border); }
 
 /* heading on the left, lead paragraph on the right, once there is room */
@@ -319,11 +377,10 @@ body {
 .z-wordmark {
   display: inline-flex;
   align-items: center;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1.2rem;
-  letter-spacing: -0.02em;
-  font-variation-settings: 'opsz' 48, 'SOFT' 0;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 1.125rem;
+  letter-spacing: -0.03em;
   color: var(--color-fd-foreground);
   min-height: 2.75rem;
 }
@@ -353,7 +410,7 @@ body {
   padding-block: 0.75rem;
   cursor: pointer;
   list-style: none;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 1.0625rem;
   color: var(--color-fd-foreground);
 }
@@ -378,7 +435,7 @@ body {
 .z-video-cap { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
 .z-video-expand {
   display: inline-flex; align-items: center; gap: 0.4rem; flex: none;
-  font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.04em;
+  font-size: 0.8125rem;
   color: var(--color-fd-muted-foreground); cursor: pointer;
   transition: color 0.15s ease;
 }
@@ -394,7 +451,7 @@ body {
 .z-lightbox-inner { overflow: hidden; }
 .z-lightbox-inner .z-video-el { max-height: calc(100dvh - 6rem); width: auto; max-width: 100%; margin-inline: auto; }
 .z-lightbox-close {
-  font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.04em;
+  font-size: 0.8125rem;
   color: var(--color-fd-muted-foreground); cursor: pointer; transition: color 0.15s ease;
 }
 .z-lightbox-close:hover { color: var(--accent-text); }
@@ -445,14 +502,13 @@ body {
 /* -- docs prose ---------------------------------------------------------------- */
 
 .prose :is(h1, h2, h3, h4) {
-  font-family: var(--font-display);
-  font-weight: 500;
-  letter-spacing: -0.018em;
-  font-variation-settings: 'opsz' 72, 'SOFT' 0;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
-.prose h1 { font-size: 2.4rem; line-height: 1.08; }
+.prose h1 { font-size: 2.2rem; line-height: 1.1; }
 .prose h2 {
-  font-size: 1.6rem; line-height: 1.18; margin-top: 2.4em; padding-top: 0.6em;
+  font-size: 1.5rem; line-height: 1.2; margin-top: 2.4em; padding-top: 0.6em;
   border-top: 1px solid var(--color-fd-border);
 }
 .prose h3 { font-size: 1.2rem; line-height: 1.25; }
@@ -475,20 +531,14 @@ body {
    inner pre alone or you get a box in a box. */
 
 .prose table { font-size: 0.92em; }
-.prose thead {
-  font-family: var(--font-mono);
-  font-size: 0.78em;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
+.prose thead { font-size: 0.9em; }
 .prose th { font-weight: 500; color: var(--color-fd-muted-foreground); }
 .prose tr { border-bottom: 1px solid var(--color-fd-border); }
 
 article > h1:first-of-type {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-variation-settings: 'opsz' 72, 'SOFT' 0;
-  letter-spacing: -0.022em;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -0.025em;
 }
 
 [data-card] {

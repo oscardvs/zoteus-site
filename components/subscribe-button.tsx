@@ -43,12 +43,12 @@ export function SubscribeButton({
       <a
         href={bookingHref}
         className={`z-btn z-btn-secondary ${block}`}
-        aria-label={`Talk to us about the ${plan.name} plan`}
+        aria-label={`Talk to me about the ${plan.name} plan`}
         data-umami-event="book-call-click"
         data-umami-event-source={`pricing-${plan.id}`}
         {...(bookingLive ? { target: '_blank', rel: 'noreferrer' } : {})}
       >
-        {label ?? 'Talk to us'}
+        {label ?? 'Talk to me'}
         <Arrow />
       </a>
     );

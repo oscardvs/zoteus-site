@@ -103,7 +103,7 @@ export function DemoVideo() {
         </video>
         <figcaption className="z-chat-cap z-video-cap">
           <span>
-            Recorded 6 September 2026 against the maintainer&apos;s own library. Nothing staged.
+            Recorded 6 September 2026 on my own library. Nothing staged.
           </span>
           <button type="button" className="z-video-expand" onClick={openFull}>
             <ExpandIcon />

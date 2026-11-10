@@ -1,6 +1,6 @@
 import { RootProvider } from 'fumadocs-ui/provider/next';
 import './global.css';
-import { Fraunces, IBM_Plex_Sans, JetBrains_Mono } from 'next/font/google';
+import { IBM_Plex_Mono, IBM_Plex_Sans } from 'next/font/google';
 import StaticSearchDialog from '@/components/search-dialog';
 import { Analytics } from '@/components/analytics';
 import type { Metadata } from 'next';
@@ -54,23 +54,16 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-const fraunces = Fraunces({
-  subsets: ['latin'],
-  variable: '--font-fraunces',
-  axes: ['SOFT', 'opsz'],
-  display: 'swap',
-});
-
 const plex = IBM_Plex_Sans({
   subsets: ['latin'],
   variable: '--font-plex',
-  weight: ['300', '400', '500', '600'],
+  weight: ['400', '500', '600', '700'],
   display: 'swap',
 });
 
-const mono = JetBrains_Mono({
+const mono = IBM_Plex_Mono({
   subsets: ['latin'],
-  variable: '--font-mono-jet',
+  variable: '--font-plex-mono',
   weight: ['400', '500'],
   display: 'swap',
 });
@@ -79,7 +72,7 @@ export default function Layout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${plex.variable} ${mono.variable}`}
+      className={`${plex.variable} ${mono.variable}`}
       suppressHydrationWarning
     >
       <body className="flex flex-col min-h-screen">
