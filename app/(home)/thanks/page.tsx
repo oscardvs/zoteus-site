@@ -26,8 +26,7 @@ export default function ThanksPage() {
       <TrackCheckoutComplete />
       <section className="border-b border-fd-border">
         <div className="z-container py-14 sm:py-20">
-          <p className="z-label">Thank you</p>
-          <h1 className="z-display z-h1 mt-5 max-w-3xl">Thanks for subscribing to Zoteus.</h1>
+          <h1 className="z-display z-h1 max-w-3xl">Thanks for subscribing to Zoteus.</h1>
           <p className="z-lead mt-6 max-w-2xl">
             Polar is emailing your licence key to the address you used at checkout. Keep that email
             open: you paste the key once, when you connect. If you started from the Zoteus sign-in
@@ -42,8 +41,7 @@ export default function ThanksPage() {
           <h2 className="z-h2">Connect in three steps</h2>
           <ol className="mt-8 grid gap-4 lg:grid-cols-3">
             <li className="z-panel flex flex-col p-5 sm:p-6">
-              <span className="z-mono text-sm text-fd-muted-foreground">01</span>
-              <h3 className="z-h3 mt-2">Claude</h3>
+              <h3 className="z-h3">1. Claude</h3>
               <p className="z-body mt-3 flex-1 text-[0.9375rem]">
                 In claude.ai, open <strong>Settings</strong> (called <strong>Customize</strong> on some
                 plans), then <strong>Connectors</strong>, then <strong>Add custom connector</strong>. For
@@ -56,8 +54,7 @@ export default function ThanksPage() {
               </Link>
             </li>
             <li className="z-panel flex flex-col p-5 sm:p-6">
-              <span className="z-mono text-sm text-fd-muted-foreground">02</span>
-              <h3 className="z-h3 mt-2">ChatGPT</h3>
+              <h3 className="z-h3">2. ChatGPT</h3>
               <p className="z-body mt-3 flex-1 text-[0.9375rem]">
                 Open the{' '}
                 <a href={chatgptPluginUrl} className={linkClass}>
@@ -73,8 +70,7 @@ export default function ThanksPage() {
               </Link>
             </li>
             <li className="z-panel flex flex-col p-5 sm:p-6">
-              <span className="z-mono text-sm text-fd-muted-foreground">03</span>
-              <h3 className="z-h3 mt-2">Sign in</h3>
+              <h3 className="z-h3">3. Sign in</h3>
               <p className="z-body mt-3 flex-1 text-[0.9375rem]">
                 Click <strong>Connect</strong> in Claude, or <strong>Connect Zoteus</strong> in ChatGPT. On the Zoteus page, paste the licence key from your Polar email. You then go to
                 zotero.org: sign in and approve the access Zoteus asks for, and you land back in your chat.

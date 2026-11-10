@@ -49,7 +49,7 @@ const FAQ: { q: string; a: string; link?: { label: string; href: string } }[] = 
   },
   {
     q: 'Why pay if it’s open-source?',
-    a: 'You’re paying for hosting and maintenance, not features. Self-hosting gives you the same capabilities for free, forever; the hosted plans mean you don’t have to run or update anything.',
+    a: 'You’re paying for hosting and maintenance, not features. Self-hosting gives you the same thing for free. With a hosted plan you don’t have to run or update anything.',
   },
   {
     q: 'Does it work with ChatGPT?',
@@ -70,7 +70,7 @@ const FAQ: { q: string; a: string; link?: { label: string; href: string } }[] = 
   },
   {
     q: 'Can I cancel?',
-    a: 'Yes, any time from the Polar customer portal. Your access continues until the end of the billing period; there’s no lock-in and your library is always yours.',
+    a: 'Yes, any time from the Polar customer portal. Your access runs until the end of the billing period.',
   },
   {
     q: 'Can you invoice us, or take a purchase order?',
@@ -83,9 +83,9 @@ const FAQ: { q: string; a: string; link?: { label: string; href: string } }[] = 
 ];
 
 const STEPS = [
-  ['01', 'Subscribe', 'Check out via Polar and get a license key by email.'],
-  ['02', 'Connect', 'Add mcp.zoteus.com/mcp as a connector in claude.ai or as a plugin in ChatGPT, and sign in to your own Zotero.'],
-  ['03', 'Verify a passage', 'Confirm the selected library, find a known paper, and check a retrieved quotation against its PDF page.'],
+  ['1', 'Subscribe', 'Check out through Polar. Your license key arrives by email.'],
+  ['2', 'Connect', 'Add mcp.zoteus.com/mcp as a connector in claude.ai or as a plugin in ChatGPT, and sign in to your own Zotero.'],
+  ['3', 'Check one passage', 'Ask for a paper you know well and compare the quote it returns with the PDF page.'],
 ];
 
 export default function PricingPage() {
@@ -93,17 +93,16 @@ export default function PricingPage() {
     <main className="flex flex-col">
       <JsonLd data={faqPageLd(FAQ)} />
       {/* Intro */}
-      <section className="border-b border-fd-border">
-        <div className="z-container py-14 sm:py-20">
-          <p className="z-label">Pricing</p>
-          <h1 className="z-display z-h1 mt-5 max-w-3xl">Your Zotero library in claude.ai, on your phone, and in ChatGPT.</h1>
+      <section>
+        <div className="z-container pt-12 sm:pt-16">
+          <h1 className="z-display z-h1 max-w-3xl">Your Zotero library in claude.ai, on your phone, and in ChatGPT.</h1>
           <p className="z-lead mt-6 max-w-2xl">
-            Nothing to install. Add one URL, sign in with Zotero, and ask. Using Claude Desktop,
-            Claude Code or Cursor? The{' '}
+            There&rsquo;s nothing to install. You add one URL, sign in with Zotero, and ask. If you
+            use Claude Desktop, Claude Code or Cursor, the{' '}
             <Link href="/docs/connect-claude-to-zotero/" className="text-[color:var(--accent-text)] underline underline-offset-[3px]">
               free local install
             </Link>{' '}
-            already does everything, and you do not need a plan.
+            already does everything and you don&rsquo;t need a plan.
           </p>
         </div>
       </section>
@@ -117,7 +116,7 @@ export default function PricingPage() {
                 <div className="flex items-center justify-between gap-2">
                   <h2 className="z-h3">{plan.name}</h2>
                   {plan.badge && (
-                    <span className="z-label rounded border border-fd-border px-1.5 py-0.5 text-[0.68rem] text-fd-foreground">
+                    <span className="z-label rounded border border-fd-border px-1.5 py-0.5 text-[0.75rem] text-fd-foreground">
                       {plan.badge}
                     </span>
                   )}
@@ -157,7 +156,7 @@ export default function PricingPage() {
                     <SubscribeButton
                       plan={plan}
                       full
-                      label={plan.cta === 'contact' ? 'Talk to us' : plan.trial ? 'Start 14-day free trial' : 'Subscribe'}
+                      label={plan.cta === 'contact' ? 'Talk to me' : plan.trial ? 'Start 14-day free trial' : 'Subscribe'}
                     />
                   )}
                 </div>
@@ -186,7 +185,8 @@ export default function PricingPage() {
           </p>
           {hostedLive && (
             <p className="z-small mt-4">
-              Secure checkout &amp; EU VAT via Polar · monthly or annual, chosen at checkout · cancel anytime
+              Checkout runs through Polar, which handles EU VAT. You pick monthly or annual there, and
+              you can cancel whenever you like.
             </p>
           )}
         </div>
@@ -223,8 +223,8 @@ export default function PricingPage() {
       {/* Testimonial */}
       <section className="z-section">
         <div className="z-container">
-          <figure className="z-panel mx-auto max-w-3xl p-6 sm:p-8">
-            <blockquote className="z-body text-[1.0625rem] leading-relaxed">
+          <figure className="z-quote max-w-3xl">
+            <blockquote>
               <p>
                 &ldquo;I&rsquo;ve enjoyed using Zoteus immensely, largely because I am able to talk to
                 my Zotero library and notes and query things that I would have otherwise been unable
@@ -241,16 +241,14 @@ export default function PricingPage() {
       </section>
 
       {/* Lab pilot */}
-      <section className="border-y border-fd-border bg-fd-card/50">
+      <section className="bg-fd-card">
         <div className="z-container z-section grid gap-8 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-center">
           <div>
-            <p className="z-label">For research groups</p>
-            <h2 className="z-h2 mt-3">Try it with your group library for 30 days.</h2>
+            <h2 className="z-h2">Try it with your group library for 30 days.</h2>
             <p className="z-body mt-4 max-w-2xl">
               If your team screens references together in a Zotero group library, the setup is the part
-              that costs you an afternoon. So I do it with you: a 15-minute call, your group library
-              connected, and 30 days to decide whether it earns its place. No card, and no obligation
-              at the end of it.{' '}
+              that costs you an afternoon. So I do it with you on a 15-minute call. Then you have 30
+              days to see if it&rsquo;s worth keeping. No card needed, and nothing happens if you stop.{' '}
               <Link href="/docs/group-libraries-for-review-teams" className="text-[color:var(--accent-text)] underline underline-offset-[3px]">
                 How a review team sets up a shared library
               </Link>
@@ -271,8 +269,7 @@ export default function PricingPage() {
           <ol className="mt-8 grid gap-x-8 sm:grid-cols-3">
             {STEPS.map(([n, t, d]) => (
               <li key={n} className="border-t border-fd-border py-5">
-                <span className="z-mono text-sm text-fd-muted-foreground">{n}</span>
-                <h3 className="z-h3 mt-2">{t}</h3>
+                <h3 className="z-h3">{n}. {t}</h3>
                 <p className="z-body mt-1.5 text-[0.9375rem]">{d}</p>
               </li>
             ))}
@@ -310,7 +307,7 @@ export default function PricingPage() {
             ))}
           </div>
           <p className="z-small mt-10 max-w-3xl">
-            Prefer to self-host? It’s free, with every feature:{' '}
+            Would you rather self-host? It’s free, with every feature:{' '}
             <Link href="/docs" className="text-[color:var(--accent-text)] underline underline-offset-[3px]">start here</Link>.
             Questions?{' '}
             <a href={`mailto:${supportEmail}`} className="text-[color:var(--accent-text)] underline underline-offset-[3px]">{supportEmail}</a>

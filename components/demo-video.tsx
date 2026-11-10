@@ -101,10 +101,7 @@ export function DemoVideo() {
             <source key={s.src} src={s.src} type={s.type} />
           ))}
         </video>
-        <figcaption className="z-chat-cap z-video-cap">
-          <span>
-            Recorded 6 September 2026 against the maintainer&apos;s own library. Nothing staged.
-          </span>
+        <figcaption className="z-chat-cap z-video-cap justify-end">
           <button type="button" className="z-video-expand" onClick={openFull}>
             <ExpandIcon />
             Full size

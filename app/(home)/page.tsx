@@ -7,7 +7,7 @@ import { SiteFooter } from '@/components/site-footer';
 import { ConnectionOptions } from '@/components/connection-options';
 import { demoVideoLd, siteDescription, softwareApplicationLd } from '@/lib/seo';
 import { DEMO_VIDEO_DESCRIPTION } from '@/lib/shared';
-import { plans, repoUrl, selfHostedPlan } from '@/lib/shared';
+import { plans, repoUrl, selfHostedPlan, supportEmail } from '@/lib/shared';
 
 /* Title and description are inherited from the root layout; the home page only pins its canonical. */
 export const metadata: Metadata = {
@@ -30,103 +30,93 @@ function ArrowIcon() {
   );
 }
 
-const CLIENTS = ['Claude Desktop', 'Claude Code', 'ChatGPT', 'Cursor', 'VS Code', 'Zed', 'Codex', 'Gemini CLI'];
-
 const INSTALL = [
   { label: 'Claude Code', cmd: 'claude mcp add --transport stdio zoteus -- npx -y @oscardvs/zoteus' },
-  { label: 'Any client (universal)', cmd: 'npx add-mcp @oscardvs/zoteus' },
+  { label: 'Any other client', cmd: 'npx add-mcp @oscardvs/zoteus' },
 ];
 
-/* Tool names link the research outcomes to the available operations. */
-const FEATURES = [
+const ASKS = [
   {
-    title: 'Find a paper or a passage',
-    body: 'Search titles, abstracts, notes and annotations. Search by meaning needs an active embedding provider; PDF-body indexing is opt-in. Read the matched passage to verify its page and context.',
-    tools: ['zotero_semantic_search', 'zotero_index', 'zotero_get_fulltext'],
+    prompt: 'Find the paper where I highlighted an objection to this method. Quote the passage with its page.',
+    gets: ['the paper', 'your highlight', 'the quote', 'its page'],
+    href: '/docs/first-research-task',
+    label: 'Try a first question',
   },
   {
-    title: 'Citations from your own library',
-    body: 'Zoteus reads the references in your Zotero library and formats them with citeproc-js in any CSL style.',
-    tools: ['zotero_bibliography', 'zotero_format_bibliography', 'zotero_styles'],
+    prompt: 'Compare how these five papers support my question. Read the relevant passages first and mark missing evidence.',
+    gets: ['a table', 'one row per study', 'quote and page', 'supported or not'],
+    href: '/docs/first-research-task#compare-evidence',
+    label: 'Build an evidence table',
   },
   {
-    title: 'Add by identifier',
-    body: 'Give it a DOI or arXiv id and it fetches the metadata and files the item. ISBN, PMID and URLs too, through a Zotero translation-server.',
-    tools: ['zotero_import'],
-  },
-  {
-    title: 'Review changes to your library',
-    body: 'Preview a metadata edit before applying it. Trash can be restored; arbitrary metadata changes do not have automatic undo.',
-    tools: ['zotero_create_items', 'zotero_update_item', 'zotero_trash_items'],
-  },
-  {
-    title: 'Runs on your machine',
-    body: 'The free local route reads from your running Zotero app. You can install an on-device embedding model. Retrieved excerpts still go to the AI service you choose.',
-    tools: ['Zotero local API, 127.0.0.1:23119'],
-  },
-  {
-    title: 'Scholarly-context graph',
-    body: 'Follow references and citing works through OpenAlex and Crossref. Zoteus also ships MCP Resources, Prompts, and the code-execution pattern for agent use.',
-    tools: ['zotero_scholar'],
+    prompt: 'Find my objections and decisions about this topic. Draft a cited note and show it to me before saving.',
+    gets: ['a draft note', 'your own comments', 'the sources', 'saved only when you say so'],
+    href: '/docs/annotations-to-literature-notes',
+    label: 'Work with your annotations',
   },
 ];
+
+const FEATURES = [
+  { verb: 'Find', body: 'A paper, a note, a highlight, or the exact passage with its page.' },
+  { verb: 'Cite', body: 'Bibliographies from your own records, in any CSL style.' },
+  { verb: 'Add', body: 'Give it a DOI, arXiv id, ISBN, PMID or URL and it files the item.' },
+  { verb: 'Edit', body: 'Preview a metadata change before it is applied. Trash can be restored, other edits have no undo.' },
+  { verb: 'Follow', body: 'See what a paper cites and what cites it.' },
+  { verb: 'Stay local', body: 'The free install reads the Zotero app and the PDFs on your machine.' },
+];
+
+const LIMITS = [
+  'What it retrieves goes to the AI you use, local install included.',
+  'Hosted can’t see PDFs stored only on your computer or in WebDAV.',
+  'Hosted search is by keyword. Search by meaning is local only.',
+  'The model can misread a paper. Open the page.',
+];
+
+const linkClass = 'text-[color:var(--accent-text)] underline underline-offset-[3px]';
 
 export default function Home() {
   return (
     <main className="flex flex-col">
       <JsonLd data={softwareApplicationLd(siteDescription)} />
       <JsonLd data={demoVideoLd(DEMO_VIDEO_DESCRIPTION)} />
+
       {/* Hero */}
-      <section className="border-b border-fd-border">
-        <div className="z-container grid items-center gap-10 py-14 sm:py-20 lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] lg:gap-14 lg:py-24">
+      <section>
+        <div className="z-container grid items-center gap-10 py-12 sm:py-16 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-14 lg:py-20">
           <div className="max-w-2xl">
-            <p className="z-label">Open-source · Zotero MCP server</p>
-            <h1 className="z-display z-h1 mt-5 max-w-[17ch]">Find the evidence you saved in Zotero.</h1>
+            <h1 className="z-display z-h1">
+              Ask Claude or ChatGPT about the papers in <span className="z-mark">your Zotero library</span>.
+            </h1>
             <p className="z-lead mt-6 max-w-xl">
-              Ask questions about your papers and notes in Claude or ChatGPT. Retrieve passages
-              with page references, compare evidence, and turn your annotations into cited notes.
+              Zoteus connects them. Ask where you read something and get the passage back with its
+              page number. Compare what your papers say. Turn your highlights into notes with the
+              sources attached.
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
+            <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
               <Link href="#connect" className="z-btn z-btn-primary">Connect my library <ArrowIcon /></Link>
-              <Link href="#research-examples" className="z-btn z-btn-secondary">See research workflows</Link>
               <Link
                 href="/pricing#plans"
-                className="z-btn z-btn-secondary"
+                className={linkClass}
                 data-umami-event="home-pricing-click"
                 data-umami-event-source="hero"
               >
-                Hosted, from €7/month
+                Hosted from €7/month, 14 days free
               </Link>
             </div>
-            <p className="z-label mt-6 flex flex-wrap gap-x-2 normal-case tracking-[0.02em]">
-              <span>MIT-licensed</span>
-              <span aria-hidden>·</span>
-              <span>Free local install</span>
-              <span aria-hidden>·</span>
-              <span>Optional hosted plans</span>
+            <p className="z-small mt-6 max-w-xl">
+              Free and open source if you run it on your own computer. Works with Claude Desktop,
+              Claude Code, ChatGPT, Cursor, VS Code, Zed, Codex and Gemini CLI.
             </p>
           </div>
           <DemoVideo />
         </div>
       </section>
 
-      {/* Clients */}
-      <section className="border-b border-fd-border" aria-label="Supported clients">
-        <div className="z-container flex flex-wrap items-baseline gap-x-6 gap-y-2 py-5">
-          <span className="z-label">Works with</span>
-          <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-fd-muted-foreground">
-            {CLIENTS.map((c) => (
-              <li key={c}>{c}</li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
       {/* Testimonial */}
-      <section className="border-b border-fd-border" aria-label="What researchers say">
-        <div className="z-container py-8 sm:py-10">
-          <figure className="mx-auto max-w-3xl text-center">
-            <blockquote className="z-body text-[1.0625rem] leading-relaxed sm:text-[1.125rem]">
+      <section aria-label="What researchers say">
+        <div className="z-container pb-6 sm:pb-10">
+          <figure className="z-quote max-w-3xl">
+            <blockquote>
               <p>
                 &ldquo;I am able to talk to my Zotero library and notes and query things that I would
                 have otherwise been unable to do. It&rsquo;s made years of research trickling in in
@@ -140,75 +130,90 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="connect" className="z-section scroll-mt-20">
+      {/* What you can ask */}
+      <section id="research-examples" className="z-section scroll-mt-20">
         <div className="z-container">
-          <p className="z-label">Connect your library</p>
-          <h2 className="z-h2 mt-3 mb-8">Choose where you want to work.</h2>
-          <ConnectionOptions />
-          <p className="z-small mt-5">Connected already? <Link className="z-link" href="/docs/first-research-task">Find and verify your first passage</Link>.</p>
+          <h2 className="z-h2">Things you can ask it</h2>
+          <ul className="mt-8 grid gap-8 lg:grid-cols-3 lg:gap-6">
+            {ASKS.map((ask) => (
+              <li key={ask.href} className="flex flex-col">
+                <p className="z-bubble">{ask.prompt}</p>
+                <ul className="mt-4 flex flex-wrap gap-1.5" aria-label="What you get back">
+                  {ask.gets.map((g) => (
+                    <li key={g} className="z-chip">{g}</li>
+                  ))}
+                </ul>
+                <Link href={ask.href} className={`${linkClass} mt-4 text-[0.9375rem]`}>{ask.label}</Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      <section id="research-examples" className="z-section border-t border-fd-border">
+      {/* Connect */}
+      <section id="connect" className="z-section scroll-mt-20 bg-fd-card">
         <div className="z-container">
-          <p className="z-label">Research workflows</p>
-          <h2 className="z-h2 mt-3">From a question to evidence you can check.</h2>
-          <p className="z-lead mt-4 max-w-3xl">These example prompts show what to ask and how to review the result. The recording above shows a real library session. The outputs below are illustrative formats, not findings from your library.</p>
-          <div className="mt-8 grid gap-4 lg:grid-cols-3">
-            {[
-              { title: 'Recover a forgotten passage', prompt: 'Find the paper where I highlighted an objection to this method. Quote the passage with its page.', result: 'Paper title · your highlight or comment · retrieved quotation · page to verify', href: '/docs/first-research-task', label: 'Try a first evidence question' },
-              { title: 'Compare several papers', prompt: 'Compare how these five papers support my question. Read the relevant passages first and mark missing evidence.', result: 'Study · finding · quotation · page · supported, contradicted, or unverified', href: '/docs/first-research-task#compare-evidence', label: 'Build an evidence table' },
-              { title: 'Turn annotations into a note', prompt: 'Find my objections and decisions about this topic. Draft a cited note and show it to me before saving.', result: 'Your comment · source passage · cited synthesis · draft for your review', href: '/docs/annotations-to-literature-notes', label: 'Work with your annotations' },
-            ].map((example) => (
-              <article key={example.title} className="z-panel flex flex-col p-6">
-                <h3 className="z-h3">{example.title}</h3>
-                <p className="z-body mt-4">{example.prompt}</p>
-                <p className="z-label mt-5">Result to check</p>
-                <p className="z-small mt-2 mb-5">{example.result}</p>
-                <Link href={example.href} className="z-link mt-auto">{example.label} <ArrowIcon /></Link>
-              </article>
-            ))}
+          <h2 className="z-h2 mb-8">Two ways to connect</h2>
+          <ConnectionOptions />
+          <p className="z-small mt-5">
+            Already connected?{' '}
+            <Link className={linkClass} href="/docs/first-research-task">Find and check your first passage</Link>.
+          </p>
+        </div>
+      </section>
+
+      {/* What it does */}
+      <section id="why" className="z-section scroll-mt-20">
+        <div className="z-container z-split">
+          <div>
+            <h2 className="z-h2">What it does</h2>
+            <p className="mt-3">
+              <Link href="/docs" className={linkClass}>Read the docs</Link>
+            </p>
           </div>
-          <p className="z-small mt-6">A real reference does not guarantee a correct AI conclusion. Open the source passage, check its context, and label synthesis based only on abstracts.</p>
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_17rem] lg:gap-12">
+            <dl className="grid gap-x-10 gap-y-6 sm:grid-cols-2">
+              {FEATURES.map((f) => (
+                <div key={f.verb}>
+                  <dt className="z-verb">{f.verb}</dt>
+                  <dd className="z-body mt-1 text-[0.9375rem]">{f.body}</dd>
+                </div>
+              ))}
+            </dl>
+            <aside className="z-note">
+              <h3 className="z-h3">Worth knowing</h3>
+              <ul className="mt-3 space-y-3 text-[0.9375rem] leading-snug">
+                {LIMITS.map((l) => (
+                  <li key={l}>{l}</li>
+                ))}
+              </ul>
+            </aside>
+          </div>
         </div>
       </section>
 
       {/* Install */}
       <section id="install" className="z-section scroll-mt-20 border-t border-fd-border">
-        <div className="z-container">
-          <div className="z-section-head">
-            <div>
-              <p className="z-label">Install</p>
-              <h2 className="z-h2 mt-3">Prefer a terminal? Start locally.</h2>
-            </div>
-            <p className="z-lead">
-              Reads work key-free against the running desktop app, and so do the personal-library
-              writes that go through it. Add a Zotero API key for sync, group libraries, and writes
-              when the app is closed.{' '}
-              <Link href="/docs/connect-claude-to-zotero" className="text-[color:var(--accent-text)] underline underline-offset-[3px]">
-                Step-by-step for Claude Desktop, claude.ai, ChatGPT, Claude Code and Cursor
-              </Link>
-              .
+        <div className="z-container z-split">
+          <div>
+            <h2 className="z-h2">Prefer a terminal?</h2>
+            <p className="z-small mt-3">
+              No API key needed while Zotero is open.{' '}
+              <Link href="/docs/connect-claude-to-zotero" className={linkClass}>Step-by-step guide</Link>
             </p>
           </div>
-          <div className="z-panel mt-10 divide-y divide-fd-border">
+          <div className="z-panel divide-y divide-fd-border bg-fd-background">
             {INSTALL.map((row) => (
-              <div key={row.label} className="grid gap-3 p-4 sm:grid-cols-[11rem_minmax(0,1fr)] sm:items-center sm:gap-6 sm:px-6 sm:py-5">
+              <div key={row.label} className="grid gap-3 p-4 sm:grid-cols-[9rem_minmax(0,1fr)] sm:items-center sm:gap-6 sm:px-5 sm:py-4">
                 <p className="z-h3">{row.label}</p>
                 <CopyCommand command={row.cmd} className="z-copy-wrap w-full" />
               </div>
             ))}
-            <div className="grid gap-3 p-4 sm:grid-cols-[11rem_minmax(0,1fr)] sm:items-center sm:gap-6 sm:px-6 sm:py-5">
+            <div className="grid gap-3 p-4 sm:grid-cols-[9rem_minmax(0,1fr)] sm:items-center sm:gap-6 sm:px-5 sm:py-4">
               <p className="z-h3">Claude Desktop</p>
               <p className="z-body text-[0.9375rem]">
-                Download the <code className="z-mono text-[0.875em] text-fd-foreground">.mcpb</code> for your system from
-                the{' '}
-                <a
-                  href={`${repoUrl}/releases/latest`}
-                  className="text-[color:var(--accent-text)] underline underline-offset-[3px]"
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                Download the <code className="z-mono text-[0.875em] text-fd-foreground">.mcpb</code> from the{' '}
+                <a href={`${repoUrl}/releases/latest`} className={linkClass} target="_blank" rel="noreferrer">
                   latest release
                 </a>{' '}
                 and double-click it.
@@ -218,91 +223,60 @@ export default function Home() {
         </div>
       </section>
 
-      {/* What it does */}
-      <section id="why" className="z-section scroll-mt-20 border-t border-fd-border">
-        <div className="z-container">
-          <div className="z-section-head">
-            <div>
-              <p className="z-label">What it does</p>
-              <h2 className="z-h2 mt-3">Search, cite, add, and write back to your own library.</h2>
-            </div>
-            <div className="lg:justify-self-end">
-              <Link href="/docs" className="z-link">
-                Read the docs <ArrowIcon />
+      {/* Pricing */}
+      <section className="z-section border-t border-fd-border">
+        <div className="z-container z-split">
+          <div>
+            <h2 className="z-h2">Free on your computer. Paid if I host it.</h2>
+            <p className="z-small mt-3">
+              The free install has every feature and always will. Hosted pays for the server and
+              support.
+            </p>
+          </div>
+          <div>
+            <ul className="border-t border-fd-border">
+              {[selfHostedPlan, ...plans].map((plan) => (
+                <li key={plan.id} className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-6 gap-y-1 border-b border-fd-border py-3.5 sm:grid-cols-[8rem_9rem_minmax(0,1fr)] sm:items-baseline">
+                  <h3 className="z-h3">{plan.name}</h3>
+                  <p className="text-right font-semibold text-fd-foreground sm:text-left">{plan.price}{plan.period}</p>
+                  <p className="z-small col-span-2 sm:col-span-1">{plan.blurb}</p>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
+              <Link
+                href="/pricing#plans"
+                className="z-btn z-btn-primary"
+                data-umami-event="home-pricing-click"
+                data-umami-event-source="pricing-strip"
+              >
+                See the hosted plans <ArrowIcon />
+              </Link>
+              <Link href="/docs/connect-claude-to-zotero#claude-desktop" className={linkClass}>
+                or install it free
               </Link>
             </div>
           </div>
-          <dl className="mt-8 grid gap-x-12 md:grid-cols-2">
-            {FEATURES.map((f) => (
-              <div key={f.title} className="border-t border-fd-border py-6">
-                <dt className="z-h3 text-fd-foreground">{f.title}</dt>
-                <dd className="z-body mt-2 text-[0.9375rem]">{f.body}</dd>
-                <dd className="z-mono mt-3 text-[0.75rem] leading-relaxed text-fd-muted-foreground [overflow-wrap:anywhere]">
-                  {f.tools.join(' · ')}
-                </dd>
-              </div>
-            ))}
-          </dl>
         </div>
       </section>
 
-      {/* Pricing */}
+      {/* Who makes this */}
       <section className="z-section border-t border-fd-border">
-        <div className="z-container">
-          <div className="z-section-head">
-            <div>
-              <p className="z-label">Pricing</p>
-              <h2 className="z-h2 mt-3">Free to self-host. Hosted for you or your lab.</h2>
-            </div>
-            <p className="z-lead">
-              Self-hosting stays free, with every feature, permanently. The hosted plans sell
-              hosting, seats and support, never features.
-            </p>
-          </div>
-          <div className="z-panel mt-10 grid gap-px overflow-hidden bg-fd-border sm:grid-cols-2 xl:grid-cols-4">
-            {[selfHostedPlan, ...plans].map((plan) => (
-              <div key={plan.id} className="flex flex-col bg-fd-card p-5 sm:p-6">
-                <h3 className="z-h3">{plan.name}</h3>
-                <p className="mt-3 flex items-baseline gap-1">
-                  <span className="z-display text-[1.9rem] leading-none">{plan.price}</span>
-                  {plan.period && <span className="z-small">{plan.period}</span>}
-                </p>
-                <p className="z-small mt-1.5">{plan.altPrice}</p>
-                <p className="z-body mt-3 flex-1 text-[0.9375rem]">{plan.blurb}</p>
-                <p className="z-label mt-4">{plan.seats}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
-            <Link
-              href="/pricing#plans"
-              className="z-btn z-btn-primary"
-              data-umami-event="home-pricing-click"
-              data-umami-event-source="pricing-strip"
-            >
-              See hosted plans, from €7/month <ArrowIcon />
-            </Link>
-            <Link href="/docs/connect-claude-to-zotero#claude-desktop" className="z-link">
-              Or install free locally <ArrowIcon />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Closing */}
-      <section className="border-t border-fd-border">
-        <div className="z-container grid gap-8 py-16 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:py-24">
+        <div className="z-container z-split">
+          <h2 className="z-h2">Who makes this</h2>
           <div>
-            <h2 className="z-h2">Connect your Zotero library.</h2>
-            <p className="z-lead mt-3 max-w-xl">
-              Choose hosted access or a free local install, then verify one passage from a paper you know.
+            <p className="z-lead max-w-2xl">
+              One person. I&rsquo;m Oscar Devos, I build Zoteus and run the hosted server. The code
+              is open source, and when you write to{' '}
+              <a href={`mailto:${supportEmail}`} className={linkClass}>{supportEmail}</a>, I&rsquo;m
+              the one who answers.
             </p>
-          </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <Link href="#connect" className="z-btn z-btn-primary">Connect my library <ArrowIcon /></Link>
-            <Link href={repoUrl} className="z-btn z-btn-secondary" target="_blank" rel="noreferrer">
-              <GitHubIcon /> View on GitHub
-            </Link>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <Link href="#connect" className="z-btn z-btn-primary">Connect my library <ArrowIcon /></Link>
+              <Link href={repoUrl} className="z-btn z-btn-secondary" target="_blank" rel="noreferrer">
+                <GitHubIcon /> View on GitHub
+              </Link>
+            </div>
           </div>
         </div>
       </section>
